@@ -361,9 +361,13 @@ if decision.get("action") == "買い":
     risk_jpy = float(decision.get("risk_jpy", 0.0))
     sl = float(decision.get("sl", 0.0))
     tp = float(decision.get("tp", 0.0))
-    msg = "数量: {qty} 株 / 予想リスク: ¥{risk:,.0f}
-
-SL: ¥{sl:,.1f} / TP(目安): ¥{tp:,.1f}".format(qty=qty, risk=risk_jpy, sl=sl, tp=tp)
+    msg = (
+        "数量: {qty} 株 / 予想リスク: ¥{risk:,.0f}
+"
+        "
+"
+        "SL: ¥{sl:,.1f} / TP(目安): ¥{tp:,.1f}"
+    ).format(qty=qty, risk=risk_jpy, sl=sl, tp=tp)
     st.success(msg)
 else:
     st.info(decision.get("summary", "-"))
