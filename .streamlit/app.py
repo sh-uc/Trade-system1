@@ -1,3 +1,73 @@
+# リポジトリ構成（ベーススキャフォールド）
+```
+project-root/
+├─ app.py                  # Streamlit本体（このファイル）
+├─ requirements.txt        # 依存関係
+├─ README.md               # セットアップ手順（Windows/Mac）
+├─ .gitignore              # 不要ファイル除外設定
+└─ .streamlit/
+   └─ config.toml          # Streamlitの基本設定
+```
+
+---
+
+## requirements.txt（新規）
+```
+streamlit
+pandas
+numpy
+yfinance
+plotly
+supabase
+python-dotenv
+```
+
+## README.md（Supabase設定 追記）
+```
+### Supabase 環境変数（推奨: Streamlit Cloud の Secrets）
+# .streamlit/secrets.toml に以下を設定
+[supabase]
+url = "https://xxxxxxxxxxxx.supabase.co"
+key = "サービスロール or anon キー"
+
+### 初期テーブル（SQL）
+-- prices: 価格系列
+create table if not exists prices (
+  date date not null,
+  code text not null,
+  open numeric, high numeric, low numeric, close numeric, volume bigint,
+  primary key (date, code)
+);
+
+-- indicators: 指標
+create table if not exists indicators (
+  date date not null,
+  code text not null,
+  rsi14 numeric, macd numeric, macd_signal numeric, atr14 numeric,
+  stdev20 numeric, ma25 numeric, ma75 numeric, vol_ma20 numeric,
+  vol_spike boolean, swing_low20 numeric, swing_high20 numeric,
+  primary key (date, code)
+);
+
+-- signals: 判定結果
+create table if not exists signals (
+  date date not null,
+  code text not null,
+  action text not null,
+  summary text,
+  reasons jsonb,
+  close numeric,
+  qty integer,
+  sl numeric,
+  tp numeric,
+  risk_jpy numeric,
+  created_at timestamp with time zone default now(),
+  primary key (date, code)
+);
+```
+
+---
+
 # -*- coding: utf-8 -*-
 """
 MVP: 引け判定・損失率0.5% さくらインターネット（3778）売買支援アプリ（**Supabase/Postgres対応版**）
@@ -356,9 +426,15 @@ for r in decision.get("reasons", []):
     st.write("- ", r)
 
 if decision.get("action") == "買い":
-    st.success(f"数量: {decision['qty']} 株 / 予想リスク: ¥{decision['risk_jpy']:.0f}
+    # f-string内で辞書添字を多用すると、改行やエスケープの相性でSyntaxErrorになることがあるため安全に書き換え
+    qty = int(decision.get("qty", 0))
+    risk_jpy = float(decision.get("risk_jpy", 0.0))
+    sl = float(decision.get("sl", 0.0))
+    tp = float(decision.get("tp", 0.0))
+    msg = "数量: {qty} 株 / 予想リスク: ¥{risk:,.0f}
 
-SL: ¥{decision['sl']:.1f} / TP(目安): ¥{decision['tp']:.1f}")
+SL: ¥{sl:,.1f} / TP(目安): ¥{tp:,.1f}".format(qty=qty, risk=risk_jpy, sl=sl, tp=tp)
+    st.success(msg)
 else:
     st.info(decision.get("summary", "-"))
 
