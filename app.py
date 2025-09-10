@@ -86,10 +86,16 @@ def rsi(series: pd.Series, period: int = 14) -> pd.Series:
     delta = series.diff()
     up = np.where(delta > 0, delta, 0.0)
     down = np.where(delta < 0, -delta, 0.0)
-    roll_up = pd.Series(up, index=series.index).ewm(span=period, adjust=False).mean()
-    roll_down = pd.Series(down, index=series.index).ewm(span=period, adjust=False).mean()
+
+    # numpy配列を安全に1次元にしてから Series 化
+    up_series = pd.Series(up.ravel(), index=series.index)
+    down_series = pd.Series(down.ravel(), index=series.index)
+
+    roll_up = up_series.ewm(span=period, adjust=False).mean()
+    roll_down = down_series.ewm(span=period, adjust=False).mean()
     rs = roll_up / (roll_down + 1e-12)
     return 100.0 - (100.0 / (1.0 + rs))
+
 
 
 def macd(series: pd.Series, fast=12, slow=26, signal=9):
