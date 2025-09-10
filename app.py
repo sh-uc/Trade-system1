@@ -356,22 +356,20 @@ for r in decision.get("reasons", []):
     st.write("- ", r)
 
 if decision.get("action") == "買い":
-    # f-string内で辞書添字を多用すると、改行やエスケープの相性でSyntaxErrorになることがあるため安全に書き換え
+    # f-stringや全角スペース混入によるSyntaxError回避
     qty = int(decision.get("qty", 0))
     risk_jpy = float(decision.get("risk_jpy", 0.0))
     sl = float(decision.get("sl", 0.0))
     tp = float(decision.get("tp", 0.0))
     msg = (
-        "数量: {qty} 株 / 予想リスク: ¥{risk:,.0f}
-"
-        "
-"
+        "数量: {qty} 株 / 予想リスク: ¥{risk:,.0f}\n"
+        "\n"
         "SL: ¥{sl:,.1f} / TP(目安): ¥{tp:,.1f}"
     ).format(qty=qty, risk=risk_jpy, sl=sl, tp=tp)
     st.success(msg)
 else:
     st.info(decision.get("summary", "-"))
-
+    
 # 2. チャート（ローソク＋MA）
 st.subheader("価格チャート")
 plot_df = ind.tail(250)
