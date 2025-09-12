@@ -140,6 +140,8 @@ def atr(df: pd.DataFrame, period: int = 14) -> pd.Series:
     return tr.rolling(period).mean()
 
 
+# st.write("DEBUG volume type:", type(out.get('volume')), out.get('volume').shape if hasattr(out.get('volume'), 'shape') else None)
+
 def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
     out = df.copy()
     out['ma25'] = out['close'].rolling(25, min_periods=25).mean()
