@@ -143,7 +143,7 @@ def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
     vol_series = pd.to_numeric(vol_series, errors='coerce')  # 数値化（文字列/NaN吸収）
 
     out['vol_ma20']  = vol_series.rolling(20, min_periods=20).mean()
-    out['vol_spike'] = (vol_series >= out['vol_ma20']).fillna(False)
+    out['vol_spike'] = (vol_series >= out['vol_ma20']).fillna(False).astype(bool)   # ← 追加
 
     out['swing_low20'] = out['low'].rolling(20, min_periods=20).min()
     out['swing_high20'] = out['high'].rolling(20, min_periods=20).max()
@@ -161,7 +161,14 @@ def long_signal_row(row: pd.Series) -> Dict[str, Any]:
     macd_sig = float(row['macd_signal'])
     rsi14 = float(row['rsi14'])
     atr14 = float(row['atr14'])
-    vol_spike = bool(row['vol_spike'])
+    # vol_spike を確実にスカラ bool へ
+    _vs = row['vol_spike']
+    if isinstance(_vs, (pd.Series, np.ndarray, list)):
+        arr = np.ravel(np.asarray(_vs))
+        vol_spike = bool(arr[0]) if arr.size > 0 else False
+    else:
+        vol_spike = bool(_vs)
+
 
     cond_trend = (close > ma25) and (ma25 >= ma75)
     cond_momentum = (macd_val > macd_sig)
