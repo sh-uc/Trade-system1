@@ -136,7 +136,7 @@ def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
         vol_values = np.ravel(np.asarray(out['volume']))  # どんな形でも1次元に
     else:
     # 念のため: volume列が無い場合は欠損で埋める
-    vol_values = np.full(len(out), np.nan, dtype=float)
+        vol_values = np.full(len(out), np.nan, dtype=float)
 
     # 🔽 volumeを安全に数値化してから平均と比較を行う
     vol_series = pd.Series(vol_values, index=out.index)
