@@ -23,6 +23,26 @@ import yfinance as yf
 import plotly.graph_objects as go
 import streamlit as st
 
+def as_float(v):
+    import numpy as _np
+    import pandas as _pd
+    if isinstance(v, _pd.Series):
+        return float(v.iloc[0])
+    if isinstance(v, (list, _np.ndarray)):
+        arr = _np.ravel(_np.asarray(v))
+        return float(arr[0]) if arr.size > 0 else float("nan")
+    return float(v)
+
+def as_bool(v):
+    import numpy as _np
+    import pandas as _pd
+    if isinstance(v, _pd.Series):
+        return bool(v.iloc[0])
+    if isinstance(v, (list, _np.ndarray)):
+        arr = _np.ravel(_np.asarray(v))
+        return bool(arr[0]) if arr.size > 0 else False
+    return bool(v)
+
 try:
     from supabase import create_client, Client  # supabase-py v2
 except Exception:
@@ -131,7 +151,7 @@ def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
     out['atr14'] = atr(out, 14)
     out['stdev20'] = out['close'].rolling(20, min_periods=20).std()
 
-# volume を必ず 1次元 Series 化（(n,1) DataFrame や ndarray でもOKにする）
+    # volume を必ず 1次元 Series 化（(n,1) DataFrame や ndarray でもOKにする）
     if 'volume' in out.columns:
         vol_values = np.ravel(np.asarray(out['volume']))  # どんな形でも1次元に
     else:
@@ -147,33 +167,27 @@ def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
 
     out['swing_low20'] = out['low'].rolling(20, min_periods=20).min()
     out['swing_high20'] = out['high'].rolling(20, min_periods=20).max()
+    out = out.loc[:, ~out.columns.duplicated()].copy()
     return out.dropna()
 
 # ------------------------------
 # ルール評価 & サイジング
 # ------------------------------
 
-def long_signal_row(row: pd.Series) -> Dict[str, Any]:
-    close = float(row['close'])
-    ma25 = float(row['ma25'])
-    ma75 = float(row['ma75'])
-    macd_val = float(row['macd'])
-    macd_sig = float(row['macd_signal'])
-    rsi14 = float(row['rsi14'])
-    atr14 = float(row['atr14'])
-    # vol_spike を確実にスカラ bool へ
-    _vs = row['vol_spike']
-    if isinstance(_vs, (pd.Series, np.ndarray, list)):
-        arr = np.ravel(np.asarray(_vs))
-        vol_spike = bool(arr[0]) if arr.size > 0 else False
-    else:
-        vol_spike = bool(_vs)
+def long_signal_row(row: pd.Series) -> dict:
+    close     = as_float(row['close'])
+    ma25      = as_float(row['ma25'])
+    ma75      = as_float(row['ma75'])
+    macd_val  = as_float(row['macd'])
+    macd_sig  = as_float(row['macd_signal'])
+    rsi14     = as_float(row['rsi14'])
+    atr14     = as_float(row['atr14'])
+    vol_spike = as_bool(row['vol_spike'])
 
-
-    cond_trend = (close > ma25) and (ma25 >= ma75)
+    cond_trend    = (close > ma25) and (ma25 >= ma75)
     cond_momentum = (macd_val > macd_sig)
-    cond_rsi = (40.0 <= rsi14 <= 68.0)
-    cond_volume = vol_spike
+    cond_rsi      = (40.0 <= rsi14 <= 68.0)
+    cond_volume   = vol_spike
 
     passed = all([cond_trend, cond_momentum, cond_rsi, cond_volume])
 
@@ -188,7 +202,7 @@ def long_signal_row(row: pd.Series) -> Dict[str, Any]:
         "reasons": reasons,
         "close": close,
         "atr14": atr14,
-        "swing_low20": float(row['swing_low20'])
+        "swing_low20": as_float(row['swing_low20']),
     }
 
 
@@ -309,7 +323,7 @@ def fetch_recent_signals(sb: Client, code: str, limit: int = 20) -> pd.DataFrame
 
 st.set_page_config(page_title="3778 売買支援（引け判定MVP/DB対応）", layout="wide")
 
-st.title("さくらインターネット（3778） 売買支援MVP / Supabase対応")
+st.title("株式売買支援MVP / Supabase対応")
 
 with st.sidebar:
     st.header("設定")
