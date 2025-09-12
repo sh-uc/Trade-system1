@@ -122,18 +122,22 @@ def atr(df: pd.DataFrame, period: int = 14) -> pd.Series:
 
 def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
     out = df.copy()
-    out['ma25'] = out['close'].rolling(25).mean()
-    out['ma75'] = out['close'].rolling(75).mean()
+    out['ma25'] = out['close'].rolling(25, min_periods=25).mean()
+    out['ma75'] = out['close'].rolling(75, min_periods=75).mean()
     out['rsi14'] = rsi(out['close'], 14)
     macd_line, signal_line, hist = macd(out['close'])
     out['macd'] = macd_line
     out['macd_signal'] = signal_line
     out['atr14'] = atr(out, 14)
-    out['stdev20'] = out['close'].rolling(20).std()
-    out['vol_ma20'] = out['volume'].rolling(20).mean()
-    out['vol_spike'] = (out['volume'] >= out['vol_ma20'])
-    out['swing_low20'] = out['low'].rolling(20).min()
-    out['swing_high20'] = out['high'].rolling(20).max()
+    out['stdev20'] = out['close'].rolling(20, min_periods=20).std()
+
+    # 🔽 volumeを安全に数値化してから平均と比較を行う
+    vol_series = pd.to_numeric(out['volume'], errors='coerce')
+    out['vol_ma20'] = vol_series.rolling(20, min_periods=20).mean()
+    out['vol_spike'] = (vol_series >= out['vol_ma20']).fillna(False)
+
+    out['swing_low20'] = out['low'].rolling(20, min_periods=20).min()
+    out['swing_high20'] = out['high'].rolling(20, min_periods=20).max()
     return out.dropna()
 
 # ------------------------------
