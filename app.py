@@ -23,6 +23,22 @@ import yfinance as yf
 import plotly.graph_objects as go
 import streamlit as st
 
+def flatten_columns(df: pd.DataFrame) -> pd.DataFrame:
+    if isinstance(df.columns, pd.MultiIndex):
+        # 第1階層だけ使う or 空文字を除いて結合
+        new_cols = []
+        for col in df.columns:
+            if isinstance(col, tuple):
+                cand = [str(x) for x in col if str(x) != ""]
+                new_cols.append(cand[0] if cand else "")
+            else:
+                new_cols.append(col)
+        df = df.copy()
+        df.columns = new_cols
+    # 重複列も落としておく
+    df = df.loc[:, ~pd.Index(df.columns).duplicated()].copy()
+    return df
+
 def as_float(v):
     import numpy as _np
     import pandas as _pd
@@ -359,6 +375,7 @@ if raw.empty:
     st.stop()
 
 ind = compute_indicators(raw)
+ind = flatten_columns(ind)  # ★ 追加
 latest_ts = ind.index[-1]
 latest_day = latest_ts.astimezone(JST) if latest_ts.tzinfo else latest_ts.tz_localize(JST)
 
@@ -425,23 +442,22 @@ st.plotly_chart(fig, use_container_width=True)
 # 3. サブ指標（RSI, MACD, ATR）
 st.subheader("サブ指標")
 col_a, col_b, col_c = st.columns(3)
+
 with col_a:
-    st.line_chart(plot_df['rsi14'])
-with col_b:
-    st.line_chart(plot_df[['macd','macd_signal']])
-with col_c:
-    st.line_chart(plot_df['atr14'])
-
-# 4. 直近シグナル履歴（DB）
-st.subheader("直近シグナル履歴（DB保存）")
-if sb is not None:
-    sig_df = fetch_recent_signals(sb, ticker, limit=20)
-    if not sig_df.empty:
-        show = sig_df[["date","action","summary","close","qty","sl","tp","risk_jpy"]].copy()
-        st.dataframe(show)
+    if 'rsi14' in plot_df.columns:
+        st.line_chart(plot_df['rsi14'])
     else:
-        st.caption("DBにシグナル履歴がまだありません。初回保存後に表示されます。")
-else:
-    st.caption("DB未接続のため履歴は表示しません。サイドバーからDB保存を有効化し、secretsを設定してください。")
+        st.caption("RSI14 が見つかりませんでした")
 
-st.caption("※ 本ツールは投資助言ではなく参考情報の提供です。投資判断はご自身の責任でお願いします。")
+with col_b:
+    macd_cols = [c for c in ('macd', 'macd_signal') if c in plot_df.columns]
+    if macd_cols:
+        st.line_chart(plot_df[macd_cols])
+    else:
+        st.caption("MACD列が見つかりませんでした")
+
+with col_c:
+    if 'atr14' in plot_df.columns:
+        st.line_chart(plot_df['atr14'])
+    else:
+        st.caption("ATR14 が見つかりませんでした")
