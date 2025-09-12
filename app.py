@@ -340,7 +340,7 @@ def fetch_recent_signals(sb: Client, code: str, limit: int = 20) -> pd.DataFrame
 # Streamlit UI
 # ------------------------------
 
-st.set_page_config(page_title="3778 売買支援（引け判定MVP/DB対応）", layout="wide")
+st.set_page_config(page_title="株式売買支援APPLICATION", layout="wide")
 
 st.title("株式売買支援MVP / Supabase対応")
 
@@ -440,7 +440,7 @@ fig.add_trace(go.Scatter(x=plot_df.index, y=plot_df['ma75'], name='MA75'))
 st.plotly_chart(fig, use_container_width=True)
 
 # 3. サブ指標（RSI, MACD, ATR）
-st.subheader("サブ指標")
+st.subheader("サブ指標 RSI14 MACD ATR14")
 col_a, col_b, col_c = st.columns(3)
 
 with col_a:
