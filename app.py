@@ -131,9 +131,18 @@ def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
     out['atr14'] = atr(out, 14)
     out['stdev20'] = out['close'].rolling(20, min_periods=20).std()
 
+# volume を必ず 1次元 Series 化（(n,1) DataFrame や ndarray でもOKにする）
+    if 'volume' in out.columns:
+        vol_values = np.ravel(np.asarray(out['volume']))  # どんな形でも1次元に
+    else:
+    # 念のため: volume列が無い場合は欠損で埋める
+    vol_values = np.full(len(out), np.nan, dtype=float)
+
     # 🔽 volumeを安全に数値化してから平均と比較を行う
-    vol_series = pd.to_numeric(out['volume'], errors='coerce')
-    out['vol_ma20'] = vol_series.rolling(20, min_periods=20).mean()
+    vol_series = pd.Series(vol_values, index=out.index)
+    vol_series = pd.to_numeric(vol_series, errors='coerce')  # 数値化（文字列/NaN吸収）
+
+    out['vol_ma20']  = vol_series.rolling(20, min_periods=20).mean()
     out['vol_spike'] = (vol_series >= out['vol_ma20']).fillna(False)
 
     out['swing_low20'] = out['low'].rolling(20, min_periods=20).min()
