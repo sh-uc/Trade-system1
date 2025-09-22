@@ -1,0 +1,44 @@
+name: daily-judge
+
+on:
+  schedule:
+    - cron: "10 6 * * 1-5"   # JST 15:10 (UTC+9) / Mon-Fri
+  workflow_dispatch:         # 手動実行も可
+
+jobs:
+  run-daily:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          # 念のため最新版yfinance
+          pip install --upgrade yfinance
+
+      - name: Run daily task (all tickers)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          TICKERS:      ${{ secrets.TICKERS }}   # "3778.T,3903.T,4506.T" のように登録
+          PERIOD:       90d
+        run: |
+          python daily_task.py
