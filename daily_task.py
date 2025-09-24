@@ -2,6 +2,7 @@
 import os, sys, time, json
 from datetime import timezone, timedelta
 import numpy as np
+import os, requests
 import pandas as pd
 import yfinance as yf
 from supabase import create_client
@@ -162,18 +163,48 @@ def upsert_signal(sb, code: str, ts: pd.Timestamp, decision: dict):
     }
     sb.table("signals").upsert(payload, on_conflict="date,code").execute()
 
+def send_line_message_broadcast(text: str):
+    token = os.environ.get("LINE_CHANNEL_TOKEN")
+    if not token:
+        print("[WARN] LINE_CHANNEL_TOKEN not set; skip LINE broadcast")
+        return
+    url = "https://api.line.me/v2/bot/message/broadcast"
+    headers = {"Authorization": f"Bearer {token}"}
+    payload = {"messages": [{"type": "text", "text": text[:4900]}]}  # 5000字制限対策
+    r = requests.post(url, json=payload, headers=headers, timeout=10)
+    print("[LINE broadcast]", r.status_code, r.text)
+
 def run_one(ticker: str, period="90d"):
     df = fetch_yf(ticker, period=period, interval="1d")
     raw, ind = compute_indicators(df)
     last_ts = ind.index[-1]
     decision = judge_action(ind.iloc[-1])
 
-    url = os.environ["SUPABASE_URL"]; key = os.environ["SUPABASE_KEY"]
-    sb = create_client(url, key)
+    # 前日比
+    aligned = raw.loc[ind.index]
+    close = float(aligned.iloc[-1]["close"])
+    prev  = float(aligned.iloc[-2]["close"]) if len(aligned) >= 2 else None
+    diff  = (close - prev) if prev is not None else None
+    pct   = (diff / prev * 100.0) if prev else None
+
+    # DB 反映
+    sb = create_supabase_from_env()
     upsert_prices(sb, ticker, raw, ind.index)
     upsert_indicators(sb, ticker, ind)
     upsert_signal(sb, ticker, last_ts, decision)
-    print(f"OK {ticker}: last={last_ts.date().isoformat()} action={decision['action']}")
+
+    # LINE 本文
+    date_str = (last_ts.tz_convert(JST) if last_ts.tzinfo else last_ts.tz_localize(JST)).strftime("%Y-%m-%d")
+    lines = [
+        f"【日次判定】{ticker} / {date_str}",
+        f"終値: ¥{close:,.0f}" + (f"（前日比 {diff:+.0f} / {pct:+.2f}%）" if prev else ""),
+        f"結論: {decision['action']}",
+        "理由:",
+        *decision["reasons"]
+    ]
+    send_line_message_broadcast("\n".join(lines))
+
+    print(f"OK {ticker}: last={date_str} action={decision['action']}")
 
 if __name__ == "__main__":
     try:
@@ -185,14 +216,4 @@ if __name__ == "__main__":
         print("ERROR:", repr(e), file=sys.stderr); sys.exit(1)
 import os, requests
 
-def send_line_message_broadcast(text: str):
-    token = os.environ.get("LINE_CHANNEL_TOKEN")
-    if not token:
-        print("[WARN] LINE_CHANNEL_TOKEN not set; skip LINE broadcast")
-        return
-    url = "https://api.line.me/v2/bot/message/broadcast"
-    headers = {"Authorization": f"Bearer {token}"}
-    payload = {"messages": [{"type": "text", "text": text[:4900]}]}  # 5000字制限対策
-    r = requests.post(url, json=payload, headers=headers, timeout=10)
-    print("[LINE broadcast]", r.status_code, r.text)
 
