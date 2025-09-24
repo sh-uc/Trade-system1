@@ -2,7 +2,7 @@
 import os, sys, time, json
 from datetime import timezone, timedelta
 import numpy as np
-import os, requests
+import requests
 import pandas as pd
 import yfinance as yf
 from supabase import create_client
