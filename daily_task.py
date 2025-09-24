@@ -183,3 +183,16 @@ if __name__ == "__main__":
             run_one(t, period=period)
     except Exception as e:
         print("ERROR:", repr(e), file=sys.stderr); sys.exit(1)
+import os, requests
+
+def send_line_message_broadcast(text: str):
+    token = os.environ.get("LINE_CHANNEL_TOKEN")
+    if not token:
+        print("[WARN] LINE_CHANNEL_TOKEN not set; skip LINE broadcast")
+        return
+    url = "https://api.line.me/v2/bot/message/broadcast"
+    headers = {"Authorization": f"Bearer {token}"}
+    payload = {"messages": [{"type": "text", "text": text[:4900]}]}  # 5000字制限対策
+    r = requests.post(url, json=payload, headers=headers, timeout=10)
+    print("[LINE broadcast]", r.status_code, r.text)
+
