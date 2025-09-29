@@ -234,6 +234,6 @@ if __name__ == "__main__":
             run_one(t, period=period)
     except Exception as e:
         print("ERROR:", repr(e), file=sys.stderr); sys.exit(1)
-import os, requests
+
 
 
