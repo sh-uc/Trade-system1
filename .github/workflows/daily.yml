@@ -40,5 +40,6 @@ jobs:
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
           TICKERS:      ${{ secrets.TICKERS }}   # "3778.T,3903.T,4506.T" のように登録
           PERIOD:       90d
+          LINE_CHANNEL_TOKEN: ${{ secrets.LINE_CHANNEL_TOKEN }}   # ← これを追加
         run: |
           python daily_task.py
