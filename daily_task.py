@@ -9,6 +9,26 @@ from supabase import create_client
 
 JST = timezone(timedelta(hours=9))
 
+# --- add: safe Supabase client creator ---
+import re
+from supabase import create_client
+
+def create_supabase_from_env():
+    raw_url = (os.environ.get("SUPABASE_URL") or os.environ.get("supabase_url") or "").strip().strip("\"'").strip()
+    raw_key = (os.environ.get("SUPABASE_KEY") or os.environ.get("supabase_key") or "").strip().strip("\"'").strip()
+
+    if not raw_url or not raw_key:
+        raise ValueError("Missing SUPABASE_URL or SUPABASE_KEY")
+
+    # 参照IDだけが入っていた場合の補完
+    if re.fullmatch(r"[a-z0-9]{15,32}", raw_url) and ".supabase.co" not in raw_url:
+        raw_url = f"https://{raw_url}.supabase.co"
+
+    if not raw_url.startswith("https://") or ".supabase.co" not in raw_url:
+        raise ValueError(f"SUPABASE_URL looks invalid: {raw_url}")
+
+    return create_client(raw_url, raw_key)
+
 # ---------- Utils ----------
 def chunks(iterable, size=500):
     buf=[]; 
