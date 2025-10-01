@@ -2,7 +2,7 @@ name: daily-judge
 
 on:
   schedule:
-    - cron: "10 6 * * 1-5"   # JST 15:10 (UTC+9) / Mon-Fri
+    - cron: "35 6 * * 1-5"   # JST 15:35 (UTC+9) / Mon-Fri
   workflow_dispatch:         # 手動実行も可
 
 jobs:
