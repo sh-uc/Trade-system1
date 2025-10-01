@@ -13,6 +13,48 @@ JST = timezone(timedelta(hours=9))
 import re
 from supabase import create_client
 
+def fmt_line(value):
+    # 3桁区切り & Noneガード
+    return f"{value:,.0f}" if isinstance(value, (int, float)) else "-"
+
+def decide_emoji(action: str, pct_change: float | None):
+    # 行動と騰落でざっくり絵文字
+    if action == "買い":
+        return "🟢🛒"
+    if pct_change is None:
+        return "ℹ️"
+    if pct_change >= 0.0:
+        return "📈"
+    return "📉"
+
+def build_summary_message(date_str: str, results: list[dict]) -> str:
+    """
+    results: [{ticker, close, diff, pct, action, reasons[]}]
+    """
+    header = f"【日次まとめ】{date_str}\n"
+    lines = [header]
+
+    # 1行サマリー（銘柄ごと）
+    for r in results:
+        em = decide_emoji(r["action"], r["pct"])
+        diff_part = f"{r['diff']:+.0f} / {r['pct']:+.2f}%" if r["pct"] is not None else "-"
+        lines.append(
+            f"{em} {r['ticker']}: 終値¥{fmt_line(r['close'])}（前日比 {diff_part}）｜結論: {r['action']}"
+        )
+
+    # 詳細（必要なら）
+    lines.append("\n— 詳細 —")
+    for r in results:
+        lines.append(f"〔{r['ticker']}〕")
+        for reason in r["reasons"]:
+            # 長すぎ防止
+            lines.append(f"・{reason[:120]}")
+
+    msg = "\n".join(lines)
+    # LINEの上限対策（5,000字弱）
+    return msg[:4900]
+
+
 def create_supabase_from_env():
     raw_url = (os.environ.get("SUPABASE_URL") or os.environ.get("supabase_url") or "").strip().strip("\"'").strip()
     raw_key = (os.environ.get("SUPABASE_KEY") or os.environ.get("supabase_key") or "").strip().strip("\"'").strip()
@@ -227,13 +269,68 @@ def run_one(ticker: str, period="90d"):
     print(f"OK {ticker}: last={date_str} action={decision['action']}")
 
 if __name__ == "__main__":
+    import traceback, re
+    ok, ng, results = [], [], []
     try:
-        tickers = os.environ.get("TICKERS") or os.environ.get("TICKER", "3778.T")
+        tickers_raw = os.environ.get("TICKERS") or os.environ.get("TICKER", "3778.T")
         period  = os.environ.get("PERIOD", "90d")
-        for t in [x.strip() for x in tickers.split(",") if x.strip()]:
-            run_one(t, period=period)
+
+        cleaned = tickers_raw.replace("；", ";").replace("，", ",").replace("；", ";")
+        cleaned = cleaned.replace(";", ",")
+        parts = re.split(r"[,\s]+", cleaned.strip())
+        tickers = [p.strip().strip("\"'") for p in parts if p.strip()]
+
+        print(f"[INFO] TICKERS={tickers} PERIOD={period}")
+
+        last_date_str = None
+
+        for t in tickers:
+            try:
+                print(f"[RUN] {t} ...")
+                # === 各銘柄処理 ===
+                df = fetch_yf(t, period=period, interval="1d")
+                raw, ind = compute_indicators(df)
+                last_ts = ind.index[-1]
+                last_date_str = (last_ts.tz_convert(JST) if last_ts.tzinfo else last_ts.tz_localize(JST)).strftime("%Y-%m-%d")
+                decision = judge_action(ind.iloc[-1])
+
+                aligned = raw.loc[ind.index]
+                close = float(aligned.iloc[-1]["close"])
+                prev  = float(aligned.iloc[-2]["close"]) if len(aligned) >= 2 else None
+                diff  = (close - prev) if prev is not None else None
+                pct   = (diff / prev * 100.0) if prev else None
+
+                sb = create_supabase_from_env()
+                upsert_prices(sb, t, raw, ind.index)
+                upsert_indicators(sb, t, ind)
+                upsert_signal(sb, t, last_ts, decision)
+
+                results.append({
+                    "ticker": t, "close": close, "diff": diff, "pct": pct,
+                    "action": decision["action"], "reasons": decision["reasons"]
+                })
+                ok.append(t)
+                print(f"[OK] {t} {last_date_str} {decision['action']}")
+            except Exception as e:
+                ng.append((t, repr(e)))
+                print(f"[ERROR] {t} failed: {e!r}")
+                print(traceback.format_exc())
+
+        # === ここで1通だけ送る ===
+        if results:
+            text = build_summary_message(last_date_str or "", results)
+            uid = os.environ.get("LINE_USER_ID", "").strip()
+            if uid:
+                send_line_message_push(uid, text)         # push が設定済みなら優先
+            else:
+                send_line_message_broadcast(text)         # 未設定なら broadcast
+
+        print(f"[SUMMARY] success={ok} failed={ng}")
+        sys.exit(0 if ok else 1)
     except Exception as e:
-        print("ERROR:", repr(e), file=sys.stderr); sys.exit(1)
+        print("[FATAL]", repr(e))
+        print(traceback.format_exc())
+        sys.exit(1)
 
 
 
