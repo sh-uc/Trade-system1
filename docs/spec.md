@@ -10,14 +10,16 @@ graph TD
     end
 
     subgraph GitHub["GitHub"]
-        Actions["⚙️ GitHub Actions\n(毎日15:35 JST 実行)"]
-        Repo["📦 リポジトリ\n(daily_task.py, app.py, workflows)"]
+        Actions["⚙️ GitHub Actions<br/>（毎日15:35 JST 実行）"]
+        Repo["📦 リポジトリ<br/>(daily_task.py, app.py, workflows)"]
     end
 
-    subgraph Supabase["Supabase (Postgres)"]
-        Prices["📊 prices テーブル"]
-        Indicators["📈 indicators テーブル"]
-        Signals["✅ signals テーブル"]
+    %% サブグラフには直接つなげないので、ハブ用のノードを置く
+    DBHub["🗄️ Supabase (Postgres)"]
+    subgraph Supabase["Supabase のテーブル群"]
+        Prices["📊 prices"]
+        Indicators["📈 indicators"]
+        Signals["✅ signals"]
     end
 
     subgraph External["外部サービス"]
@@ -26,14 +28,19 @@ graph TD
     end
 
     Actions -->|取得・判定| Yahoo
-    Actions -->|保存 (upsert)| Supabase
-    Actions -->|通知 (broadcast)| LINE
+    Actions -->|保存（upsert）| DBHub
+    Actions -->|通知（broadcast）| LINE
     LINE --> Phone
 
     Browser --> Repo
-    Browser --> Supabase
+    Browser --> DBHub
     Repo --> Actions
-    Supabase --> Browser
+
+    %% ハブからテーブル群へ参照の矢印（論理的な関連を示すだけ）
+    DBHub --- Prices
+    DBHub --- Indicators
+    DBHub --- Signals
+
 ```
 
 
