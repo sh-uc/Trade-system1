@@ -1,6 +1,8 @@
-##株式自動判定・通知システム 仕様書（基本情報）
-###システム概要
+## 株式自動判定・通知システム 仕様書（基本情報）
+### システム概要
 ・目的：東証プライム市場銘柄を対象に、信用取引で利益を上げ続けるための自分専用アシスタントを構築する。
+
+```mermaid
 graph TD
     subgraph User["👤 ユーザー（あなた）"]
         Phone["📱 LINE (通知受信)"]
@@ -32,6 +34,7 @@ graph TD
     Browser --> Supabase
     Repo --> Actions
     Supabase --> Browser
+```
 
 
 ・実装構成：
@@ -46,7 +49,7 @@ graph TD
 
     ・自動実行 → GitHub Actions (cron)
 
-###投資方針・ルール
+### 投資方針・ルール
 ・取引頻度：平日 1日 1回（大引け判定）
 
 ・資金運用：100万円（現物ベース、信用取引はあり）
@@ -65,7 +68,7 @@ graph TD
 
 ・銘柄数：1銘柄を対象（複数候補から選定済み）
 
-###実装済み機能
+### 実装済み機能
 ・データ取得
 
     ・yfinance を利用し、対象銘柄の日足データを取得
@@ -172,6 +175,7 @@ graph TD
 
     ・スマホで受信・確認 → 手動発注判断
 
+```mermaid
 sequenceDiagram
     autonumber
     participant GH as GitHub Actions
@@ -190,3 +194,5 @@ sequenceDiagram
     PY->>LN: まとめ通知送信 (全銘柄)
     LN-->>US: 📲 LINE通知が届く
     Note over US: 結果を確認して発注判断
+```
+
