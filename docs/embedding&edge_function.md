@@ -1,3 +1,4 @@
+
 ```mermaid
 graph LR
 A[spec.md, app.py] --> B[Embedding化 (OpenAI API)]
@@ -8,3 +9,4 @@ C --> E
 E --> D
 D -->|関連箇所の本文| ChatGPT
 ```
+
