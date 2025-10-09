@@ -17,13 +17,12 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
+        with: { fetch-depth: 1 }
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -33,16 +32,15 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          pip install supabase
+          pip install supabase openai
 
-      - name: Sync to Supabase
+      - name: Sync to Supabase (docs + embeddings)
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          # サービスロールキー推奨（RLSバイパス・Actions専用）
           SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
-          # ブランチ名（手動実行時などの保険）
           BRANCH: ${{ github.ref_name }}
           GITHUB_WORKSPACE: ${{ github.workspace }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}   # ← 追加
         run: |
           python sync_repo_to_supabase.py
