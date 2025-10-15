@@ -5,7 +5,7 @@ import OpenAI from "https://esm.sh/openai@4.24.7";
 // --- 環境変数 ---
 const openai_key = Deno.env.get("OPENAI_API_KEY")!;
 const supabase_url = Deno.env.get("SUPABASE_URL")!;
-const supabase_service = Deno.env.get("SUPABASE_SERVICE_ROLE")!;
+const supabase_service = Deno.env.get("SERVICE_ROLE")!;
 
 // --- 初期化 ---
 const sb = createClient(supabase_url, supabase_service);
