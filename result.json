@@ -1,0 +1,35 @@
+﻿{
+    "query":  "???????????????????",
+    "results":  [
+                    {
+                        "path":  "app.py",
+                        "chunk_idx":  19,
+                        "content":  "-------------------\nst.set_page_config(page_title=\"æ ªå¼å£²è²·æ¯æ´APPLICATION\", layout=\"wide\")\nst.title(\"æ ªå¼å£²è²·æ¯æ´MVP / Supabaseå¯¾å¿\")\nwith st.sidebar:\n    st.header(\"è¨­å®\")\n    ticker = st.text_input(\"ãã£ãã«ã¼ï¼Yahooå½¢å¼ï¼\", value=DEFAULTS[\u0027ticker\u0027])\n    capital = st.number_input(\"ç·è³é(Â¥)\", value=DEFAULTS[\u0027capital\u0027], step=10000)\n    per_trade_cap = st.number_input(\"1åã®æå¤§çºæ³¨(Â¥)\", value=DEFAULTS[\u0027per_trade_cap\u0027], step=10000)\n    risk_pct = st.slider(\"è¨±å®¹æå¤±ç(%)\", min_value=0.1, max_value=2.0, value=DEFAULTS[\u0027risk_pct\u0027]*100, step=0.1)\n    decision_mode = st.selectbox(\"å¤å®ã¿ã¤ãã³ã°\", options=[\"close\",\"open\"], index=0)",
+                        "similarity":  0.23356671033204
+                    },
+                    {
+                        "path":  "test_yf.py",
+                        "chunk_idx":  0,
+                        "content":  "import yfinance as yf\nprint(\"TEST 6501.T:\", not yf.download(\"6501.T\", period=\"1mo\", progress=False).empty)\nprint(\"TEST 7203.T:\", not yf.download(\"7203.T\", period=\"1mo\", progress=False).empty)\nprint(\"TEST 3778.T:\", not yf.download(\"3778.T\", period=\"1mo\", progress=False).empty)",
+                        "similarity":  0.182490885478252
+                    },
+                    {
+                        "path":  "daily_task.py",
+                        "chunk_idx":  11,
+                        "content":  "rsi14     = getf(last_row[\"rsi14\"])\n    atr14     = getf(last_row[\"atr14\"])\n    vol_spike = getb(last_row[\"vol_spike\"])\ncond_trend    = (close \u003e ma25) and (ma25 \u003e= ma75)\n    cond_momentum = (macd_val \u003e macd_sig)\n    cond_rsi      = (40.0 \u003c= rsi14 \u003c= 68.0)\n    cond_volume   = vol_spike\npassed = all([cond_trend, cond_momentum, cond_rsi, cond_volume])",
+                        "similarity":  0.179787807420333
+                    },
+                    {
+                        "path":  "ChatGPT_canvas250909.txt",
+                        "chunk_idx":  11,
+                        "content":  "0:\n        return {\"action\": \"è¦éã\", \"summary\": \"è¨±å®¹æå¤±çã»è³éå¶ç´å\u0085ã§å»ºã¦çãç«ããªã\", \"reasons\": sig[\"reasons\"], \"close\": sig[\"close\"]}\nreturn {\"action\": \"è²·ã\", \"summary\": \"è²·ãæ¡ä»¶æç«ãATRãã¼ã¹ã§æ°éã»SL/TPãè¨­å®\", \"reasons\": sig[\"reasons\"], \"close\": sig[\"close\"], \"qty\": ps[\u0027qty\u0027], \"sl\": ps[\u0027sl\u0027], \"tp\": ps[\u0027tp\u0027], \"risk_jpy\": ps[\u0027risk_jpy\u0027]}\n# ------------------------------\n# Supabase ä¿å­/èª­å\n# ------------------------------",
+                        "similarity":  0.174597646981127
+                    },
+                    {
+                        "path":  "ChatGPT_canvas250909.txt",
+                        "chunk_idx":  17,
+                        "content":  "value=DEFAULTS[\u0027risk_pct\u0027]*100, step=0.1)\n    decision_mode = st.selectbox(\"å¤å®ã¿ã¤ãã³ã°\", options=[\"close\",\"open\"], index=0)\natr_mult_sl = st.slider(\"SLã®ATRåç\", min_value=1.0, max_value=3.0, value=DEFAULTS[\u0027atr_mult_sl\u0027], step=0.1)\n    r_multiple_take = st.slider(\"å©ç¢ºRï¼åï¼\", min_value=1.0, max_value=4.0, value=DEFAULTS[\u0027r_multiple_take\u0027], step=0.5)\nenable_db = st.checkbox(\"DBä¿å­ãæå¹åï¼Supabase secrets å¿\u0085é ï¼\", value=True)\nsettings = {\n        \"capital\": int(capital),\n        \"per_trade_cap\": int(per_trade_cap),\n        \"risk_pct\": float(risk_pct)/100.0,\n        \"decision_mode\": decision_mode,\n        \"atr_mult_sl\": float(atr_mult_sl),\n        \"r_multiple_take\": float(r_multiple_take),\n    }\n# ãã¼ã¿åå¾ \u0026 ææ¨\nwith st.spinner(\"ãã¼ã¿åå¾ä¸­...\"):\n    raw = fetch_ohlc(ticker, DEFAULTS[\u0027lookback_days\u0027])",
+                        "similarity":  0.173452839862065
+                    }
+                ]
+}

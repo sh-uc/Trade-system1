@@ -6,8 +6,25 @@ import requests
 import pandas as pd
 import yfinance as yf
 from supabase import create_client
+import datetime as dt
+import pytz
+import jpholiday
 
-JST = timezone(timedelta(hours=9))
+JST = pytz.timezone("Asia/Tokyo")
+
+def is_trading_day_jst(d: dt.date) -> bool:
+    if d.weekday() >= 5:  # 土日
+        return False
+    if jpholiday.is_holiday(d):  # 祝日＋振替休日
+        return False
+    if (d.month, d.day) in {(12,31),(1,1),(1,2),(1,3)}:
+        return False
+    return True
+
+today_jst = dt.datetime.now(JST).date()
+if not is_trading_day_jst(today_jst):
+    print(f"[SKIP] 非取引日: {today_jst.isoformat()}")
+    raise SystemExit(0)
 
 # --- add: safe Supabase client creator ---
 import re
