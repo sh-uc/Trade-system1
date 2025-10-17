@@ -46,7 +46,7 @@ def decide_emoji(action: str, pct_change: float | None):
 
 def build_summary_message(date_str: str, results: list[dict]) -> str:
     """
-    results: [{ticker, close, diff, pct, action, reasons[]}]
+    results: [{ticker, display, close, diff, pct, action, reasons[]}]
     """
     header = f"【日次まとめ】{date_str}\n"
     lines = [header]
@@ -54,21 +54,24 @@ def build_summary_message(date_str: str, results: list[dict]) -> str:
     # 1行サマリー（銘柄ごと）
     for r in results:
         em = decide_emoji(r["action"], r["pct"])
-        diff_part = f"{r['diff']:+.0f} / {r['pct']:+.2f}%" if r["pct"] is not None else "-"
+        name = r.get("display") or r["ticker"]  # ← 会社名（キャッシュ）を優先
+        if r["pct"] is None:
+            diff_part = "-"
+        else:
+            diff_part = f"{r['diff']:+.0f} / {r['pct']:+.2f}%"
         lines.append(
-            f"{em} {r['ticker']}: 終値¥{fmt_line(r['close'])}（前日比 {diff_part}）｜結論: {r['action']}"
+            f"{em} {name}: 終値¥{fmt_line(r['close'])}（前日比 {diff_part}）｜結論: {r['action']}"
         )
 
     # 詳細（必要なら）
     lines.append("\n— 詳細 —")
     for r in results:
-        lines.append(f"〔{r['ticker']}〕")
+        name = r.get("display") or r["ticker"]
+        lines.append(f"〔{name}〕")
         for reason in r["reasons"]:
-            # 長すぎ防止
             lines.append(f"・{reason[:120]}")
 
     msg = "\n".join(lines)
-    # LINEの上限対策（5,000字弱）
     return msg[:4900]
 
 
@@ -87,6 +90,38 @@ def create_supabase_from_env():
         raise ValueError(f"SUPABASE_URL looks invalid: {raw_url}")
 
     return create_client(raw_url, raw_key)
+
+# Tickers code-->name変換
+def resolve_company_name(code: str, sb=None) -> str:
+    # 1) DBキャッシュ
+    if sb is not None:
+        r = sb.table("tickers").select("name").eq("code", code).limit(1).execute()
+        if r.data:
+            return r.data[0]["name"]
+
+    # 2) yfinance で取得（失敗時は code を返す）
+    try:
+        info = yf.Ticker(code).fast_info  # 軽量
+    except Exception:
+        info = None
+
+    name = None
+    if info and getattr(info, "shortName", None):
+        name = info.shortName
+    else:
+        # fallback: 詳細info（やや重い）
+        try:
+            name = yf.Ticker(code).info.get("shortName")
+        except Exception:
+            name = None
+
+    name = name or code
+
+    # 3) DBに保存（upsert）
+    if sb is not None:
+        sb.table("tickers").upsert({"code": code, "name": name}).execute()
+    return name
+
 
 # ---------- Utils ----------
 def chunks(iterable, size=500):
@@ -253,6 +288,17 @@ def send_line_message_broadcast(text: str):
     r = requests.post(url, json=payload, headers=headers, timeout=10)
     print("[LINE broadcast]", r.status_code, r.text)
 
+def send_line_message_push(user_id: str, text: str):
+    token = os.environ.get("LINE_CHANNEL_TOKEN")
+    if not token:
+        print("[WARN] LINE_CHANNEL_TOKEN not set; skip LINE push")
+        return
+    url = "https://api.line.me/v2/bot/message/push"
+    headers = {"Authorization": f"Bearer {token}"}
+    payload = {"to": user_id, "messages": [{"type": "text", "text": text[:4900]}]}
+    r = requests.post(url, json=payload, headers=headers, timeout=10)
+    print("[LINE push]", r.status_code, r.text)
+
 def run_one(ticker: str, period="90d"):
     df = fetch_yf(ticker, period=period, interval="1d")
     raw, ind = compute_indicators(df)
@@ -273,13 +319,18 @@ def run_one(ticker: str, period="90d"):
     upsert_signal(sb, ticker, last_ts, decision)
 
     # LINE 本文
+ 
     date_str = (last_ts.tz_convert(JST) if last_ts.tzinfo else last_ts.tz_localize(JST)).strftime("%Y-%m-%d")
+    sb = create_supabase_from_env()
+    company = resolve_company_name(ticker, sb)
+    title = f"{company}（{ticker}）" if company and company != ticker else ticker
+
     lines = [
-        f"【日次判定】{ticker} / {date_str}",
+       f"【日次判定】{title} / {date_str}",
         f"終値: ¥{close:,.0f}" + (f"（前日比 {diff:+.0f} / {pct:+.2f}%）" if prev else ""),
         f"結論: {decision['action']}",
-        "理由:",
-        *decision["reasons"]
+       "理由:",
+       *decision["reasons"]
     ]
     send_line_message_broadcast("\n".join(lines))
 
@@ -321,11 +372,19 @@ if __name__ == "__main__":
                 upsert_prices(sb, t, raw, ind.index)
                 upsert_indicators(sb, t, ind)
                 upsert_signal(sb, t, last_ts, decision)
+                company = resolve_company_name(t, sb)
+                display = f"{company}（{t}）" if company and company != t else t
 
                 results.append({
-                    "ticker": t, "close": close, "diff": diff, "pct": pct,
-                    "action": decision["action"], "reasons": decision["reasons"]
+                    "ticker": t,
+                    "display": display,
+                    "close": close,
+                    "diff": diff,
+                    "pct": pct,
+                    "action": decision["action"],
+                    "reasons": decision["reasons"]
                 })
+
                 ok.append(t)
                 print(f"[OK] {t} {last_date_str} {decision['action']}")
             except Exception as e:
