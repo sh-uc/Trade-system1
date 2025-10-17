@@ -386,7 +386,6 @@ def fetch_recent_signals(sb: Client, code: str, limit: int = 20) -> pd.DataFrame
 st.set_page_config(page_title="株式売買支援APPLICATION", layout="wide")
 
 st.title("株式売買支援MVP / Supabase対応")
-st.subheader(display_name)
 st.caption("※ 会社名はDBキャッシュ→yfinanceで解決（取得できない場合はティッカーを表示）")
 st.markdown(f"**対象:** {display_name}")
 
@@ -397,6 +396,7 @@ with st.sidebar:
     sb = get_supabase() if 'get_supabase' in globals() else None
     company = resolve_company_name(ticker, sb)
     display_name = f"{company}（{ticker}）" if company and company != ticker else ticker
+    st.subheader(display_name)
     capital = st.number_input("総資金(¥)", value=DEFAULTS['capital'], step=10000)
     per_trade_cap = st.number_input("1回の最大発注(¥)", value=DEFAULTS['per_trade_cap'], step=10000)
     risk_pct = st.slider("許容損失率(%)", min_value=0.1, max_value=2.0, value=DEFAULTS['risk_pct']*100, step=0.1)
