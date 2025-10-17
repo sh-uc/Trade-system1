@@ -387,7 +387,6 @@ st.set_page_config(page_title="株式売買支援APPLICATION", layout="wide")
 
 st.title("株式売買支援MVP / Supabase対応")
 st.caption("※ 会社名はDBキャッシュ→yfinanceで解決（取得できない場合はティッカーを表示）")
-st.markdown(f"**対象:** {display_name}")
 
 with st.sidebar:
     st.header("設定")
