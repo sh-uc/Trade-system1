@@ -23,6 +23,49 @@ import yfinance as yf
 import plotly.graph_objects as go
 import streamlit as st
 
+# --- 会社名解決（DBキャッシュ + yfinance） ---
+from typing import Optional
+
+def resolve_company_name(code: str, sb=None) -> str:
+    """
+    会社名を返す。優先順位:
+      1) Supabaseの tickers テーブル（あれば）
+      2) yfinance の shortName
+      3) fallback: ティッカー自体
+    取得できたら tickers に upsert してキャッシュ
+    """
+    name: Optional[str] = None
+
+    # 1) DBキャッシュ
+    try:
+        if sb is not None:
+            r = sb.table("tickers").select("name").eq("code", code).limit(1).execute()
+            if r.data:
+                return r.data[0]["name"]
+    except Exception:
+        pass
+
+    # 2) yfinance
+    try:
+        tkr = yf.Ticker(code)
+        # できるだけ軽い取得を優先、ダメなら info にフォールバック
+        name = getattr(getattr(tkr, "fast_info", None), "shortName", None)
+        if not name:
+            name = tkr.info.get("shortName")
+    except Exception:
+        name = None
+
+    name = name or code
+
+    # 3) DB保存（upsert）
+    try:
+        if sb is not None:
+            sb.table("tickers").upsert({"code": code, "name": name}).execute()
+    except Exception:
+        pass
+
+    return name
+
 def flatten_columns(df: pd.DataFrame) -> pd.DataFrame:
     if isinstance(df.columns, pd.MultiIndex):
         # 第1階層だけ使う or 空文字を除いて結合
@@ -343,10 +386,17 @@ def fetch_recent_signals(sb: Client, code: str, limit: int = 20) -> pd.DataFrame
 st.set_page_config(page_title="株式売買支援APPLICATION", layout="wide")
 
 st.title("株式売買支援MVP / Supabase対応")
+st.subheader(display_name)
+st.caption("※ 会社名はDBキャッシュ→yfinanceで解決（取得できない場合はティッカーを表示）")
+st.markdown(f"**対象:** {display_name}")
 
 with st.sidebar:
     st.header("設定")
     ticker = st.text_input("ティッカー（Yahoo形式）", value=DEFAULTS['ticker'])
+    # Supabase（任意）を用意して会社名を解決
+    sb = get_supabase() if 'get_supabase' in globals() else None
+    company = resolve_company_name(ticker, sb)
+    display_name = f"{company}（{ticker}）" if company and company != ticker else ticker
     capital = st.number_input("総資金(¥)", value=DEFAULTS['capital'], step=10000)
     per_trade_cap = st.number_input("1回の最大発注(¥)", value=DEFAULTS['per_trade_cap'], step=10000)
     risk_pct = st.slider("許容損失率(%)", min_value=0.1, max_value=2.0, value=DEFAULTS['risk_pct']*100, step=0.1)
