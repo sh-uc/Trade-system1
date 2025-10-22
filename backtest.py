@@ -21,6 +21,17 @@ RSI_EXIT        = 80.0                                              # 利確的�
 def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
     o = df.copy()
     # 必要列を揃える
+    # --- ここから追加: 列のフラット化（MultiIndex対策） ---
+    if isinstance(o.columns, pd.MultiIndex):
+        PRICE_KEYS = {"Open", "High", "Low", "Close", "Adj Close", "Volume"}
+        def pick(col_tuple):
+            # 例: ('Close','3778.T') / ('3778.T','Close') / ('Close',)
+            for part in col_tuple:
+                if part in PRICE_KEYS:
+                    return part
+            return col_tuple[0]
+        o.columns = [pick(c) if isinstance(c, tuple) else c for c in o.columns]
+    # --- 追加ここまで ---
     cols = {c.lower(): c for c in o.columns}
     for need in ["open","high","low","close","volume"]:
         if need not in cols:
@@ -80,7 +91,14 @@ def long_signal_row(r: pd.Series) -> bool:
 
 # ===== バックテスト =====
 def backtest():
-    df = yf.download(TICKER, start=START, end=END, auto_adjust=False, progress=False)
+    df = yf.download(
+    TICKER,
+    start=START,
+    end=END,
+    auto_adjust=False,
+    progress=False,
+    group_by="column",   # ← これを追加
+    )
     if df.empty:
         print(f"[BT] No data: {TICKER} {START}..{END}")
         return
