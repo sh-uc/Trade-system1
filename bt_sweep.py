@@ -16,6 +16,7 @@ def run_once(ticker, start, params):
     env["BT_EXIT_REV"] = "1" if params.get("EXIT_ON_REVERSE", True) else "0"
 
     # backtest_v2.py をサブプロセス実行して標準出力をパース
+    env["PYTHONIOENCODING"] = "utf-8"  # ← 追加
     p = subprocess.run([sys.executable, "backtest_v2.py"], env=env, capture_output=True, text=True)
     out = p.stdout.strip()
     # 末尾に「[BT2] …」の行がある前提で簡易抽出
