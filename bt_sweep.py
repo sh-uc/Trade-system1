@@ -16,9 +16,17 @@ def run_once(ticker, start, params):
     env["BT_EXIT_REV"] = "1" if params.get("EXIT_ON_REVERSE", True) else "0"
 
     # backtest_v2.py をサブプロセス実行して標準出力をパース
-    env["PYTHONIOENCODING"] = "utf-8"  # ← 追加
-    p = subprocess.run([sys.executable, "backtest_v2.py"], env=env, capture_output=True, text=True)
-    out = p.stdout.strip()
+    env["PYTHONIOENCODING"] = "utf-8"  # 子のstdout/stderrをUTF-8で出す
+    p = subprocess.run(
+        [sys.executable, "backtest_v2.py"],
+        env=env,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",     # ← 親のデコード指定
+        errors="replace",     # ← もし不正バイトが来ても置換して継続
+    )
+    out = (p.stdout or "").strip()
+    err = (p.stderr or "").strip()
     # 末尾に「[BT2] …」の行がある前提で簡易抽出
     metrics = {"ok": p.returncode == 0, "stdout": out, "stderr": p.stderr.strip()}
     for line in out.splitlines():

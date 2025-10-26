@@ -226,8 +226,8 @@ def backtest():
     n_trades = int((np.array([t["side"] for t in trades])=="SELL").sum())
 
     print(f"[BT2] {TICKER} {START}..{END}")
-    print(f"  初期資金  : ¥{CAPITAL_JPY:,.0f}")
-    print(f"  最終資産  : ¥{curve['equity'].iloc[-1]:,.0f}  (累計損益 {total_return*100:.2f}%)")
+    print(f"  初期資金  : JPY{CAPITAL_JPY:,.0f}")
+    print(f"  最終資産  : JPY['equity'].iloc[-1]:,.0f}  (累計損益 {total_return*100:.2f}%)")
     print(f"  取引数(決済): {n_trades}  勝率 {win_rate*100:.1f}%  最大DD {max_dd*100:.2f}%  Sharpe {sharpe:.2f}")
 
     out_dir = os.environ.get("BT_OUT","./backtest_out")
