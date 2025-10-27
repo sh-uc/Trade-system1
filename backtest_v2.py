@@ -22,8 +22,14 @@ STOP_SLIPPAGE  = float(os.environ.get("BT_STOP_SLIP","0.0015"))   # ストップ
 TAKE_PROFIT_RR = float(os.environ.get("BT_TP_RR",     "2.0"))     # 2Rで利確
 MAX_HOLD_DAYS  = int(os.environ.get("BT_MAX_HOLD",    "15"))      # 経過日数で時間切れ
 EXIT_ON_REVERSE= (os.environ.get("BT_EXIT_REV","1")=="1")         # 逆シグナルで手仕舞い
+# 2025.10.27チューニングのため追加
+VOL_SPIKE_M   = float(os.environ.get("BT_VOL_SPIKE_M", "1.4"))   # 出来高平均の何倍でスパイクとみなす
+MACD_ATR_K    = float(os.environ.get("BT_MACD_ATR_K",  "0.15"))  # MACD強度の下限（ATR/Close比に係数をかける）
+RSI_MIN       = float(os.environ.get("BT_RSI_MIN",     "45.0"))
+RSI_MAX       = float(os.environ.get("BT_RSI_MAX",     "70.0"))
+GAP_ENTRY_MAX = float(os.environ.get("BT_GAP_MAX",     "0.05"))  # 前日終値比+5%超の寄りは新規見送り
+# 2025.10.27チューニングのため追加　おわり
 
-RSI_MIN, RSI_MAX = 40.0, 75.0
 RSI_EXIT         = 80.0
 
 # ====== supabase client作成　=======
@@ -98,7 +104,9 @@ def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
     o["atr14"] = tr.rolling(14, min_periods=14).mean()
     # 出来高スパイク
     o["vol_ma20"] = V.rolling(20, min_periods=20).mean()
-    o["vol_spike"] = (V >= o["vol_ma20"]).fillna(False)
+    # o["vol_spike"] = (V >= o["vol_ma20"]).fillna(False)
+    # 変更後（倍率を採用）
+    o["vol_spike"] = (V >= (o["vol_ma20"] * VOL_SPIKE_M)).fillna(False)
     # Open列保証
     o["open"] = o[cols.get("open","Open")]
     o["high"] = H; o["low"] = L; o["close"] = C
@@ -114,7 +122,10 @@ def long_signal_row(r: pd.Series) -> bool:
     except Exception:
         return False
     cond_trend    = (close > ma25) and (ma25 >= ma75)
-    cond_momentum = (macd > macd_sig)
+    # cond_momentum = (macd > macd_sig)
+    # 変更後（MACD差が相対しきい値を超える）
+    rel = (atr / max(close, 1e-6))  # ATRを価格で正規化
+    cond_momentum = (macd - macd_sig) > (MACD_ATR_K * rel)
     cond_rsi      = (RSI_MIN <= rsi <= RSI_MAX)
     cond_vol      = vol_spike
     cond_vola     = atr > 0
@@ -146,35 +157,84 @@ def backtest():
     for i, date in enumerate(dates):
         row = ind.loc[date]
         o = float(row["open"]); h = float(row["high"]); l = float(row["low"]); c = float(row["close"])
+        # ループ先頭で前日終値を取る
+        c_prev = float(ind["close"].shift(1).loc[date]) if date in ind.index else np.nan
 
         # 1) ペンディング（買い）→ 翌営業日の寄りで執行
         if pending_buy_for and date.date() == pending_buy_for:
-            # 数量決定（前日の終値ベースのRでも良いが、今回は当日寄りで再計算）
-            risk_jpy = PER_TRADE_CAP * RISK_PCT
-            # 初期ストップ：寄りから -RISK_PCT
-            stop_px = o * (1 - RISK_PCT)
-            risk_per_share = max(o - stop_px, o * 0.005)
-            qty_by_risk = int(risk_jpy / risk_per_share) if risk_per_share>0 else 0
-            qty_by_cap  = int(PER_TRADE_CAP // o)
-            est_qty = max(0, min(qty_by_risk, qty_by_cap))
-            est_qty = min(est_qty, int(cash // (o * (1 + SLIPPAGE + FEE_PCT))))
-            if est_qty > 0:
-                fill = o * (1 + SLIPPAGE)
-                cost = fill * est_qty * (1 + FEE_PCT)
-                cash -= cost
-                pos = est_qty
-                entry_px = fill
-                entry_date = date
-                hold_days = 0
-                # TP価格（R倍）
-                R = entry_px - stop_px
-                take_px = entry_px + TAKE_PROFIT_RR * R if R>0 else np.nan
-                trades.append({"date": date, "side": "BUY", "px": fill, "qty": est_qty})
-            pending_buy_for = None
+            # --- ギャップ制限チェック（前日終値が取れる場合のみ） ---
+            if not np.isnan(c_prev) and GAP_ENTRY_MAX > 0:
+                gap = (o - c_prev) / c_prev
+                if gap > GAP_ENTRY_MAX:
+                    # 大きなGUは見送り（ポジは持たない／ペンディング解除）
+                    trades.append({"date": date, "side": "SKIP", "px": o, "qty": 0, "reason": f"GAP>{GAP_ENTRY_MAX:.2%}"})
+                    pending_buy_for = None
+                else:
+                    # --- 通常の数量決定 → 約定 ---
+                    risk_jpy = PER_TRADE_CAP * RISK_PCT
+                    stop_px = o * (1 - RISK_PCT)
+                    risk_per_share = max(o - stop_px, o * 0.005)
+                    qty_by_risk = int(risk_jpy / risk_per_share) if risk_per_share > 0 else 0
+                    qty_by_cap  = int(PER_TRADE_CAP // o)
+                    est_qty = max(0, min(qty_by_risk, qty_by_cap))
+                    est_qty = min(est_qty, int(cash // (o * (1 + SLIPPAGE + FEE_PCT))))
+
+                    if est_qty > 0:
+                        fill = o * (1 + SLIPPAGE)
+                        cost = fill * est_qty * (1 + FEE_PCT)
+                        cash -= cost
+                        pos = est_qty
+                        entry_px = fill
+                        entry_date = date
+                        hold_days = 0
+                        R = entry_px - stop_px
+                        take_px = entry_px + TAKE_PROFIT_RR * R if R > 0 else np.nan
+                        trades.append({"date": date, "side": "BUY", "px": fill, "qty": est_qty})
+                    else:
+                        # ← ここが「2つ目の else」相当：数量0（資金/リスク制約）で見送り
+                        trades.append({"date": date, "side": "SKIP", "px": o, "qty": 0, "reason": "NOFUNDS/SMALL_RISK"})
+                    pending_buy_for = None
+
+            else:
+                # c_prev が取れない（系列の初日等）か、GAP制限無効時はそのまま従来どおり約定判定
+                risk_jpy = PER_TRADE_CAP * RISK_PCT
+                stop_px = o * (1 - RISK_PCT)
+                risk_per_share = max(o - stop_px, o * 0.005)
+                qty_by_risk = int(risk_jpy / risk_per_share) if risk_per_share > 0 else 0
+                qty_by_cap  = int(PER_TRADE_CAP // o)
+                est_qty = max(0, min(qty_by_risk, qty_by_cap))
+                est_qty = min(est_qty, int(cash // (o * (1 + SLIPPAGE + FEE_PCT))))
+
+                if est_qty > 0:
+                    fill = o * (1 + SLIPPAGE)
+                    cost = fill * est_qty * (1 + FEE_PCT)
+                    cash -= cost
+                    pos = est_qty
+                    entry_px = fill
+                    entry_date = date
+                    hold_days = 0
+                    R = entry_px - stop_px
+                    take_px = entry_px + TAKE_PROFIT_RR * R if R > 0 else np.nan
+                    trades.append({"date": date, "side": "BUY", "px": fill, "qty": est_qty})
+                else:
+                    # ← ここも「数量0で見送り」
+                    trades.append({"date": date, "side": "SKIP", "px": o, "qty": 0, "reason": "NOFUNDS/SMALL_RISK"})
+                pending_buy_for = None
 
         # 2) 当日引けで判定 → 翌営業日に買いセット
         if pos == 0:
+            # if long_signal_row(row):
+            #     nd = next_trading_day(date.date())
+            #     pending_buy_for = nd
+            #     if pos == 0:
             if long_signal_row(row):
+            # 翌営業日の寄りが+ギャップし過ぎる可能性を予防（前日比で閾値超見送り）
+            # c_prev がNaNの初日などはスキップなし
+                if not (np.isnan(c_prev) or GAP_ENTRY_MAX <= 0):
+                # 実際の寄り価格は翌日だが、ここでは“過度高進”を抑制するため、
+                # 当日終値対比の制限だけ先に掛ける（保守的）
+                # → より正確にやるなら翌日の'o'確定後に再判定でもOK
+                    pass  # （ここでは事前チェックは省略し、翌日寄りで最終チェック）
                 nd = next_trading_day(date.date())
                 pending_buy_for = nd
 
