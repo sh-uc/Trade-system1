@@ -251,6 +251,35 @@ def backtest():
     curve.to_csv(os.path.join(out_dir, f"curve_{TICKER}_v2.csv"))
     pd.DataFrame(trades).to_csv(os.path.join(out_dir, f"trades_{TICKER}_v2.csv"), index=False)
     print(f"[BT2] 出力: {out_dir}/curve_{TICKER}_v2.csv, trades_{TICKER}_v2.csv")
+        # ---- ここから追記: Supabase保存（SAVE_BT=1 の時だけ） ----
+    if os.environ.get("SAVE_BT", "0") == "1":
+        sb = create_supabase_from_env()
+        if sb is not None:
+            params = {
+                "CAPITAL_JPY": CAPITAL_JPY,
+                "PER_TRADE_CAP": PER_TRADE_CAP,
+                "RISK_PCT": RISK_PCT,
+                "SLIPPAGE": SLIPPAGE,
+                "FEE_PCT": FEE_PCT,
+                "STOP_SLIPPAGE": STOP_SLIPPAGE,
+                "TAKE_PROFIT_RR": TAKE_PROFIT_RR,
+                "MAX_HOLD_DAYS": MAX_HOLD_DAYS,
+                "EXIT_ON_REVERSE": EXIT_ON_REVERSE,
+                "START": START,
+                "END": END,
+            }
+            run_id = save_backtest_run(
+                sb, TICKER, params,
+                float(curve["equity"].iloc[-1]),
+                float(total_return),
+                float(max_dd),
+                float(sharpe),
+                int(n_trades),
+            )
+            if run_id is not None and len(trades):
+                save_backtest_trades(sb, run_id, trades)
+    # ---- 追記ここまで ----
+
 
 def save_backtest_run(sb: Client, ticker: str, params: dict, curve_final: float,
                       total_return: float, max_dd: float, sharpe: float, n_trades: int) -> int | None:
@@ -301,32 +330,4 @@ if __name__ == "__main__":
     import os
     os.makedirs("./backtest_out", exist_ok=True)
     backtest()
-    # ---- ここから追記: Supabase保存（SAVE_BT=1 の時だけ） ----
-    if os.environ.get("SAVE_BT", "0") == "1":
-        sb = create_supabase_from_env()
-        if sb is not None:
-            params = {
-                "CAPITAL_JPY": CAPITAL_JPY,
-                "PER_TRADE_CAP": PER_TRADE_CAP,
-                "RISK_PCT": RISK_PCT,
-                "SLIPPAGE": SLIPPAGE,
-                "FEE_PCT": FEE_PCT,
-                "STOP_SLIPPAGE": STOP_SLIPPAGE,
-                "TAKE_PROFIT_RR": TAKE_PROFIT_RR,
-                "MAX_HOLD_DAYS": MAX_HOLD_DAYS,
-                "EXIT_ON_REVERSE": EXIT_ON_REVERSE,
-                "START": START,
-                "END": END,
-            }
-            run_id = save_backtest_run(
-                sb, TICKER, params,
-                float(curve["equity"].iloc[-1]),
-                float(total_return),
-                float(max_dd),
-                float(sharpe),
-                int(n_trades),
-            )
-            if run_id is not None and len(trades):
-                save_backtest_trades(sb, run_id, trades)
-    # ---- 追記ここまで ----
 
