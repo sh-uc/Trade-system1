@@ -6,6 +6,8 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 import jpholiday
+from supabase import create_client, Client
+
 
 # ====== 設定（ENVで上書き）======
 TICKER         = os.environ.get("BT_TICKER", "3778.T")
@@ -23,6 +25,20 @@ EXIT_ON_REVERSE= (os.environ.get("BT_EXIT_REV","1")=="1")         # 逆シグナ
 
 RSI_MIN, RSI_MAX = 40.0, 75.0
 RSI_EXIT         = 80.0
+
+# ====== supabase client作成　=======
+def create_supabase_from_env() -> Client | None:
+    import os
+    url = os.environ.get("SUPABASE_URL", "").strip()
+    key = (os.environ.get("SUPABASE_SERVICE_ROLE") or os.environ.get("SUPABASE_KEY") or "").strip()
+    if not url or not key:
+        print("[INFO] Supabase env not set; skip saving.")
+        return None
+    try:
+        return create_client(url, key)
+    except Exception as e:
+        print("[WARN] create_client failed:", e)
+        return None
 
 # ====== ユーティリティ：日本の次の営業日 ======
 def is_trading_day(d: dt.date) -> bool:
@@ -236,7 +252,81 @@ def backtest():
     pd.DataFrame(trades).to_csv(os.path.join(out_dir, f"trades_{TICKER}_v2.csv"), index=False)
     print(f"[BT2] 出力: {out_dir}/curve_{TICKER}_v2.csv, trades_{TICKER}_v2.csv")
 
+def save_backtest_run(sb: Client, ticker: str, params: dict, curve_final: float,
+                      total_return: float, max_dd: float, sharpe: float, n_trades: int) -> int | None:
+    try:
+        res = sb.table("backtests_runs").insert({
+            "ticker": ticker,
+            "params": params,                 # jsonb
+            "final_equity": round(curve_final, 4),
+            "total_return": round(total_return, 6),
+            "max_drawdown": round(max_dd, 6),
+            "sharpe": round(sharpe, 6),
+            "n_trades": n_trades,
+        }).execute()
+        run_id = res.data[0]["id"]
+        print(f"[SAVE] runs id={run_id}")
+        return int(run_id)
+    except Exception as e:
+        print("[ERROR] save_backtest_run:", e)
+        return None
+
+def save_backtest_trades(sb: Client, run_id: int, trades: list[dict]):
+    # trades: {"date": pd.Timestamp, "side": "BUY"/"SELL", "px": float, "qty": int, "reason": Optional[str]}
+    rows = []
+    for t in trades:
+        ts = t["date"]
+        # pandas.Timestamp → ISO8601（tzなしならUTC想定でそのまま）
+        if hasattr(ts, "isoformat"):
+            ts_iso = ts.isoformat()
+        else:
+            ts_iso = str(ts)
+        rows.append({
+            "run_id": run_id,
+            "ts": ts_iso,
+            "side": t["side"],
+            "price": float(t["px"]),
+            "qty": int(t["qty"]),
+            "reason": t.get("reason"),
+        })
+    try:
+        # バルク insert（必要に応じて分割）
+        for i in range(0, len(rows), 500):
+            sb.table("backtests_trades").insert(rows[i:i+500]).execute()
+        print(f"[SAVE] trades rows={len(rows)}")
+    except Exception as e:
+        print("[ERROR] save_backtest_trades:", e)
+
 if __name__ == "__main__":
     import os
     os.makedirs("./backtest_out", exist_ok=True)
     backtest()
+    # ---- ここから追記: Supabase保存（SAVE_BT=1 の時だけ） ----
+if os.environ.get("SAVE_BT", "0") == "1":
+    sb = create_supabase_from_env()
+    if sb is not None:
+        params = {
+            "CAPITAL_JPY": CAPITAL_JPY,
+            "PER_TRADE_CAP": PER_TRADE_CAP,
+            "RISK_PCT": RISK_PCT,
+            "SLIPPAGE": SLIPPAGE,
+            "FEE_PCT": FEE_PCT,
+            "STOP_SLIPPAGE": STOP_SLIPPAGE,
+            "TAKE_PROFIT_RR": TAKE_PROFIT_RR,
+            "MAX_HOLD_DAYS": MAX_HOLD_DAYS,
+            "EXIT_ON_REVERSE": EXIT_ON_REVERSE,
+            "START": START,
+            "END": END,
+        }
+        run_id = save_backtest_run(
+            sb, TICKER, params,
+            float(curve["equity"].iloc[-1]),
+            float(total_return),
+            float(max_dd),
+            float(sharpe),
+            int(n_trades),
+        )
+        if run_id is not None and len(trades):
+            save_backtest_trades(sb, run_id, trades)
+# ---- 追記ここまで ----
+
