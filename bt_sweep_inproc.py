@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
     # 結果ダンプ（必要ならここで Supabase 保存 or 上位抽出）
     with open("sweep_inproc.json", "w", encoding="utf-8") as f:
-    json.dump(results, f, ensure_ascii=False, indent=2)
+        json.dump(results, f, ensure_ascii=False, indent=2)
 
     elapsed = time.time() - t0
     m, s = divmod(elapsed, 60)
