@@ -1,0 +1,121 @@
+name: export-feed
+on:
+  # 手動実行
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "Optional note for this run"
+        required: false
+  # 任意: 指定パスに push されたら毎回実行（例：mainブランチの src/ or daily_task.py など）
+  push:
+    branches: [ main ]
+    paths:
+      - "daily_task.py"
+      - "backtest_v2.py"
+      - "bt_*.py"
+      - "spec.md"
+      - ".github/workflows/export_feed.yml"
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: export-feed
+      cancel-in-progress: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install supabase pandas python-dateutil
+
+      - name: Export minimal feed (signals & runs) to docs/feed
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+        run: |
+          python - << 'PY'
+          import os, json, pathlib, time
+          from datetime import datetime, timezone
+          import pandas as pd
+          from supabase import create_client
+          from dateutil import tz
+
+          url = os.environ["SUPABASE_URL"]
+          key = os.environ["SUPABASE_SERVICE_ROLE"]
+          sb  = create_client(url, key)
+
+          # ---- クエリ（必要最小限だけ）----
+          sig = sb.table("signals") \
+                  .select("date,code,close,diff_pct,decision") \
+                  .order("date", desc=True).limit(200).execute().data
+
+          runs = sb.table("backtests_runs") \
+                   .select("created_at,ticker,metrics") \
+                   .order("created_at", desc=True).limit(200).execute().data
+
+          # ---- 出力先（履歴＋最新） ----
+          root = pathlib.Path("docs/feed")
+          (root/"history").mkdir(parents=True, exist_ok=True)
+          (root/"latest").mkdir(parents=True, exist_ok=True)
+
+          # タイムスタンプ（JST表記も付与）
+          now_utc = datetime.now(timezone.utc)
+          jst = tz.gettz("Asia/Tokyo")
+          now_jst = now_utc.astimezone(jst)
+          ts = now_jst.strftime("%Y%m%d-%H%M%S")
+
+          payload = {
+            "generated_at": now_jst.isoformat(),  # JST
+            "signals": sig,
+            "runs": runs
+          }
+
+          # 履歴（タイムスタンプ付き）
+          (root/"history"/f"feed_{ts}.json").write_text(
+              json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
+          )
+
+          # 最新（常に同名ファイルを上書き）
+          (root/"latest"/"signals.json").write_text(
+              json.dumps(sig, ensure_ascii=False, indent=2), encoding="utf-8"
+          )
+          (root/"latest"/"runs.json").write_text(
+              json.dumps(runs, ensure_ascii=False, indent=2), encoding="utf-8"
+          )
+
+          # インデックス（履歴一覧）
+          # 直近50件だけ紹介（数が増えすぎたら軽量化）
+          files = sorted((root/"history").glob("feed_*.json"))
+          index = [f.name for f in files][-50:]
+          (root/"index.json").write_text(
+              json.dumps({
+                "updated_at": now_jst.isoformat(),
+                "history": index,
+                "latest": {
+                  "signals": "latest/signals.json",
+                  "runs": "latest/runs.json"
+                }
+              }, ensure_ascii=False, indent=2),
+              encoding="utf-8"
+          )
+
+          print(f"[export] wrote {len(sig)} signals, {len(runs)} runs @ {ts}")
+          PY
+
+      - name: Commit & Push (docs/feed)
+        run: |
+          if ! git diff --quiet -- docs/feed ; then
+            git config user.name  "feed-bot"
+            git config user.email "feed-bot@example.com"
+            git add docs/feed
+            git commit -m "update feed"
+            git push
+          else
+            echo "no changes"
+          fi
