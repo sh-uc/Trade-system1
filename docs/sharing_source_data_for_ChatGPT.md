@@ -1,5 +1,5 @@
 ## ChatGPTと更新したソースプログラムや実行結果データを共有する仕組み
-'''mermaid
+```mermaid
 graph TD
   subgraph UserSide["👤 あなたのGitHubリポジトリ"]
     A1[app.py]:::src
@@ -48,5 +48,6 @@ graph TD
   style ChatGPT fill:#fdf0ff,stroke:#bb33bb
   classDef src fill:#fff0b3,stroke:#ffcc00
   classDef wf fill:#eaeaea,stroke:#666
-  '''
+```
+
 
