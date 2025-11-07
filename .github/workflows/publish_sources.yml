@@ -8,6 +8,7 @@ on:
       - "requirements*.txt"
       - "spec.md"
       - "README*.md"
+      - "**/*.sql"
       - ".github/workflows/publish_sources.yml"
   workflow_dispatch: {}
 
@@ -31,6 +32,7 @@ jobs:
           include_globs=(
             "*.py"
             "**/*.py"
+            "*.sql"
             "requirements*.txt"
             "spec.md"
             "README*.md"
