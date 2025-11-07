@@ -1,0 +1,111 @@
+name: publish-sources
+on:
+  push:
+    branches: [ main ]
+    # ソース更新や仕様書更新などで発火
+    paths:
+      - "**/*.py"
+      - "requirements*.txt"
+      - "spec.md"
+      - "README*.md"
+      - ".github/workflows/publish_sources.yml"
+  workflow_dispatch: {}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect source files into docs/src
+        shell: bash
+        run: |
+          set -euo pipefail
+          COMMIT_SHORT=$(git rev-parse --short HEAD)
+          OUT="docs/src/${COMMIT_SHORT}"
+          LATEST="docs/src/latest"
+          mkdir -p "$OUT" "$LATEST"
+
+          # ====== 1) 収集（許可リスト方式がおすすめ）======
+          include_globs=(
+            "*.py"
+            "**/*.py"
+            "requirements*.txt"
+            "spec.md"
+            "README*.md"
+          )
+
+          # ====== 2) 除外（機密/不要物）======
+          exclude_globs=(
+            ".env"
+            ".env.*"
+            "**/.env"
+            "**/.env.*"
+            ".streamlit/secrets.toml"
+            "**/secrets.toml"
+            "supabase/.temp/**"
+            "docs/**"           # 既存公開物を再帰的に拾わない
+            ".git/**"
+            ".github/**"
+            "__pycache__/**"
+            "**/*.key"
+            "**/*.pem"
+          )
+
+          # リスト化
+          mapfile -t FILES < <(git ls-files "${include_globs[@]}")
+
+          # 除外を適用
+          filtered=()
+          for f in "${FILES[@]}"; do
+            skip=""
+            for ex in "${exclude_globs[@]}"; do
+              if [[ "$f" == $ex ]]; then skip=1; break; fi
+            done
+            [[ -n "$skip" ]] || filtered+=("$f")
+          done
+
+          # コピー（同じパス構造を保つ）
+          for f in "${filtered[@]}"; do
+            dest1="${OUT}/${f}"
+            dest2="${LATEST}/${f}"
+            mkdir -p "$(dirname "$dest1")" "$(dirname "$dest2")"
+            cp "$f" "$dest1"
+            cp "$f" "$dest2"
+          done
+
+          # ====== 3) manifest.json 生成（一覧＋SHA256）======
+          tmp_manifest="$(mktemp)"
+          echo '{' > "$tmp_manifest"
+          echo "  \"commit\": \"${COMMIT_SHORT}\"," >> "$tmp_manifest"
+          echo '  "files": [' >> "$tmp_manifest"
+
+          first=1
+          while IFS= read -r -d '' f; do
+            rel="${f#${OUT}/}"
+            sha=$(sha256sum "$f" | awk '{print $1}')
+            [[ $first -eq 1 ]] && first=0 || echo ',' >> "$tmp_manifest"
+            printf '    {"path": "%s", "sha256": "%s"}' "$rel" "$sha" >> "$tmp_manifest"
+          done < <(find "$OUT" -type f -print0)
+
+          echo '' >> "$tmp_manifest"
+          echo '  ]' >> "$tmp_manifest"
+          echo '}' >> "$tmp_manifest"
+
+          cp "$tmp_manifest" "${OUT}/manifest.json"
+          cp "$tmp_manifest" "${LATEST}/manifest.json"
+
+      - name: Commit & push docs/src
+        shell: bash
+        run: |
+          set -e
+          if ! git diff --quiet -- docs/src ; then
+            git config user.name  "pages-bot"
+            git config user.email "pages-bot@example.com"
+            git add docs/src
+            git commit -m "publish sources: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            git push
+          else
+            echo "no changes in docs/src"
+          fi
