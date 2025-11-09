@@ -40,72 +40,67 @@ jobs:
           SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
         run: |
           python - << 'PY'
-          import os, json, pathlib, time
+          import os, json, pathlib
           from datetime import datetime, timezone
-          import pandas as pd
-          from supabase import create_client
           from dateutil import tz
+          from supabase import create_client
 
           url = os.environ["SUPABASE_URL"]
           key = os.environ["SUPABASE_SERVICE_ROLE"]
           sb  = create_client(url, key)
 
-          # ---- クエリ（必要最小限だけ）----
-          sig = sb.table("signals") \
-                  .select("date,code,close,diff_pct,decision") \
-                  .order("date", desc=True).limit(200).execute().data
+          # ---- signals は '*' で取り、存在する列だけを使う（diff_pct が無くても落ちない）
+          sig_rows = sb.table("signals") \
+                       .select("*") \
+                       .order("date", desc=True).limit(200).execute().data
 
-          runs = sb.table("backtests_runs") \
-                   .select("created_at,ticker,metrics") \
-                   .order("created_at", desc=True).limit(200).execute().data
+          # diff_pct が無い場合は、可能なら prev_close から計算（無ければ None）
+          for r in sig_rows:
+            if "diff_pct" not in r:
+              close = r.get("close")
+              prev  = r.get("prev_close") or r.get("prev") or None
+              if isinstance(close, (int, float)) and isinstance(prev, (int, float)) and prev:
+                r["diff_pct"] = (close - prev) / prev * 100.0
+              else:
+                r["diff_pct"] = None
 
-          # ---- 出力先（履歴＋最新） ----
+          # ---- backtests_runs は metrics 等をそのまま
+          runs_rows = sb.table("backtests_runs") \
+                        .select("created_at,ticker,metrics") \
+                        .order("created_at", desc=True).limit(200).execute().data
+
+          # ---- 出力
           root = pathlib.Path("docs/feed")
           (root/"history").mkdir(parents=True, exist_ok=True)
           (root/"latest").mkdir(parents=True, exist_ok=True)
 
-          # タイムスタンプ（JST表記も付与）
-          now_utc = datetime.now(timezone.utc)
           jst = tz.gettz("Asia/Tokyo")
-          now_jst = now_utc.astimezone(jst)
-          ts = now_jst.strftime("%Y%m%d-%H%M%S")
+          now = datetime.now(timezone.utc).astimezone(jst)
+          ts  = now.strftime("%Y%m%d-%H%M%S")
 
           payload = {
-            "generated_at": now_jst.isoformat(),  # JST
-            "signals": sig,
-            "runs": runs
+            "generated_at": now.isoformat(),
+            "signals": sig_rows,
+            "runs": runs_rows
           }
 
-          # 履歴（タイムスタンプ付き）
           (root/"history"/f"feed_{ts}.json").write_text(
-              json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
+            json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
           )
-
-          # 最新（常に同名ファイルを上書き）
           (root/"latest"/"signals.json").write_text(
-              json.dumps(sig, ensure_ascii=False, indent=2), encoding="utf-8"
+            json.dumps(sig_rows, ensure_ascii=False, indent=2), encoding="utf-8"
           )
           (root/"latest"/"runs.json").write_text(
-              json.dumps(runs, ensure_ascii=False, indent=2), encoding="utf-8"
+            json.dumps(runs_rows, ensure_ascii=False, indent=2), encoding="utf-8"
           )
-
-          # インデックス（履歴一覧）
-          # 直近50件だけ紹介（数が増えすぎたら軽量化）
-          files = sorted((root/"history").glob("feed_*.json"))
-          index = [f.name for f in files][-50:]
           (root/"index.json").write_text(
-              json.dumps({
-                "updated_at": now_jst.isoformat(),
-                "history": index,
-                "latest": {
-                  "signals": "latest/signals.json",
-                  "runs": "latest/runs.json"
-                }
-              }, ensure_ascii=False, indent=2),
-              encoding="utf-8"
+            json.dumps({
+              "updated_at": now.isoformat(),
+              "latest": {"signals": "latest/signals.json", "runs": "latest/runs.json"}
+            }, ensure_ascii=False, indent=2),
+            encoding="utf-8"
           )
-
-          print(f"[export] wrote {len(sig)} signals, {len(runs)} runs @ {ts}")
+          print(f"[export] wrote signals={len(sig_rows)} runs={len(runs_rows)} at {ts}")
           PY
 
       - name: Commit & Push (docs/feed)
