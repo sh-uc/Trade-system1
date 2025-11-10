@@ -49,58 +49,48 @@ jobs:
           key = os.environ["SUPABASE_SERVICE_ROLE"]
           sb  = create_client(url, key)
 
-          # ---- signals は '*' で取り、存在する列だけを使う（diff_pct が無くても落ちない）
-          sig_rows = sb.table("signals") \
-                       .select("*") \
-                       .order("date", desc=True).limit(200).execute().data
-
-          # diff_pct が無い場合は、可能なら prev_close から計算（無ければ None）
+          # ---- signals は '*' で取得。diff_pct が無ければ計算 or None
+          sig_rows = sb.table("signals").select("*").limit(2000).execute().data
           for r in sig_rows:
             if "diff_pct" not in r:
-              close = r.get("close")
-              prev  = r.get("prev_close") or r.get("prev") or None
-              if isinstance(close, (int, float)) and isinstance(prev, (int, float)) and prev:
-                r["diff_pct"] = (close - prev) / prev * 100.0
-              else:
-                r["diff_pct"] = None
+              close = r.get("close"); prev = r.get("prev_close") or r.get("prev")
+            if isinstance(close,(int,float)) and isinstance(prev,(int,float)) and prev:
+              r["diff_pct"] = (close - prev)/prev*100.0
+            else:
+              r["diff_pct"] = None
 
-          # ---- backtests_runs は metrics 等をそのまま
-          runs_rows = sb.table("backtests_runs") \
-                        .select("created_at,ticker,metrics") \
-                        .order("created_at", desc=True).limit(200).execute().data
+            # ---- runs は '*' で取得し、Python 側でソートキーを柔軟に決定
+            runs_rows = sb.table("backtests_runs").select("*").limit(2000).execute().data
+
+          # ソートキー優先度（存在する最初のキーで並び替え）
+          sort_keys = ["created_at","run_at","ts","updated_at","id"]
+          key_found = next((k for k in sort_keys if runs_rows and k in runs_rows[0]), None)
+          if key_found:
+            try:
+              runs_rows.sort(key=lambda x: x.get(key_found) or "", reverse=True)
+            except Exception:
+              pass
 
           # ---- 出力
-          root = pathlib.Path("docs/feed")
-          (root/"history").mkdir(parents=True, exist_ok=True)
+          root = pathlib.Path("docs/feed"); (root/"history").mkdir(parents=True, exist_ok=True)
           (root/"latest").mkdir(parents=True, exist_ok=True)
 
           jst = tz.gettz("Asia/Tokyo")
           now = datetime.now(timezone.utc).astimezone(jst)
           ts  = now.strftime("%Y%m%d-%H%M%S")
 
-          payload = {
-            "generated_at": now.isoformat(),
-            "signals": sig_rows,
-            "runs": runs_rows
-          }
+          payload = { "generated_at": now.isoformat(), "signals": sig_rows, "runs": runs_rows }
 
-          (root/"history"/f"feed_{ts}.json").write_text(
-            json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
-          )
-          (root/"latest"/"signals.json").write_text(
-            json.dumps(sig_rows, ensure_ascii=False, indent=2), encoding="utf-8"
-          )
-          (root/"latest"/"runs.json").write_text(
-            json.dumps(runs_rows, ensure_ascii=False, indent=2), encoding="utf-8"
-          )
+          (root/"history"/f"feed_{ts}.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+          (root/"latest"/"signals.json").write_text(json.dumps(sig_rows, ensure_ascii=False, indent=2), encoding="utf-8")
+          (root/"latest"/"runs.json").write_text(json.dumps(runs_rows, ensure_ascii=False, indent=2), encoding="utf-8")
           (root/"index.json").write_text(
-            json.dumps({
-              "updated_at": now.isoformat(),
-              "latest": {"signals": "latest/signals.json", "runs": "latest/runs.json"}
-            }, ensure_ascii=False, indent=2),
-            encoding="utf-8"
+          json.dumps({"updated_at": now.isoformat(),
+                  "latest": {"signals":"latest/signals.json","runs":"latest/runs.json"}},
+                 ensure_ascii=False, indent=2),
+          encoding="utf-8"
           )
-          print(f"[export] wrote signals={len(sig_rows)} runs={len(runs_rows)} at {ts}")
+          print(f"[export] wrote signals={len(sig_rows)} runs={len(runs_rows)} at {ts} (sort={key_found})")
           PY
 
       - name: Commit & Push (docs/feed)
