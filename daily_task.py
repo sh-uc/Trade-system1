@@ -261,7 +261,7 @@ def upsert_indicators(sb, code: str, ind: pd.DataFrame):
     for c in chunks(rows, 500):
         sb.table("indicators").upsert(c, on_conflict="date,code").execute()
 
-def upsert_signal(sb, code: str, ts: pd.Timestamp, decision: dict):
+def upsert_signal(sb, code: str, ts: pd.Timestamp, decision: dict, prev_close, diff_pct):
     date_iso = (ts.tz_convert(JST) if ts.tzinfo else ts.tz_localize(JST)).date().isoformat()
     payload = {
         "date": date_iso,
@@ -270,6 +270,8 @@ def upsert_signal(sb, code: str, ts: pd.Timestamp, decision: dict):
         "summary": " & ".join([x.split("→")[0]+("OK" if "OK" in x else "NG") for x in decision["reasons"]]),
         "reasons": decision["reasons"],
         "close": decision["close"],
+        "prev_close": float(prev_close) if isinstance(prev_close, (int, float)) else None,
+        "diff_pct": float(diff_pct) if isinstance(diff_pct, (int, float)) else None,
         "qty": None,
         "sl": None,
         "tp": None,
@@ -316,7 +318,7 @@ def run_one(ticker: str, period="90d"):
     sb = create_supabase_from_env()
     upsert_prices(sb, ticker, raw, ind.index)
     upsert_indicators(sb, ticker, ind)
-    upsert_signal(sb, ticker, last_ts, decision)
+    upsert_signal(sb, ticker, last_ts, decision, prev, pct)
 
     # LINE 本文
  
@@ -371,7 +373,7 @@ if __name__ == "__main__":
                 sb = create_supabase_from_env()
                 upsert_prices(sb, t, raw, ind.index)
                 upsert_indicators(sb, t, ind)
-                upsert_signal(sb, t, last_ts, decision)
+                upsert_signal(sb, t, last_ts, decision, prev, pct)
                 company = resolve_company_name(t, sb)
                 display = f"{company}（{t}）" if company and company != t else t
 
