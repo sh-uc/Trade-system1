@@ -48,7 +48,7 @@ jobs:
           sb = create_client(os.environ["SUPABASE_URL"], os.environ["SUPABASE_SERVICE_ROLE"])
 
           # 必要列だけを明示的に取得
-          sig_cols = "date,code,close,prev_close,diff_pct,decision,reason"
+          sig_cols = "date,code,close,prev_close,diff_pct,decision:action,summary,reasons"
           sig_rows = sb.table("signals").select(sig_cols).order("date", desc=True).limit(2000).execute().data
 
           run_cols = "id,created_at,ticker,params,metrics"
