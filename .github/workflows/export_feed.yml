@@ -108,8 +108,9 @@ jobs:
           print(f"[export] wrote signals={len(sig_rows)} runs={len(runs_rows)} at {ts}")
           PY
 
-      - name: Commit & push feed
+      - name: Commit & push feed (rebase-safe)
         run: |
+          set -euo pipefail
           git config --global user.name  "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -117,9 +118,30 @@ jobs:
           git add -A docs/feed
           if git diff --cached --quiet; then
             echo "No changes to commit."
-          else
-            git commit -m "chore(feed): update docs/feed ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
-            git push
+            exit 0
           fi
-#
+
+          git commit -m "chore(feed): update docs/feed ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+
+          # 競合を避けるため先にリモートを取り込む
+          git pull --rebase origin "${GITHUB_REF_NAME:-main}" || true
+
+          # リトライ付き push（3回まで）
+          n=0
+          until [ $n -ge 3 ]; do
+            if git push; then
+              echo "Pushed successfully."; break
+            else
+              echo "Push failed. Rebasing and retrying... ($((n+1))/3)"
+              git pull --rebase origin "${GITHUB_REF_NAME:-main}" || true
+              n=$((n+1))
+              sleep 2
+            fi
+          done
+
+          if [ $n -ge 3 ]; then
+            echo "Push failed after retries." >&2
+            exit 1
+          fi
+
                 
