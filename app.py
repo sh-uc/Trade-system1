@@ -510,4 +510,4 @@ with col_c:
         st.line_chart(plot_df['atr14'])
     else:
         st.caption("ATR14 が見つかりませんでした")
-#
+
