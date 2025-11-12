@@ -28,3 +28,4 @@ using (true);
 
 -- insert/update/delete はサービスロールのみ（Actionsで使用）
 -- （サービスロールキーはRLSをバイパスするため、追加policyは不要）
+-- #

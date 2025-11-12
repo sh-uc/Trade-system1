@@ -14,3 +14,4 @@ from (
 where s.date = sub.date
   and s.code = sub.code
   and s.prev_close is null;
+-- #

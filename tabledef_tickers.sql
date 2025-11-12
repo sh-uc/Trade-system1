@@ -3,3 +3,4 @@ create table if not exists tickers (
   name text not null,            -- 会社名
   updated_at timestamptz not null default now()
 );
+-- #

@@ -19,3 +19,4 @@ create table if not exists backtests_trades (
   reason text,
   primary key (run_id, ts, side)
 );
+-- #

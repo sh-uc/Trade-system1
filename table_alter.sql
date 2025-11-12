@@ -44,3 +44,5 @@ for insert with check (true);
 
 create policy anon_update on signals
 for update using (true) with check (true);
+
+-- #

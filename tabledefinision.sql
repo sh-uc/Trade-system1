@@ -35,3 +35,4 @@ created_at timestamp with time zone default now(),
 primary key (date, code)
 );
 ```
+-- #

@@ -95,3 +95,4 @@ if __name__ == "__main__":
     # （必要なら）最後にまとめて再出力
     # for r in results:
     #     print(json.dumps(r, ensure_ascii=False))
+#

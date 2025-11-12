@@ -12,3 +12,4 @@ from (
   from prices p
 ) sub
 where s.date = sub.date and s.code = sub.code and s.diff_pct is null;
+-- #
