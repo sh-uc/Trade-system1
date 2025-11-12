@@ -47,23 +47,57 @@ jobs:
 
           sb = create_client(os.environ["SUPABASE_URL"], os.environ["SUPABASE_SERVICE_ROLE"])
 
-          # 必要列だけを明示的に取得
+          # ---- signals（列は実スキーマ準拠／action を decision というキー名で返す）
           sig_cols = "date,code,close,prev_close,diff_pct,decision:action,summary,reasons"
           sig_rows = sb.table("signals").select(sig_cols).order("date", desc=True).limit(2000).execute().data
 
-          run_cols = "id,created_at,ticker,params,metrics"
-          runs_rows = sb.table("backtests_runs").select(run_cols).order("created_at", desc=True).limit(2000).execute().data
+          # ---- backtests_runs（実スキーマに存在する列のみ）
+          run_cols = "id,created_at,started_at,ticker,params,final_equity,total_return,max_drawdown,sharpe,n_trades"
+          runs_raw = sb.table("backtests_runs").select(run_cols).order("created_at", desc=True).limit(2000).execute().data
 
-          root = pathlib.Path("docs/feed"); (root/"history").mkdir(parents=True, exist_ok=True); (root/"latest").mkdir(exist_ok=True)
-          jst = tz.gettz("Asia/Tokyo"); now = datetime.now(timezone.utc).astimezone(jst); ts = now.strftime("%Y%m%d-%H%M%S")
+          # 表示用に metrics という入れ子を"こちら側で"組み立てる（スキーマは変えない）
+          runs_rows = []
+          for r in runs_raw:
+            runs_rows.append({
+              "id": r.get("id"),
+              "created_at": r.get("created_at"),
+              "started_at": r.get("started_at"),
+              "ticker": r.get("ticker"),
+              "params": r.get("params"),
+              "metrics": {
+                "final_equity": r.get("final_equity"),
+                "total_return": r.get("total_return"),
+                "max_drawdown": r.get("max_drawdown"),
+                "sharpe": r.get("sharpe"),
+                "n_trades": r.get("n_trades"),
+              }
+            })
 
-          payload = {"generated_at": now.isoformat(), "signals": sig_rows, "runs": runs_rows}
+          # ---- 出力
+          root = pathlib.Path("docs/feed")
+          (root/"history").mkdir(parents=True, exist_ok=True)
+          (root/"latest").mkdir(parents=True, exist_ok=True)
+
+          jst = tz.gettz("Asia/Tokyo")
+          now = datetime.now(timezone.utc).astimezone(jst)
+          ts  = now.strftime("%Y%m%d-%H%M%S")
+
+          payload = {
+            "generated_at": now.isoformat(),
+            "signals": sig_rows,
+            "runs": runs_rows
+          }
+
           (root/"history"/f"feed_{ts}.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
           (root/"latest"/"signals.json").write_text(json.dumps(sig_rows, ensure_ascii=False, indent=2), encoding="utf-8")
           (root/"latest"/"runs.json").write_text(json.dumps(runs_rows, ensure_ascii=False, indent=2), encoding="utf-8")
-          (root/"index.json").write_text(json.dumps({
+          (root/"index.json").write_text(
+            json.dumps({
               "updated_at": now.isoformat(),
-              "latest": {"signals":"latest/signals.json","runs":"latest/runs.json"}}, ensure_ascii=False, indent=2), encoding="utf-8")
+              "latest": {"signals":"latest/signals.json","runs":"latest/runs.json"}
+            }, ensure_ascii=False, indent=2),
+            encoding="utf-8"
+          )
           print(f"[export] wrote signals={len(sig_rows)} runs={len(runs_rows)} at {ts}")
           PY
 
