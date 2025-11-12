@@ -1,0 +1,77 @@
+name: export-sources-to-pages
+
+on:
+  push:
+    branches: [ main ]
+    # ソースやSQLが変わったときだけ動かす
+    paths:
+      - "**/*.py"
+      - "sql/**"
+      - "**/*.sql"
+      - "spec.md"
+      - "README.md"
+      - "**/*.md"
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Prepare docs/src
+        run: |
+          set -euo pipefail
+          mkdir -p docs/src
+          # 以前のスナップショットをクリア（履歴はGitに残る）
+          rm -rf docs/src/*
+          # 追跡中ファイルから公開したいものだけコピー
+          # ここに追加したい拡張子/パスを足せます
+          mapfile -t FILES < <(git ls-files \
+             "*.py" \
+             "sql/**/*.sql" \
+             "spec.md" \
+             "README.md" \
+             "**/*.md" \
+          )
+          for f in "${FILES[@]}"; do
+            mkdir -p "docs/src/$(dirname "$f")"
+            cp "$f" "docs/src/$f"
+          done
+
+      - name: Generate index page
+        run: |
+          python - << 'PY'
+          import os, pathlib, json, subprocess, datetime
+          root = pathlib.Path("docs/src")
+          lines = ["# Source snapshot\n"]
+          # 直近コミットのSHA/日時
+          sha = subprocess.check_output(["git","rev-parse","--short","HEAD"]).decode().strip()
+          dt  = subprocess.check_output(["git","log","-1","--format=%cI"]).decode().strip()
+          lines.append(f"- Commit: `{sha}`  \n- Updated: `{dt}`\n")
+          lines.append("## Files\n")
+          for p in sorted(root.rglob("*")):
+            if p.is_file():
+              rel = p.relative_to("docs")
+              lines.append(f"- [{rel}]({rel.as_posix()})")
+          (root/"index.md").write_text("\n".join(lines), encoding="utf-8")
+          PY
+
+      - name: Commit & push docs/src
+        run: |
+          git config --global user.name  "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+          git add -A docs/src
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore(pages): update docs/src snapshot ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+            git push
+          fi
