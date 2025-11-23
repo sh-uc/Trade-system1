@@ -13,9 +13,10 @@ from supabase import create_client, Client
 TICKER         = os.environ.get("BT_TICKER", "3778.T")
 START          = os.environ.get("BT_START",  "2023-01-01")
 END            = os.environ.get("BT_END",    dt.date.today().isoformat())
-CAPITAL_JPY    = float(os.environ.get("BT_CAPITAL",   "1000000"))
-PER_TRADE_CAP  = float(os.environ.get("BT_PER_TRADE", "200000"))
-RISK_PCT       = float(os.environ.get("BT_RISK_PCT",  "0.005"))   # 0.5%（初期ストップ距離の目安）
+CAPITAL_JPY    = float(os.environ.get("BT_CAPITAL",   "3000000")) # 1000000　から変更　2025.11.23
+PER_TRADE_CAP  = float(os.environ.get("BT_PER_TRADE", "500000"))  # 200000　から変更 2025.11.23
+RISK_PCT       = float(os.environ.get("BT_RISK_PCT",  "0.003"))   # 0.3%（初期ストップ距離の目安）　0.5%から変更 2025.11.23
+LOT_SIZE       = int(os.environ.get("BT_LOT_SIZE",    "100"))     # 売買単位100株 2025.11.23
 SLIPPAGE       = float(os.environ.get("BT_SLIPPAGE",  "0.0005"))  # 成行スリッページ率
 FEE_PCT        = float(os.environ.get("BT_FEE_PCT",   "0.000"))   # 手数料率（片道）
 STOP_SLIPPAGE  = float(os.environ.get("BT_STOP_SLIP","0.0015"))   # ストップ時追加滑り（ギャップ想定）
@@ -131,6 +132,43 @@ def long_signal_row(r: pd.Series) -> bool:
     cond_vola     = atr > 0
     return all([cond_trend, cond_momentum, cond_rsi, cond_vol, cond_vola])
 
+def calc_qty_lot(open_px: float, cash: float) -> int:
+    """
+    100株単位（LOT_SIZE）で数量を決定する。
+    - PER_TRADE_CAP / (open_px * LOT_SIZE) 未満なら0（1ロットも買えない）
+    - PER_TRADE_CAP・RISK_PCT・手持ち現金を考慮して、LOT_SIZEの整数倍に丸める
+    """
+    if open_px <= 0:
+        return 0
+
+    # 1ロットも買えない株価は即スキップ
+    max_lots_by_cap = PER_TRADE_CAP // (open_px * LOT_SIZE)
+    max_lots_by_cap = int(max_lots_by_cap)
+    if max_lots_by_cap <= 0:
+        return 0
+
+    # リスク制約：1トレードの許容損失額
+    risk_jpy = PER_TRADE_CAP * RISK_PCT
+    stop_px = open_px * (1 - RISK_PCT)
+    risk_per_share = max(open_px - stop_px, open_px * 0.005)  # 最低値幅を0.5%とする
+    if risk_per_share <= 0:
+        return 0
+
+    max_shares_by_risk = int(risk_jpy // risk_per_share)
+    # LOT_SIZE単位に丸め
+    max_lots_by_risk = max_shares_by_risk // LOT_SIZE
+
+    # 現金制約
+    max_shares_by_cash = int(cash // (open_px * (1 + SLIPPAGE + FEE_PCT)))
+    max_lots_by_cash = max_shares_by_cash // LOT_SIZE
+
+    lots = min(max_lots_by_cap, max_lots_by_risk, max_lots_by_cash)
+    if lots <= 0:
+        return 0
+
+    return lots * LOT_SIZE
+
+
 # ====== バックテスト（翌寄り約定 + ストップ滑り + TP/時間切れ） ======
 def backtest():
     df = yf.download(
@@ -171,55 +209,44 @@ def backtest():
                     pending_buy_for = None
                 else:
                     # --- 通常の数量決定 → 約定 ---
-                    risk_jpy = PER_TRADE_CAP * RISK_PCT
-                    stop_px = o * (1 - RISK_PCT)
-                    risk_per_share = max(o - stop_px, o * 0.005)
-                    qty_by_risk = int(risk_jpy / risk_per_share) if risk_per_share > 0 else 0
-                    qty_by_cap  = int(PER_TRADE_CAP // o)
-                    est_qty = max(0, min(qty_by_risk, qty_by_cap))
-                    est_qty = min(est_qty, int(cash // (o * (1 + SLIPPAGE + FEE_PCT))))
+                    qty = calc_qty_lot(o, cash)
 
-                    if est_qty > 0:
+                    if qty > 0:
                         fill = o * (1 + SLIPPAGE)
-                        cost = fill * est_qty * (1 + FEE_PCT)
+                        cost = fill * qty * (1 + FEE_PCT)
                         cash -= cost
-                        pos = est_qty
+                        pos = qty
                         entry_px = fill
                         entry_date = date
                         hold_days = 0
-                        R = entry_px - stop_px
-                        take_px = entry_px + TAKE_PROFIT_RR * R if R > 0 else np.nan
-                        trades.append({"date": date, "side": "BUY", "px": fill, "qty": est_qty})
+                        # Rは「RISK_PCTかSTOP_SLIPPAGEの大きい方」を採用するとbt_coreと揃う
+                        R = max(entry_px * RISK_PCT, entry_px * STOP_SLIPPAGE)
+                        stop_px = entry_px - R
+                        take_px = entry_px + TAKE_PROFIT_RR * R
+                        trades.append({"date": date, "side": "BUY", "px": fill, "qty": qty})
                     else:
-                        # ← ここが「2つ目の else」相当：数量0（資金/リスク制約）で見送り
                         trades.append({"date": date, "side": "SKIP", "px": o, "qty": 0, "reason": "NOFUNDS/SMALL_RISK"})
-                    pending_buy_for = None
 
             else:
                 # c_prev が取れない（系列の初日等）か、GAP制限無効時はそのまま従来どおり約定判定
-                risk_jpy = PER_TRADE_CAP * RISK_PCT
-                stop_px = o * (1 - RISK_PCT)
-                risk_per_share = max(o - stop_px, o * 0.005)
-                qty_by_risk = int(risk_jpy / risk_per_share) if risk_per_share > 0 else 0
-                qty_by_cap  = int(PER_TRADE_CAP // o)
-                est_qty = max(0, min(qty_by_risk, qty_by_cap))
-                est_qty = min(est_qty, int(cash // (o * (1 + SLIPPAGE + FEE_PCT))))
+                qty = calc_qty_lot(o, cash)
 
-                if est_qty > 0:
+                if qty > 0:
                     fill = o * (1 + SLIPPAGE)
-                    cost = fill * est_qty * (1 + FEE_PCT)
+                    cost = fill * qty * (1 + FEE_PCT)
                     cash -= cost
-                    pos = est_qty
+                    pos = qty
                     entry_px = fill
                     entry_date = date
                     hold_days = 0
-                    R = entry_px - stop_px
-                    take_px = entry_px + TAKE_PROFIT_RR * R if R > 0 else np.nan
-                    trades.append({"date": date, "side": "BUY", "px": fill, "qty": est_qty})
+                    # Rは「RISK_PCTかSTOP_SLIPPAGEの大きい方」を採用するとbt_coreと揃う
+                    R = max(entry_px * RISK_PCT, entry_px * STOP_SLIPPAGE)
+                    stop_px = entry_px - R
+                    take_px = entry_px + TAKE_PROFIT_RR * R
+                    trades.append({"date": date, "side": "BUY", "px": fill, "qty": qty})
                 else:
-                    # ← ここも「数量0で見送り」
                     trades.append({"date": date, "side": "SKIP", "px": o, "qty": 0, "reason": "NOFUNDS/SMALL_RISK"})
-                pending_buy_for = None
+
 
         # 2) 当日引けで判定 → 翌営業日に買いセット
         if pos == 0:

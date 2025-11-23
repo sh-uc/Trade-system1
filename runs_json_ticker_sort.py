@@ -1,8 +1,9 @@
+# 実行方法　root directoryにいる状態で、python runs_json_ticker_sort.py
 import json
 
 TARGET_TICKERS = ["6702.T", "3778.T"]
 
-with open("runs.json", "r", encoding="utf-8") as f:
+with open("docs/feed/latest/runs.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
 for ticker in TARGET_TICKERS:
