@@ -155,15 +155,38 @@ def long_signal_row(r: pd.Series, *,
 # 約定数量の計算
 # =========================
 def _calc_qty(open_px: float, per_trade_cap: float, risk_pct: float,
-              cash: float, slippage: float, fee_pct: float) -> int:
+              cash: float, slippage: float, fee_pct: float,
+              lot_size: int = 100) -> int:
+    """
+    LOT単位（lot_size株）で数量を決定する。
+    """
+    if open_px <= 0:
+        return 0
+
+    # 1ロットも買えない株価は即スキップ
+    max_lots_by_cap = per_trade_cap // (open_px * lot_size)
+    max_lots_by_cap = int(max_lots_by_cap)
+    if max_lots_by_cap <= 0:
+        return 0
+
+    # リスク制約
     risk_jpy = per_trade_cap * risk_pct
     stop_px = open_px * (1 - risk_pct)
     risk_per_share = max(open_px - stop_px, open_px * 0.005)
-    qty_by_risk = int(risk_jpy / risk_per_share) if risk_per_share > 0 else 0
-    qty_by_cap = int(per_trade_cap // open_px)
-    est = max(0, min(qty_by_risk, qty_by_cap))
-    est = min(est, int(cash // (open_px * (1 + slippage + fee_pct))))
-    return est
+    if risk_per_share <= 0:
+        return 0
+    max_shares_by_risk = int(risk_jpy // risk_per_share)
+    max_lots_by_risk = max_shares_by_risk // lot_size
+
+    # 現金制約
+    max_shares_by_cash = int(cash // (open_px * (1 + slippage + fee_pct)))
+    max_lots_by_cash = max_shares_by_cash // lot_size
+
+    lots = min(max_lots_by_cap, max_lots_by_risk, max_lots_by_cash)
+    if lots <= 0:
+        return 0
+
+    return lots * lot_size
 
 # =========================
 # バックテスト（翌寄り約定／ギャップ制限／TP・時間切れ・逆シグナル）
@@ -179,6 +202,7 @@ def run_backtest(
         CAPITAL        : 初期資金 JPY
         PER_TRADE      : 1トレード上限 JPY
         RISK_PCT       : 許容損失率（初期ストップ距離の目安）
+        LOT_SIZE       : 売買単位　2025.11.23　追加
         SLIPPAGE       : 成行スリッページ
         FEE_PCT        : 片道手数料（必要なら）
         STOP_SLIPPAGE  : ストップ時追加滑り
@@ -194,9 +218,10 @@ def run_backtest(
 
     戻り値 : {"final_equity": float, "total_return": float, "sharpe": float, ...}
     """
-    CAPITAL = float(params.get("CAPITAL", 1_000_000))
-    PER_TRADE = float(params.get("PER_TRADE", 200_000))
-    RISK_PCT = float(params.get("RISK_PCT", 0.005))
+    CAPITAL = float(params.get("CAPITAL", 3_000_000))
+    PER_TRADE = float(params.get("PER_TRADE", 500_000))
+    RISK_PCT = float(params.get("RISK_PCT", 0.003))
+    LOT_SIZE = int(params.get("LOT_SIZE", 100))
     SLIPPAGE = float(params.get("SLIPPAGE", 0.0005))
     FEE_PCT = float(params.get("FEE_PCT", 0.0))
     STOP_SLIPPAGE = float(params.get("STOP_SLIPPAGE", 0.0015))
@@ -237,7 +262,7 @@ def run_backtest(
                     trades.append({"date": date, "side": "SKIP", "px": o, "qty": 0, "reason": f"GAP>{GAP_ENTRY_MAX:.2%}"})
                     pending_buy_for = None
                 else:
-                    qty = _calc_qty(o, PER_TRADE, RISK_PCT, cash, SLIPPAGE, FEE_PCT)
+                    qty = _calc_qty(o, PER_TRADE, RISK_PCT, cash, SLIPPAGE, FEE_PCT, lot_size=LOT_SIZE)
                     if qty > 0:
                         fill = o * (1 + SLIPPAGE)
                         cost = fill * qty * (1 + FEE_PCT)
@@ -254,7 +279,7 @@ def run_backtest(
                         trades.append({"date": date, "side": "SKIP", "px": o, "qty": 0, "reason": "NOFUNDS/SMALL_RISK"})
                     pending_buy_for = None
             else:
-                qty = _calc_qty(o, PER_TRADE, RISK_PCT, cash, SLIPPAGE, FEE_PCT)
+                qty = _calc_qty(o, PER_TRADE, RISK_PCT, cash, SLIPPAGE, FEE_PCT, lot_size=LOT_SIZE)
                 if qty > 0:
                     fill = o * (1 + SLIPPAGE)
                     cost = fill * qty * (1 + FEE_PCT)
