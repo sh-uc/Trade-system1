@@ -38,7 +38,15 @@ if __name__ == "__main__":
 
     # グリッド（必要なら “環境変数レンジ版”に差し替え可能）
     grid = {
-        "RISK_PCT":       [0.007, 0.010],
+        # ★ 追加：資金・1トレード上限・ロットサイズ
+        "CAPITAL":       [3_000_000.0],
+        "PER_TRADE":     [500_000.0],
+        "LOT_SIZE":      [100],
+
+        # ★ RISK_PCT は新レンジに変更
+        "RISK_PCT":       [0.003, 0.004, 0.005],
+
+        # ここから下は今まで通り（必要なら後でいじる）
         "TAKE_PROFIT_RR": [1.2, 1.6, 2.0],
         "MAX_HOLD_DAYS":  [6, 10],
         "STOP_SLIPPAGE":  [0.0025, 0.0040],
@@ -53,7 +61,7 @@ if __name__ == "__main__":
     combos = list(itertools.product(*grid.values()))
 
     # 価格→指標を “ティッカー毎に1回” だけ作る
-    per_ticker_ind = {tkr: compute_indicators(fetch_prices(tkr, start)) for tkr in tickers}
+    
     per_ticker_ind = {}
     for tkr in tickers:
         pr  = fetch_prices(tkr, start)
