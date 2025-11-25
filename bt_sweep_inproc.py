@@ -83,7 +83,7 @@ if __name__ == "__main__":
         for i, fut in enumerate(as_completed(fut2meta), start=1):
             row = fut.result()
             results.append(row)
-            print(f"[{i}/{len(fut2meta)}] {row['ticker']} done")
+            # print(f"[{i}/{len(fut2meta)}] {row['ticker']} done")
 
     # 結果ダンプ（必要ならここで Supabase 保存 or 上位抽出）
     with open("sweep_inproc.json", "w", encoding="utf-8") as f:
