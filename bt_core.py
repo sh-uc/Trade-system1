@@ -218,10 +218,10 @@ def run_backtest(
 
     戻り値 : {"final_equity": float, "total_return": float, "sharpe": float, ...}
     """
-    CAPITAL = float(params.get("CAPITAL", 3_000_000))
-    PER_TRADE = float(params.get("PER_TRADE", 500_000))
-    RISK_PCT = float(params.get("RISK_PCT", 0.003))
-    LOT_SIZE = int(params.get("LOT_SIZE", 100))
+    CAPITAL = float(params.get("CAPITAL", 3_000_000)) # 1000000 => 3000000 2025.11.23
+    PER_TRADE = float(params.get("PER_TRADE", 500_000)) # 200000 => 500000 2025.11.23
+    RISK_PCT = float(params.get("RISK_PCT", 0.003)) # 0.005 => 0.003 2025.11.23
+    LOT_SIZE = int(params.get("LOT_SIZE", 100)) # added 2025.11.23
     SLIPPAGE = float(params.get("SLIPPAGE", 0.0005))
     FEE_PCT = float(params.get("FEE_PCT", 0.0))
     STOP_SLIPPAGE = float(params.get("STOP_SLIPPAGE", 0.0015))
