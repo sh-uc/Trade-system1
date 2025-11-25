@@ -86,8 +86,8 @@ if __name__ == "__main__":
             print(f"[{i}/{len(fut2meta)}] {row['ticker']} done")
 
     # 結果ダンプ（必要ならここで Supabase 保存 or 上位抽出）
-    # with open("sweep_inproc.json", "w", encoding="utf-8") as f:
-    #    json.dump(results, f, ensure_ascii=False, indent=2)
+    with open("sweep_inproc.json", "w", encoding="utf-8") as f:
+        json.dump(results, f, ensure_ascii=False, indent=2)
 
     elapsed = time.time() - t0
     m, s = divmod(elapsed, 60)
