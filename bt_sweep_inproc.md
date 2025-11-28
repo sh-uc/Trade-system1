@@ -103,7 +103,6 @@ grid = {
     "CAPITAL":       [3_000_000.0],
     "PER_TRADE":     [500_000.0],
     "LOT_SIZE":      [100],           # 100株単位
-
     "RISK_PCT":       [0.003, 0.004, 0.005],
     "TAKE_PROFIT_RR": [1.2, 1.6, 2.0],
     "MAX_HOLD_DAYS":  [6, 10],
