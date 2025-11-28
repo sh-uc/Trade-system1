@@ -79,7 +79,7 @@ def make_save_cb(ticker: str):
 
 入力
 - ticker: str
-　- バックテスト対象の銘柄コード（例："6702.T"）
+  - バックテスト対象の銘柄コード（例："6702.T"）
 
 内部処理
 1. get_supabase() で Supabase クライアント取得
@@ -93,12 +93,11 @@ def make_save_cb(ticker: str):
 
 出力
 - Callable[[dict], None] 型のコールバック
-　-run_backtest(..., save_cb=make_save_cb(ticker)) のような形で利用
+  - run_backtest(..., save_cb=make_save_cb(ticker)) のような形で利用
 
 ## 4. パラメータスイープの仕様
 ### 4.1 grid の構造(python)
  コード中で定義される grid は、バックテストで探索するパラメータ集合です（例）：
-
 grid = {
     "CAPITAL":       [3_000_000.0],
     "PER_TRADE":     [500_000.0],
@@ -165,9 +164,9 @@ sequenceDiagram
 ### 5.2 具体的な処理ステップ
 1. 設定の読み込み
 - 環境変数 or コード内定数から
-　- TICKERS（["6702.T", "3778.T", ...]）
-　- START / END
-　- grid
+  - TICKERS（["6702.T", "3778.T", ...]）
+  - START / END
+  - grid
 　　を決定
 2. パラメータ全組み合わせの生成
 - keys = list(grid.keys())
@@ -182,15 +181,15 @@ sequenceDiagram
 - fut2meta[fut] = (tkr, params) のように Future とメタ情報を紐付け
 5. 結果収集 & 進捗表示
 - for i, fut in enumerate(as_completed(fut2meta), start=1):
-　- row = fut.result() で結果取得（row は dict）
-　- results.append(row) に追加
-　- print(f"[{i}/{len(fut2meta)}] {row['ticker']} done")
+  - row = fut.result() で結果取得（row は dict）
+  - results.append(row) に追加
+  - print(f"[{i}/{len(fut2meta)}] {row['ticker']} done")
 6. 保存処理
 - Supabase 保存：
-　- make_save_cb(ticker) を通じて save_backtest_to_db が呼ばれる
+  - make_save_cb(ticker) を通じて save_backtest_to_db が呼ばれる
 - JSON 出力（必要に応じて）：(python)
 with open("sweep_inproc.json", "w", encoding="utf-8") as f:
-     json.dump(results, f, ensure_ascii=False, indent=2)
+    json.dump(results, f, ensure_ascii=False, indent=2)
 7. 終了ログ
 - 実行時間を計測し、[SWEEP] finished: {len(results)} runs time=... と表示
 
@@ -199,26 +198,26 @@ with open("sweep_inproc.json", "w", encoding="utf-8") as f:
 - ティッカーリスト
 　例：SWEEP_TICKERS = ["6702.T", "3778.T", ...]
 - 期間
-　- start = "2023-01-01"
-　- end = "2025-11-04" など
+  - start = "2023-01-01"
+  - end = "2025-11-04" など
 - grid
-　- 前述のパラメータ候補 dict
+  - 前述のパラメータ候補 dict
 ### 6.2 出力
 - 標準出力
-　- 進捗ログ：[i/total] TICKER done
-　- 最終統計：[SWEEP] finished: X runs time=YmZZ.Zs
+  - 進捗ログ：[i/total] TICKER done
+  - 最終統計：[SWEEP] finished: X runs time=YmZZ.Zs
 - Supabase
-　- テーブル（例）：backtests に対して
-　　- ticker
-　　- params（JSON）
-　　- summary（最終資産、リターン、DD、Sharpe 等）
-　　- curve（残高推移）
-　　- trades（約定履歴）
-　　が 1 run ごとに保存される。
+  - テーブル（例）：backtests に対して
+   - ticker
+   - params（JSON）
+   - summary（最終資産、リターン、DD、Sharpe 等）
+   - curve（残高推移）
+   - trades（約定履歴）
+　 　が 1 run ごとに保存される。
 - JSONファイル（任意）
-　- sweep_inproc.json などに results をまとめて保存可能
-　- 各要素は 1 run 分の dict
-　（ticker, params, metrics など）
+  - sweep_inproc.json などに results をまとめて保存可能
+  - 各要素は 1 run 分の dict
+　 （ticker, params, metrics など）
 
 ## 7. 今後の拡張アイデア（メモ）
 ※仕様書の一部として、将来の拡張案もメモしておきます。
