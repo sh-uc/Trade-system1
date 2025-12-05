@@ -6,15 +6,6 @@ from db_utils import get_supabase, save_backtest_to_db
 
 SAVE_BT = os.environ.get("SAVE_BT", "0") == "1"
 
-sb = None
-if SAVE_BT:
-    try:
-        sb = get_supabase()
-        print("[DB] Supabase client created.")
-    except KeyError as e:
-        print("[DB] Env not set for Supabase:", e)
-        sb = None  # あきらめて JSON のみ
-
 
 def make_save_cb(ticker: str):
     """ Supabase 保存コールバックを生成 """
@@ -89,22 +80,19 @@ if __name__ == "__main__":
             ind = per_ticker_ind[tkr]
             for combo in combos:
                 params = dict(zip(keys, combo))
-                fut = ex.submit(_worker_run, tkr, ind, params)
+                fut = ex.submit(_worker_run, tkr, ind, params, enable_save)
                 fut2meta[fut] = (tkr, params)
 
         for i, fut in enumerate(as_completed(fut2meta), start=1):
             row = fut.result()
             tkr     = row["ticker"]
             params  = row["params"]
-            summary = row["summary"]   # これを JSON の "metrics" として保存しているはず
-            curve   = row["curve"]
-            trades  = row["trades"]
+            metrics = row["metrics"]   # ← ここが正しい
             results.append(row)
             # print(f"[{i}/{len(fut2meta)}] {row['ticker']} done")
+            print(f"[{i}/{len(fut2meta)}] {tkr} done  ret={metrics['total_return']:.4%}")
 
     # 結果ダンプ（必要ならここで Supabase 保存 or 上位抽出）
-    if sb is not None:
-        save_backtest_to_db(sb, tkr, params, summary, curve, trades)
     with open("sweep_inproc.json", "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
 
