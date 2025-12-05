@@ -4,6 +4,18 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from bt_core import fetch_prices, compute_indicators, run_backtest
 from db_utils import get_supabase, save_backtest_to_db
 
+SAVE_BT = os.environ.get("SAVE_BT", "0") == "1"
+
+sb = None
+if SAVE_BT:
+    try:
+        sb = get_supabase()
+        print("[DB] Supabase client created.")
+    except KeyError as e:
+        print("[DB] Env not set for Supabase:", e)
+        sb = None  # あきらめて JSON のみ
+
+
 def make_save_cb(ticker: str):
     """ Supabase 保存コールバックを生成 """
     sb = get_supabase()
@@ -82,10 +94,17 @@ if __name__ == "__main__":
 
         for i, fut in enumerate(as_completed(fut2meta), start=1):
             row = fut.result()
+            tkr     = row["ticker"]
+            params  = row["params"]
+            summary = row["summary"]   # これを JSON の "metrics" として保存しているはず
+            curve   = row["curve"]
+            trades  = row["trades"]
             results.append(row)
             # print(f"[{i}/{len(fut2meta)}] {row['ticker']} done")
 
     # 結果ダンプ（必要ならここで Supabase 保存 or 上位抽出）
+    if sb is not None:
+        save_backtest_to_db(sb, tkr, params, summary, curve, trades)
     with open("sweep_inproc.json", "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
 
