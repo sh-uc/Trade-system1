@@ -1,14 +1,17 @@
 # db_utils.py
 from supabase import create_client, Client
-import os, uuid, pandas as pd
+import os, pandas as pd
+from datetime import timedelta
 
 def get_supabase() -> Client:
     url = os.environ["SUPABASE_URL"]
     key = os.environ["SUPABASE_KEY"]
     return create_client(url, key)
 
+
+
 def save_backtest_to_db(sb: Client, ticker: str, params: dict, result: dict, curve: pd.DataFrame, trades: list):
-    # --- backtests_runs に保存（id は DB に任せる）---
+    # --- backtests_runs に保存（id は bigserial：DBに任せる）---
     run_row = {
         "ticker": ticker,
         "params": params,
@@ -19,22 +22,33 @@ def save_backtest_to_db(sb: Client, ticker: str, params: dict, result: dict, cur
         "n_trades": int(result["n_trades"]),
     }
 
-    # insert して採番された id(bigint) を受け取る
     res = sb.table("backtests_runs").insert(run_row).execute()
-    run_id = res.data[0]["id"]  # ← bigint
+    run_id = int(res.data[0]["id"])  # bigint
 
-    # --- backtests_trades に保存（run_id は bigint）---
+    # --- backtests_trades に保存（DDL: run_id, ts, side, price, qty, reason）---
     rows = []
     for i, t in enumerate(trades):
-        dt = t.get("date")
+        ts = t.get("ts") or t.get("date")
+        if ts is None:
+            continue
+
+        # pandas.Timestamp / datetime 対応
+        if hasattr(ts, "to_pydatetime"):
+            ts = ts.to_pydatetime()
+        # もし date だけで時刻が 00:00:00 になりがちなら重複回避で少しずらす
+        ts = ts + timedelta(microseconds=i)
+
+        side = (t.get("side") or "").upper()
+        # DDL: BUY / SELL 制約に合わせる（必要ならここで変換）
+        # 例：'LONG'/'SHORT' などが来るなら適宜マッピングしてください
+
         rows.append({
-            "run_id": int(run_id),
-            "seq": i + 1,
-            "date": dt.isoformat() if hasattr(dt, "isoformat") else None,
-            "side": t.get("side"),
-            "price": float(t.get("px", 0)),
+            "run_id": run_id,
+            "ts": ts.isoformat(),
+            "side": side,
+            "price": float(t.get("price", t.get("px", 0.0))),
             "qty": int(t.get("qty", 0)),
-            "reason": t.get("reason", ""),
+            "reason": t.get("reason"),
         })
 
     if rows:
