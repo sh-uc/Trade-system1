@@ -14,7 +14,7 @@ def save_backtest_to_db(sb: Client, ticker: str, params: dict, result: dict, cur
 
     # backtests_runs に保存
     sb.table("backtests_runs").upsert({
-        "run_id": run_id,
+        "id": run_id,
         "ticker": ticker,
         "params": params,
         "final_equity": float(result["final_equity"]),
