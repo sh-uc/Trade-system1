@@ -17,14 +17,12 @@ def save_backtest_to_db(sb: Client, ticker: str, params: dict, result: dict, cur
         "run_id": run_id,
         "ticker": ticker,
         "params": params,
-        "metrics": {
-            "final_equity": result["final_equity"],
-            "total_return": result["total_return"],
-            "max_drawdown": result["max_drawdown"],
-            "sharpe": result["sharpe"],
-            "win_rate": result["win_rate"],
-            "n_trades": result["n_trades"],
-        }
+        "final_equity": float(result["final_equity"]),
+        "total_return": float(result["total_return"]),
+        "max_drawdown": float(result["max_drawdown"]),
+        "sharpe": float(result["sharpe"]) if result.get("sharpe") is not None else None,
+        "n_trades": int(result["n_trades"]),
+        # started_at / created_at はDB側 default があるので通常は入れなくてOK
     }).execute()
 
     # backtests_trades に保存
