@@ -8,13 +8,8 @@ def get_supabase() -> Client:
     return create_client(url, key)
 
 def save_backtest_to_db(sb: Client, ticker: str, params: dict, result: dict, curve: pd.DataFrame, trades: list):
-    run_id = str(uuid.uuid4())
-    start = curve.index[0].date().isoformat() if not curve.empty else None
-    end   = curve.index[-1].date().isoformat() if not curve.empty else None
-
-    # backtests_runs に保存
-    sb.table("backtests_runs").upsert({
-        "id": run_id,
+    # --- backtests_runs に保存（id は DB に任せる）---
+    run_row = {
         "ticker": ticker,
         "params": params,
         "final_equity": float(result["final_equity"]),
@@ -22,21 +17,26 @@ def save_backtest_to_db(sb: Client, ticker: str, params: dict, result: dict, cur
         "max_drawdown": float(result["max_drawdown"]),
         "sharpe": float(result["sharpe"]) if result.get("sharpe") is not None else None,
         "n_trades": int(result["n_trades"]),
-        # started_at / created_at はDB側 default があるので通常は入れなくてOK
-    }).execute()
+    }
 
-    # backtests_trades に保存
+    # insert して採番された id(bigint) を受け取る
+    res = sb.table("backtests_runs").insert(run_row).execute()
+    run_id = res.data[0]["id"]  # ← bigint
+
+    # --- backtests_trades に保存（run_id は bigint）---
     rows = []
     for i, t in enumerate(trades):
+        dt = t.get("date")
         rows.append({
-            "run_id": run_id,
+            "run_id": int(run_id),
             "seq": i + 1,
-            "date": t.get("date").isoformat() if hasattr(t.get("date"), "isoformat") else None,
+            "date": dt.isoformat() if hasattr(dt, "isoformat") else None,
             "side": t.get("side"),
             "price": float(t.get("px", 0)),
             "qty": int(t.get("qty", 0)),
             "reason": t.get("reason", ""),
         })
+
     if rows:
         sb.table("backtests_trades").insert(rows).execute()
 
