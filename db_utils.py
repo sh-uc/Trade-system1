@@ -16,8 +16,6 @@ def save_backtest_to_db(sb: Client, ticker: str, params: dict, result: dict, cur
     sb.table("backtests_runs").upsert({
         "run_id": run_id,
         "ticker": ticker,
-        "start": start,
-        "end": end,
         "params": params,
         "metrics": {
             "final_equity": result["final_equity"],
