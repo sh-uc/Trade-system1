@@ -7,7 +7,8 @@ create table if not exists backtests_runs (
   total_return numeric not null,
   max_drawdown numeric not null,
   sharpe numeric,
-  n_trades int not null
+  n_trades int not null,
+  created_at timestamptz not null default now()
 );
 
 create table if not exists backtests_trades (
