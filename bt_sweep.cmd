@@ -43,6 +43,14 @@ python bt_sweep_inproc.py
 # pattern 5
 $env:SUPABASE_URL="https://frxhylrlaiaxlpkdsayg.supabase.co"
 $env:SUPABASE_SERVICE_ROLE="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyeGh5bHJsYWlheGxwa2RzYXlnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk3NDY0OCwiZXhwIjoyMDcyNTUwNjQ4fQ.j6UJ3rFlLVDs0WeUg0DxYWIeHrkY2sjNixMAGFkbxkg"
+$env:SUPABASE_KEY = $env:SUPABASE_SERVICE_ROLE
 $env:SWEEP_TICKERS       = "4506.T,9600.T"
 $env:SAVE_BT = "1"
 python bt_sweep_inproc.py
+
+# python process kill(process pool対応であっても停止できる)
+Get-Process python | Stop-Process -Force
+# または、
+taskkill /IM python.exe /F
+
+

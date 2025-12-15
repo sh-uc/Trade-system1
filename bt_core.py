@@ -120,35 +120,29 @@ def compute_indicators(prices: pd.DataFrame, VOL_SPIKE_M: float = 1.4) -> pd.Dat
 
     # 出来高
     o["vol_ma20"] = V.rolling(20, min_periods=20).mean()
-    o["vol_spike"] = (V >= (o["vol_ma20"] * float(VOL_SPIKE_M))).fillna(False)
+    # vol_spikeは作らない　o["vol_spike"] = (V >= (o["vol_ma20"] * float(VOL_SPIKE_M))).fillna(False)
 
     return o
 
 # =========================
 # シグナル（1行）
 # =========================
-def long_signal_row(r: pd.Series, *,
-                    MACD_ATR_K: float,
-                    RSI_MIN: float,
-                    RSI_MAX: float) -> bool:
+def long_signal_row(r: pd.Series, *, MACD_ATR_K: float, RSI_MIN: float, RSI_MAX: float, VOL_SPIKE_M: float) -> bool:
     try:
         close = float(r["close"]); ma25 = float(r["ma25"]); ma75 = float(r["ma75"])
         macd = float(r["macd"]); macd_sig = float(r["macd_signal"])
         rsi = float(r["rsi14"]); atr = float(r["atr14"])
-        vol_spike = bool(r["vol_spike"])
+        vol = float(r["volume"]); vol_ma20 = float(r["vol_ma20"])
     except Exception:
         return False
 
     cond_trend = (close > ma25) and (ma25 >= ma75)
-
     # MACD差が「ATR/Close に係数をかけた相対しきい値」超え
     rel = (atr / max(close, 1e-6))
     cond_momentum = (macd - macd_sig) > (MACD_ATR_K * rel)
-
     cond_rsi = (RSI_MIN <= rsi <= RSI_MAX)
-    cond_vol = vol_spike
+    cond_vol = (vol_ma20 > 0) and (vol >= vol_ma20 * VOL_SPIKE_M)
     cond_vola = atr > 0
-
     return all([cond_trend, cond_momentum, cond_rsi, cond_vol, cond_vola])
 
 # =========================
@@ -298,7 +292,7 @@ def run_backtest(
 
         # 2) 当日引けでシグナル判定 → 翌営業日の寄りで成行
         if pos == 0:
-            if long_signal_row(row, MACD_ATR_K=MACD_ATR_K, RSI_MIN=RSI_MIN, RSI_MAX=RSI_MAX):
+            if long_signal_row(row, MACD_ATR_K=MACD_ATR_K, RSI_MIN=RSI_MIN, RSI_MAX=RSI_MAX, VOL_SPIKE_M=VOL_SPIKE_M):
                 # 過度なGUは翌朝のギャップチェックで最終遮断（ここではpendingだけセット）
                 nd = next_trading_day(date.date())
                 pending_buy_for = nd
@@ -329,7 +323,7 @@ def run_backtest(
                 sold = True
             # 逆シグナル
             if not sold and EXIT_ON_REVERSE:
-                if not long_signal_row(row, MACD_ATR_K=MACD_ATR_K, RSI_MIN=RSI_MIN, RSI_MAX=RSI_MAX):
+                if not long_signal_row(row, MACD_ATR_K=MACD_ATR_K, RSI_MIN=RSI_MIN, RSI_MAX=RSI_MAX, VOL_SPIKE_M=VOL_SPIKE_M):
                     fill = c * (1 - SLIPPAGE)
                     cash += fill * pos * (1 - FEE_PCT)
                     trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "REV"})
