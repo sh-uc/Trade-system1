@@ -41,7 +41,12 @@ def save_backtest_to_db(sb: Client, ticker: str, params: dict, result: dict, cur
         side = (t.get("side") or "").upper()
         # DDL: BUY / SELL 制約に合わせる（必要ならここで変換）
         # 例：'LONG'/'SHORT' などが来るなら適宜マッピングしてください
-
+        # ✅ backtests_trades は BUY/SELL だけ保存（DDLの制約に合わせる）
+        if side not in ("BUY", "SELL"):
+            continue
+        qty = int(t.get("qty", 0))
+        if qty <= 0:
+            continue
         rows.append({
             "run_id": run_id,
             "ts": ts.isoformat(),
