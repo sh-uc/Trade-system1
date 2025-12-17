@@ -47,18 +47,18 @@ if __name__ == "__main__":
         "LOT_SIZE":      [100],
 
         # ★ RISK_PCT は新レンジに変更
-        "RISK_PCT":       [0.003, 0.004, 0.005],
+        "RISK_PCT":       [0.003],
 
         # ここから下は今まで通り（必要なら後でいじる）
-        "TAKE_PROFIT_RR": [1.2, 1.6, 2.0],
-        "MAX_HOLD_DAYS":  [6, 10],
-        "STOP_SLIPPAGE":  [0.0025, 0.0040],
+        "TAKE_PROFIT_RR": [1.5],
+        "MAX_HOLD_DAYS":  [3, 5],
+        "STOP_SLIPPAGE":  [0.0025],
         "EXIT_ON_REVERSE":[True],
-        "VOL_SPIKE_M":    [1.4, 1.6, 1.8],
-        "MACD_ATR_K":     [0.10, 0.15, 0.20],
-        "RSI_MIN":        [45.0],
-        "RSI_MAX":        [70.0],
-        "GAP_ENTRY_MAX":  [0.03, 0.05],
+        "VOL_SPIKE_M":    [1.0, 1.1, 1.2],
+        "MACD_ATR_K":     [0.05, 0.1, 0.15],
+        "RSI_MIN":        [30, 35.0],
+        "RSI_MAX":        [75, 80],
+        "GAP_ENTRY_MAX":  [0.08, 0.12],
     }
     keys   = list(grid.keys())
     combos = list(itertools.product(*grid.values()))
