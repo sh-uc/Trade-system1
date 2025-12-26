@@ -271,7 +271,7 @@ def run_backtest(
                         # stop/take は「リスク幅(RISK_PCT)」で決める
                         # STOP_SLIPPAGE は約定滑り(実行)であり、ストップ距離(リスク幅)には混ぜない 2025.12.26
                         # R = max(entry_px * RISK_PCT, entry_px * STOP_SLIPPAGE)
-                        R = entry_px * risk_pct
+                        R = entry_px * RISK_PCT
                         stop_px = entry_px - R
                         take_px = entry_px + TAKE_PROFIT_RR * R
                         trades.append({"date": date, "side": "BUY", "px": fill, "qty": qty})
@@ -291,7 +291,7 @@ def run_backtest(
                     # stop/take は「リスク幅(RISK_PCT)」で決める
                     # STOP_SLIPPAGE は約定滑り(実行)であり、ストップ距離(リスク幅)には混ぜない 2025.12.26
                     # R = max(entry_px * RISK_PCT, entry_px * STOP_SLIPPAGE)
-                    R = entry_px * risk_pct
+                    R = entry_px * RISK_PCT
                     stop_px = entry_px - R
                     take_px = entry_px + TAKE_PROFIT_RR * R
                     trades.append({"date": date, "side": "BUY", "px": fill, "qty": qty})
