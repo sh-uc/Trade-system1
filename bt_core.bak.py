@@ -166,10 +166,7 @@ def _calc_qty(open_px: float, per_trade_cap: float, risk_pct: float,
     # リスク制約
     risk_jpy = per_trade_cap * risk_pct
     stop_px = open_px * (1 - risk_pct)
-    # ここで勝手に下限(例:0.5%)を入れると、RISK_PCTの探索が死にやすいので素直に使う 2025.12.26
-    # risk_per_share = max(open_px - stop_px, open_px * 0.005)
-    risk_per_share = open_px - stop_px
-
+    risk_per_share = max(open_px - stop_px, open_px * 0.005)
     if risk_per_share <= 0:
         return 0
     max_shares_by_risk = int(risk_jpy // risk_per_share)
@@ -268,10 +265,7 @@ def run_backtest(
                         entry_px = fill
                         entry_date = date
                         hold_days = 0
-                        # stop/take は「リスク幅(RISK_PCT)」で決める
-                        # STOP_SLIPPAGE は約定滑り(実行)であり、ストップ距離(リスク幅)には混ぜない 2025.12.26
-                        # R = max(entry_px * RISK_PCT, entry_px * STOP_SLIPPAGE)
-                        R = entry_px * risk_pct
+                        R = max(entry_px * RISK_PCT, entry_px * STOP_SLIPPAGE)
                         stop_px = entry_px - R
                         take_px = entry_px + TAKE_PROFIT_RR * R
                         trades.append({"date": date, "side": "BUY", "px": fill, "qty": qty})
@@ -288,10 +282,7 @@ def run_backtest(
                     entry_px = fill
                     entry_date = date
                     hold_days = 0
-                    # stop/take は「リスク幅(RISK_PCT)」で決める
-                    # STOP_SLIPPAGE は約定滑り(実行)であり、ストップ距離(リスク幅)には混ぜない 2025.12.26
-                    # R = max(entry_px * RISK_PCT, entry_px * STOP_SLIPPAGE)
-                    R = entry_px * risk_pct
+                    R = max(entry_px * RISK_PCT, entry_px * STOP_SLIPPAGE)
                     stop_px = entry_px - R
                     take_px = entry_px + TAKE_PROFIT_RR * R
                     trades.append({"date": date, "side": "BUY", "px": fill, "qty": qty})
