@@ -137,9 +137,10 @@ def long_signal_row(r: pd.Series, *, MACD_ATR_K: float, RSI_MIN: float, RSI_MAX:
         return False
 
     cond_trend = (close > ma25) and (ma25 >= ma75)
-    # MACD差が「ATR/Close に係数をかけた相対しきい値」超え
-    rel = (atr / max(close, 1e-6))
-    cond_momentum = (macd - macd_sig) > (MACD_ATR_K * rel)
+    # MACD差が「ATR/Close に係数をかけた相対しきい値」超え　→　削除2026.1.7
+    # MACD差が「ATR に対する割合」以上（単位を揃える：どちらも"円"）
+    # 例) MACD_ATR_K=0.1 なら「MACD差 > 0.1 * ATR」
+    cond_momentum = (macd - macd_sig) > (MACD_ATR_K * atr)
     cond_rsi = (RSI_MIN <= rsi <= RSI_MAX)
     cond_vol = (vol_ma20 > 0) and (vol >= vol_ma20 * VOL_SPIKE_M)
     cond_vola = atr > 0
