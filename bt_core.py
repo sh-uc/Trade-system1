@@ -240,6 +240,9 @@ def run_backtest(
     take_px = math.nan
     hold_days = 0
     pending_buy_for: Optional[dt.date] = None
+    # TIME / REV を「翌営業日寄り」で成行決済するためのペンディング
+    pending_sell_for: Optional[dt.date] = None
+    pending_sell_reason: Optional[str] = None    
     just_bought = False  # 当日エントリーしたら当日のexit判定を禁止する
 
     equity_curve = []
@@ -250,6 +253,23 @@ def run_backtest(
     for i, date in enumerate(dates):
         row = ind.loc[date]
         o = float(row["open"]); h = float(row["high"]); l = float(row["low"]); c = float(row["close"])
+
+        # 0) ペンディングSELL（翌営業日寄りで執行）
+        #    TIME/REV は「当日引けで判断」→「翌営業日寄りで成行」に統一する
+        if pending_sell_for and date.date() == pending_sell_for and pos > 0:
+            fill = o * (1 - SLIPPAGE)
+            cash += fill * pos * (1 - FEE_PCT)
+            trades.append({
+                "date": date,
+                "side": "SELL",
+                "px": fill,
+                "qty": pos,
+                "reason": pending_sell_reason or "MKT"
+            })
+            pos = 0; entry_px = math.nan; entry_date = None; stop_px = math.nan; take_px = math.nan; hold_days = 0
+            pending_sell_for = None
+            pending_sell_reason = None
+        
         # 前日終値（ギャップ判定用）
         c_prev = float(ind["close"].shift(1).loc[date]) if date in ind.index else math.nan
 
@@ -334,21 +354,23 @@ def run_backtest(
                     trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "TP"})
                     pos = 0; entry_px = math.nan; entry_date = None; take_px = math.nan; hold_days = 0
                     sold = True
-                # 時間切れ
-                if not sold and hold_days >= MAX_HOLD_DAYS:
-                    fill = c * (1 - SLIPPAGE)
-                    cash += fill * pos * (1 - FEE_PCT)
-                    trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "TIME"})
-                    pos = 0; entry_px = math.nan; entry_date = None; take_px = math.nan; hold_days = 0
-                    sold = True
-                # 逆シグナル
-                if not sold and EXIT_ON_REVERSE:
-                    if not long_signal_row(row, MACD_ATR_K=MACD_ATR_K, RSI_MIN=RSI_MIN, RSI_MAX=RSI_MAX, VOL_SPIKE_M=VOL_SPIKE_M):
-                        fill = c * (1 - SLIPPAGE)
-                        cash += fill * pos * (1 - FEE_PCT)
-                        trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "REV"})
-                        pos = 0; entry_px = math.nan; entry_date = None; take_px = math.nan; hold_days = 0
-                        sold = True
+                # 時間切れ / 逆シグナル は「当日引けで判定」→「翌営業日寄りで成行」に変更
+                if not sold and pending_sell_for is None:
+                    # 時間切れ（引けで判断 → 翌寄りで売る）
+                    if hold_days >= MAX_HOLD_DAYS:
+                        pending_sell_for = next_trading_day(date.date())
+                        pending_sell_reason = "TIME"
+                    # 逆シグナル（引けで判断 → 翌寄りで売る）
+                    elif EXIT_ON_REVERSE:
+                        if not long_signal_row(
+                            row,
+                            MACD_ATR_K=MACD_ATR_K,
+                            RSI_MIN=RSI_MIN,
+                            RSI_MAX=RSI_MAX,
+                            VOL_SPIKE_M=VOL_SPIKE_M,
+                        ):
+                            pending_sell_for = next_trading_day(date.date())
+                            pending_sell_reason = "REV"
             # end else(if just_bought)
 
         # 4) 評価額を記録
