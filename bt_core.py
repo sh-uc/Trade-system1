@@ -240,6 +240,7 @@ def run_backtest(
     take_px = math.nan
     hold_days = 0
     pending_buy_for: Optional[dt.date] = None
+    just_bought = False  # 当日エントリーしたら当日のexit判定を禁止する
 
     equity_curve = []
     trades = []
@@ -269,6 +270,7 @@ def run_backtest(
                         entry_px = fill
                         entry_date = date
                         hold_days = 0
+                        just_bought = True
                         # stop/take は「リスク幅(RISK_PCT)」で決める
                         # STOP_SLIPPAGE は約定滑り(実行)であり、ストップ距離(リスク幅)には混ぜない 2025.12.26
                         # R = max(entry_px * RISK_PCT, entry_px * STOP_SLIPPAGE)
@@ -289,6 +291,7 @@ def run_backtest(
                     entry_px = fill
                     entry_date = date
                     hold_days = 0
+                    just_bought = True
                     # stop/take は「リスク幅(RISK_PCT)」で決める
                     # STOP_SLIPPAGE は約定滑り(実行)であり、ストップ距離(リスク幅)には混ぜない 2025.12.26
                     # R = max(entry_px * RISK_PCT, entry_px * STOP_SLIPPAGE)
@@ -309,14 +312,22 @@ def run_backtest(
 
         # 3) 保有中の手仕舞い（順序：ストップ→利確→時間切れ→逆シグナル）
         else:
-            sold = False
-            # ストップ（割れたら寄り相当-滑り）
-            if l <= stop_px:
-                fill = max(o, stop_px) * (1 - STOP_SLIPPAGE)
-                cash += fill * pos * (1 - FEE_PCT)
-                trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "SL"})
-                pos = 0; entry_px = math.nan; entry_date = None; take_px = math.nan; hold_days = 0
-                sold = True
+            # 日足前提：寄りで買った当日に、その日の高値/安値/引けで決済すると
+            # 「同日決済」が大量に起きるので、当日のexit判定を禁止（翌日から判定）
+            if just_bought:
+                just_bought = False
+                # exit判定は行わず、評価額記録へ
+                pass
+            else:
+                sold = False
+                # ストップ（割れたら寄り相当-滑り）
+                if l <= stop_px:
+                    fill = max(o, stop_px) * (1 - STOP_SLIPPAGE)
+                    cash += fill * pos * (1 - FEE_PCT)
+                    trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "SL"})
+                    pos = 0; entry_px = math.nan; entry_date = None; take_px = math.nan; hold_days = 0
+                    sold = True
+            # end else (just_bought)
             # 利確
             if not sold and (not math.isnan(take_px)) and (h >= take_px):
                 fill = max(take_px, o) * (1 - SLIPPAGE)
