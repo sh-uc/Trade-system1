@@ -316,8 +316,8 @@ def run_backtest(
             # 「同日決済」が大量に起きるので、当日のexit判定を禁止（翌日から判定）
             if just_bought:
                 just_bought = False
-                # exit判定は行わず、評価額記録へ
-                pass
+                # exit判定は行わず、評価額記録へ（この日の売り判定を完全スキップ）
+                sold = False  # ← これを入れるだけでも UnboundLocalError は防げる
             else:
                 sold = False
                 # ストップ（割れたら寄り相当-滑り）
@@ -327,28 +327,29 @@ def run_backtest(
                     trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "SL"})
                     pos = 0; entry_px = math.nan; entry_date = None; take_px = math.nan; hold_days = 0
                     sold = True
-            # end else (just_bought)
-            # 利確
-            if not sold and (not math.isnan(take_px)) and (h >= take_px):
-                fill = max(take_px, o) * (1 - SLIPPAGE)
-                cash += fill * pos * (1 - FEE_PCT)
-                trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "TP"})
-                pos = 0; entry_px = math.nan; entry_date = None; take_px = math.nan; hold_days = 0
-                sold = True
-            # 時間切れ
-            if not sold and hold_days >= MAX_HOLD_DAYS:
-                fill = c * (1 - SLIPPAGE)
-                cash += fill * pos * (1 - FEE_PCT)
-                trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "TIME"})
-                pos = 0; entry_px = math.nan; entry_date = None; take_px = math.nan; hold_days = 0
-                sold = True
-            # 逆シグナル
-            if not sold and EXIT_ON_REVERSE:
-                if not long_signal_row(row, MACD_ATR_K=MACD_ATR_K, RSI_MIN=RSI_MIN, RSI_MAX=RSI_MAX, VOL_SPIKE_M=VOL_SPIKE_M):
+                # 利確
+                if not sold and (not math.isnan(take_px)) and (h >= take_px):
+                    fill = max(take_px, o) * (1 - SLIPPAGE)
+                    cash += fill * pos * (1 - FEE_PCT)
+                    trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "TP"})
+                    pos = 0; entry_px = math.nan; entry_date = None; take_px = math.nan; hold_days = 0
+                    sold = True
+                # 時間切れ
+                if not sold and hold_days >= MAX_HOLD_DAYS:
                     fill = c * (1 - SLIPPAGE)
                     cash += fill * pos * (1 - FEE_PCT)
-                    trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "REV"})
+                    trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "TIME"})
                     pos = 0; entry_px = math.nan; entry_date = None; take_px = math.nan; hold_days = 0
+                    sold = True
+                # 逆シグナル
+                if not sold and EXIT_ON_REVERSE:
+                    if not long_signal_row(row, MACD_ATR_K=MACD_ATR_K, RSI_MIN=RSI_MIN, RSI_MAX=RSI_MAX, VOL_SPIKE_M=VOL_SPIKE_M):
+                        fill = c * (1 - SLIPPAGE)
+                        cash += fill * pos * (1 - FEE_PCT)
+                        trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "REV"})
+                        pos = 0; entry_px = math.nan; entry_date = None; take_px = math.nan; hold_days = 0
+                        sold = True
+            # end else(if just_bought)
 
         # 4) 評価額を記録
         hold_days = (hold_days + 1) if (pos > 0 and entry_date is not None and date >= entry_date) else hold_days
