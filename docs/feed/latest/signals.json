@@ -1,5 +1,485 @@
 [
   {
+    "date": "2026-01-09",
+    "code": "9989.T",
+    "close": 4202.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(4202.0) > MA25(4286.4) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-11.699) > Signal(-3.634) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=30.7 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "9843.T",
+    "close": 2704.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2704.0) > MA25(2756.7) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-11.911) > Signal(7.019) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=49.0 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "9733.T",
+    "close": 2591.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2591.0) > MA25(2478.8) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(68.472) > Signal(67.575) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=77.0 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "9433.T",
+    "close": 2680.0,
+    "prev_close": 2669,
+    "diff_pct": 0.412139378044211,
+    "decision": "見送り",
+    "summary": "トレンド: close(2680.0) > MA25(2701.2) & MA25≥MA75 NG & モメンタム: MACD(12.067) > Signal(22.200) NG & 過熱回避: RSI14=41.1 ∈ [40,68] OK & 出来高: 20日平均以上 OK",
+    "reasons": [
+      "トレンド: close(2680.0) > MA25(2701.2) & MA25≥MA75 → NG",
+      "モメンタム: MACD(12.067) > Signal(22.200) → NG",
+      "過熱回避: RSI14=41.1 ∈ [40,68] → OK",
+      "出来高: 20日平均以上 → OK"
+    ]
+  },
+  {
+    "date": "2026-01-09",
+    "code": "9432.T",
+    "close": 159.10000610351562,
+    "prev_close": 157.800003051758,
+    "diff_pct": 0.82382954791922,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(159.1) > MA25(156.5) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(1.123) > Signal(0.930) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=57.9 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "9201.T",
+    "close": 2992.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2992.0) > MA25(2915.9) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(17.878) > Signal(8.175) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=60.7 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "9006.T",
+    "close": 1551.0,
+    "prev_close": 1544,
+    "diff_pct": 0.453367875647668,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(1551.0) > MA25(1521.7) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(12.696) > Signal(10.922) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=59.8 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "8593.T",
+    "close": 1350.5,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(1350.5) > MA25(1295.2) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(24.873) > Signal(21.757) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=77.2 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "8566.T",
+    "close": 6030.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(6030.0) > MA25(5792.0) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(69.547) > Signal(42.365) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=83.6 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "8306.T",
+    "close": 2642.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2642.0) > MA25(2510.3) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(46.692) > Signal(34.414) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=74.9 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "8179.T",
+    "close": 1335.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(1335.0) > MA25(1351.4) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-2.569) > Signal(1.570) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=44.5 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "8130.T",
+    "close": 3150.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(3150.0) > MA25(3106.0) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(16.899) > Signal(13.419) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=63.9 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "8113.T",
+    "close": 890.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(890.0) > MA25(894.7) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-8.247) > Signal(-9.281) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=45.7 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "7956.T",
+    "close": 1619.5,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(1619.5) > MA25(1615.7) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-3.592) > Signal(-6.740) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=48.7 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "7630.T",
+    "close": 919.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(919.0) > MA25(922.5) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-1.903) > Signal(-0.231) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=46.8 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "7458.T",
+    "close": 1708.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(1708.0) > MA25(1666.0) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(16.436) > Signal(14.789) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=73.2 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "7453.T",
+    "close": 2824.5,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2824.5) > MA25(2932.7) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-62.096) > Signal(-54.070) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=42.9 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "6702.T",
+    "close": 4336.0,
+    "prev_close": 4388,
+    "diff_pct": -1.18505013673655,
+    "decision": "買い",
+    "summary": "トレンド: close(4336.0) > MA25(4222.0) & MA25≥MA75 OK & モメンタム: MACD(67.720) > Signal(63.209) OK & 過熱回避: RSI14=58.2 ∈ [40,68] OK & 出来高: 20日平均以上 OK",
+    "reasons": [
+      "トレンド: close(4336.0) > MA25(4222.0) & MA25≥MA75 → OK",
+      "モメンタム: MACD(67.720) > Signal(63.209) → OK",
+      "過熱回避: RSI14=58.2 ∈ [40,68] → OK",
+      "出来高: 20日平均以上 → OK"
+    ]
+  },
+  {
+    "date": "2026-01-09",
+    "code": "6592.T",
+    "close": 1458.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(1458.0) > MA25(1428.2) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(21.725) > Signal(22.005) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=59.4 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "6486.T",
+    "close": 2950.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2950.0) > MA25(2827.6) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(55.830) > Signal(45.960) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=68.7 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "5938.T",
+    "close": 1904.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "買い",
+    "summary": "買い条件成立。ATRベースで数量・SL/TPを設定",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(1904.0) > MA25(1873.8) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(25.142) > Signal(24.939) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=53.3 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "4901.T",
+    "close": 3300.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(3300.0) > MA25(3367.1) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-11.691) > Signal(-4.527) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=32.0 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "4768.T",
+    "close": 2735.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2735.0) > MA25(2912.0) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-86.258) > Signal(-80.439) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=24.0 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "4543.T",
+    "close": 2266.5,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2266.5) > MA25(2313.6) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-32.399) > Signal(-34.548) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=36.6 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "4503.T",
+    "close": 2236.5,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2236.5) > MA25(2092.4) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(62.268) > Signal(58.644) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=86.7 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "4502.T",
+    "close": 5080.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(5080.0) > MA25(4682.3) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(153.291) > Signal(125.746) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=84.1 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "4452.T",
+    "close": 6269.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(6269.0) > MA25(6278.3) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-26.252) > Signal(-28.440) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=46.6 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "4205.T",
+    "close": 1846.5,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "買い",
+    "summary": "買い条件成立。ATRベースで数量・SL/TPを設定",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(1846.5) > MA25(1786.4) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(29.471) > Signal(26.992) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=66.8 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "4204.T",
+    "close": 2712.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2712.0) > MA25(2617.6) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(23.872) > Signal(10.029) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=71.3 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "4041.T",
+    "close": 3670.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(3670.0) > MA25(3603.8) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(36.186) > Signal(36.385) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=61.1 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "3778.T",
+    "close": 2735.0,
+    "prev_close": 2751,
+    "diff_pct": -0.581606688476917,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2735.0) > MA25(2912.0) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-86.258) > Signal(-80.439) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=24.0 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "3547.T",
+    "close": 1992.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(1992.0) > MA25(2029.9) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-34.286) > Signal(-37.682) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=45.1 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "3479.T",
+    "close": 1925.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(1925.0) > MA25(1785.3) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(44.728) > Signal(24.287) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=71.2 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "3197.T",
+    "close": 3375.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(3375.0) > MA25(3447.1) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-7.372) > Signal(15.566) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=46.0 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "2897.T",
+    "close": 2912.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2912.0) > MA25(2892.9) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(11.943) > Signal(17.074) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=56.2 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "2875.T",
+    "close": 10710.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(10710.0) > MA25(10850.6) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-5.142) > Signal(30.323) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=38.4 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "2802.T",
+    "close": 3300.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(3300.0) > MA25(3384.8) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-77.597) > Signal(-92.542) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=35.5 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "2801.T",
+    "close": 1396.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(1396.0) > MA25(1418.8) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(2.280) > Signal(10.161) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=38.2 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "2702.T",
+    "close": 6400.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(6400.0) > MA25(6422.4) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(7.803) > Signal(27.644) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=49.4 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "2678.T",
+    "close": 1411.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(1411.0) > MA25(1409.2) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-4.716) > Signal(-6.480) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=50.3 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "2594.T",
+    "close": 2000.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2000.0) > MA25(1988.2) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(4.515) > Signal(3.855) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=55.8 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "2593.T",
+    "close": 3028.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(3028.0) > MA25(3032.3) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-22.187) > Signal(-27.480) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=44.4 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "2590.T",
+    "close": 2519.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "買い",
+    "summary": "買い条件成立。ATRベースで数量・SL/TPを設定",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2519.0) > MA25(2506.2) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(10.847) > Signal(7.164) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=50.8 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "2269.T",
+    "close": 3542.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(3542.0) > MA25(3413.8) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(72.714) > Signal(74.143) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=71.2 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "2206.T",
+    "close": 5464.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(5464.0) > MA25(5425.0) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(29.885) > Signal(42.542) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=54.2 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "1925.T",
+    "close": 5321.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "見送り",
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(5321.0) > MA25(5198.4) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(15.027) > Signal(-2.306) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=65.1 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
+    "date": "2026-01-09",
+    "code": "1377.T",
+    "close": 4335.0,
+    "prev_close": null,
+    "diff_pct": null,
+    "decision": "買い",
+    "summary": "買い条件成立。ATRベースで数量・SL/TPを設定",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(4335.0) > MA25(4237.0) & MA25\\u2265MA75 \\u2192 OK\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(66.984) > Signal(64.968) \\u2192 OK\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=60.7 \\u2208 [40,68] \\u2192 OK\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 OK\"]"
+  },
+  {
     "date": "2026-01-08",
     "code": "9433.T",
     "close": 2669.0,
@@ -66,13 +546,8 @@
     "prev_close": 2752,
     "diff_pct": -0.0363372093023256,
     "decision": "見送り",
-    "summary": "トレンド: close(2751.0) > MA25(2929.2) & MA25≥MA75 NG & モメンタム: MACD(-85.283) > Signal(-78.720) NG & 過熱回避: RSI14=26.1 ∈ [40,68] NG & 出来高: 20日平均以上 NG",
-    "reasons": [
-      "トレンド: close(2751.0) > MA25(2929.2) & MA25≥MA75 → NG",
-      "モメンタム: MACD(-85.283) > Signal(-78.720) → NG",
-      "過熱回避: RSI14=26.1 ∈ [40,68] → NG",
-      "出来高: 20日平均以上 → NG"
-    ]
+    "summary": "ルール合致せず（買い条件不成立）",
+    "reasons": "[\"\\u30c8\\u30ec\\u30f3\\u30c9: close(2751.0) > MA25(2929.2) & MA25\\u2265MA75 \\u2192 NG\", \"\\u30e2\\u30e1\\u30f3\\u30bf\\u30e0: MACD(-85.463) > Signal(-78.984) \\u2192 NG\", \"\\u904e\\u71b1\\u56de\\u907f: RSI14=26.1 \\u2208 [40,68] \\u2192 NG\", \"\\u51fa\\u6765\\u9ad8: 20\\u65e5\\u5e73\\u5747\\u4ee5\\u4e0a \\u2192 NG\"]"
   },
   {
     "date": "2026-01-07",
