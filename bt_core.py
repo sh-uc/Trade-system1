@@ -32,8 +32,25 @@ def next_trading_day(d: dt.date) -> dt.date:
     while not is_trading_day(t):
         t += dt.timedelta(days=1)
     return t
+# ========================
+# powershell経由の文字の確実な受取り策
+# ========================
+def _as_bool(v, default=True):
+    if v is None:
+        return default
+    if isinstance(v, bool):
+        return v
+    if isinstance(v, (int, float)):
+        return bool(v)
+    if isinstance(v, str):
+        s = v.strip().lower()
+        if s in ("1", "true", "t", "yes", "y", "on"):
+            return True
+        if s in ("0", "false", "f", "no", "n", "off", ""):
+            return False
+    return default
 
-# =========================
+# ========================
 # 価格取得（ティッカー×期間は1回だけ）
 # =========================
 def fetch_prices(ticker: str, start: str, end: Optional[str] = None) -> pd.DataFrame:
@@ -225,7 +242,7 @@ def run_backtest(
     STOP_SLIPPAGE = float(params.get("STOP_SLIPPAGE", 0.0015))
     TAKE_PROFIT_RR = float(params.get("TAKE_PROFIT_RR", 2.0))
     MAX_HOLD_DAYS = int(params.get("MAX_HOLD_DAYS", 10))
-    EXIT_ON_REVERSE = bool(params.get("EXIT_ON_REVERSE", True))
+    EXIT_ON_REVERSE = _as_bool(params.get("EXIT_ON_REVERSE", True))
     VOL_SPIKE_M = float(params.get("VOL_SPIKE_M", 1.4))
     MACD_ATR_K = float(params.get("MACD_ATR_K", 0.15))
     RSI_MIN = float(params.get("RSI_MIN", 45.0))
