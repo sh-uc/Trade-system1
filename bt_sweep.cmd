@@ -27,6 +27,42 @@ $env:SWEEP_TICKERS       = "3778.T,6702.T"
 # $env:SAVE_BT = "1"
 python bt_sweep_inproc.py > sweep_multi_inproc.json
 
+<<<<<<< Updated upstream
+=======
+# pattern 4
+$env:SUPABASE_URL="https://frxhylrlaiaxlpkdsayg.supabase.co"
+$env:SUPABASE_SERVICE_ROLE="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyeGh5bHJsYWlheGxwa2RzYXlnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk3NDY0OCwiZXhwIjoyMDcyNTUwNjQ4fQ.j6UJ3rFlLVDs0WeUg0DxYWIeHrkY2sjNixMAGFkbxkg"
+$env:GRID_VOL_SPIKE_M    = "1.2,1.4,1.6"
+$env:GRID_MACD_ATR_K     = "0.08:0.20:0.02"  # 0.08,0.10,...,0.20
+$env:GRID_TAKE_PROFIT_RR = "1.2:2.8:0.2"
+$env:GRID_GAP_ENTRY_MAX  = "0.03,0.05"
+$env:GRID_RSI_MIN        = "42,45"
+$env:GRID_RSI_MAX        = "68,70,72"
+$env:SWEEP_TICKERS       = "3778.T,6702.T"
+$env:SAVE_BT = "1"
+python bt_sweep_inproc.py
+
+# pattern 5
+$env:SUPABASE_URL="https://frxhylrlaiaxlpkdsayg.supabase.co"
+$env:SUPABASE_SERVICE_ROLE="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyeGh5bHJsYWlheGxwa2RzYXlnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk3NDY0OCwiZXhwIjoyMDcyNTUwNjQ4fQ.j6UJ3rFlLVDs0WeUg0DxYWIeHrkY2sjNixMAGFkbxkg"
+$env:SUPABASE_KEY = $env:SUPABASE_SERVICE_ROLE
+$env:SWEEP_TICKERS = "8306.T"
+$env:SAVE_BT = "1"
+python bt_sweep_inproc.py
+>>>>>>> Stashed changes
+
+# pattern 6 REV/TIMEを強制的に発生させる
+$env:SUPABASE_URL="https://frxhylrlaiaxlpkdsayg.supabase.co"
+$env:SUPABASE_SERVICE_ROLE="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyeGh5bHJsYWlheGxwa2RzYXlnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk3NDY0OCwiZXhwIjoyMDcyNTUwNjQ4fQ.j6UJ3rFlLVDs0WeUg0DxYWIeHrkY2sjNixMAGFkbxkg"
+$env:SUPABASE_KEY = $env:SUPABASE_SERVICE_ROLE
+$env:SWEEP_TICKERS = "8306.T"
+$env:MAX_HOLD_DAYS = "1"
+$env:TAKE_PROFIT_RR = "999"
+$env:RISK_PCT = "0.02"
+$env:EXIT_ON_REVERSE = "false"
+$env:SAVE_BT = "1"
+python bt_sweep_inproc.py
+
 
 # python process kill(process pool対応であっても停止できる)
 Get-Process python | Stop-Process -Force
