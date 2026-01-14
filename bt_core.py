@@ -12,6 +12,9 @@ import yfinance as yf
 import jpholiday
 import datetime as dt
 from datetime import timedelta, timezone
+import re
+from pathlib import Path
+
 
 JST = timezone(timedelta(hours=9))
 
@@ -57,6 +60,33 @@ def fetch_prices(ticker: str, start: str, end: Optional[str] = None) -> pd.DataF
     """
     Yahooから日足を取得して整形（JST index、主要列のみ、MultiIndex→フラット）
     """
+    # =========================
+    # parquet キャッシュ（任意）
+    # =========================
+    cache_dir = os.environ.get("BT_PRICE_CACHE_DIR", ".cache/prices")
+    cache_on  = os.environ.get("BT_PRICE_CACHE", "1") == "1"
+
+    safe_ticker = re.sub(r"[^A-Za-z0-9_.-]+", "_", ticker)
+    safe_start  = re.sub(r"[^0-9-]+", "_", start)
+    safe_end    = re.sub(r"[^0-9-]+", "_", end) if end else "None"
+    cache_path  = Path(cache_dir) / f"{safe_ticker}__{safe_start}__{safe_end}.parquet"
+
+    if cache_on and cache_path.exists():
+        o = pd.read_parquet(cache_path)
+
+        # index が tz 無しで入ってくる環境があるので念のため補正
+        o.index = pd.to_datetime(o.index)
+        if o.index.tz is None:
+            o.index = o.index.tz_localize("UTC").tz_convert(JST)
+        else:
+            o.index = o.index.tz_convert(JST)
+
+        # 列名が想定通りか軽く保険
+        for c in ["open", "high", "low", "close", "volume"]:
+            if c in o:
+                o[c] = pd.to_numeric(o[c], errors="coerce")
+        return o
+
     df = yf.download(
         ticker, start=start, end=end, progress=False, auto_adjust=False, group_by="column"
     )
@@ -95,6 +125,14 @@ def fetch_prices(ticker: str, start: str, end: Optional[str] = None) -> pd.DataF
         o.index = pd.to_datetime(o.index).tz_localize("UTC").tz_convert(JST)
     else:
         o.index = o.index.tz_convert(JST)
+    # parquet に保存（次回以降は yfinance を呼ばない）
+    if cache_on:
+        Path(cache_dir).mkdir(parents=True, exist_ok=True)
+        try:
+            o.to_parquet(cache_path)
+        except Exception as e:
+            # キャッシュ保存失敗は致命ではないので握りつぶす（ログだけ）
+            print(f"[WARN] parquet cache save failed: {cache_path}  err={e}")
 
     return o
 

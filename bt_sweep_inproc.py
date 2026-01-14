@@ -31,6 +31,10 @@ def _worker_run(ticker, ind, params, enable_save=False):
 
 
 if __name__ == "__main__":
+    # 価格キャッシュ（bt_core.fetch_prices がこの env を参照する想定）
+    os.environ.setdefault("PRICE_CACHE_DIR", ".cache/prices")
+    os.environ.setdefault("PRICE_CACHE_TTL_DAYS", "14")  # 例：14日以内ならキャッシュ優先
+
     t0 = time.time()
 
     tickers_env = os.environ.get("SWEEP_TICKERS") or os.environ.get("SWEEP_TICKER") or "3778.T"
@@ -70,7 +74,7 @@ if __name__ == "__main__":
         pr  = fetch_prices(tkr, start)
         ind = compute_indicators(pr)
         per_ticker_ind[tkr] = ind
-
+        time.sleep(float(os.environ.get("YF_SLEEP", "0.7")))
     print(f"[SWEEP] tickers={tickers} combos={len(combos)} workers={max_workers} save={enable_save}")
 
     results = []
