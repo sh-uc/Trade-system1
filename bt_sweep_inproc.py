@@ -64,6 +64,42 @@ if __name__ == "__main__":
         "RSI_MAX":        [75, 80],
         "GAP_ENTRY_MAX":  [0.08, 0.12],
     }
+    # --- env override (single value) ---
+    def _env_float(name: str):
+        v = os.getenv(name)
+        return None if v is None or v == "" else float(v)
+
+    def _env_int(name: str):
+        v = os.getenv(name)
+        return None if v is None or v == "" else int(v)
+
+    def _env_bool(name: str):
+        v = os.getenv(name)
+        if v is None or v == "":
+            return None
+        s = v.strip().lower()
+        if s in ("1", "true", "yes", "y", "on"):
+            return True
+        if s in ("0", "false", "no", "n", "off"):
+            return False
+        raise ValueError(f"Invalid bool env {name}={v}")
+
+    v = _env_float("RISK_PCT")
+    if v is not None:
+        grid["RISK_PCT"] = [v]
+
+    v = _env_float("TAKE_PROFIT_RR")
+    if v is not None:
+        grid["TAKE_PROFIT_RR"] = [v]
+
+    v = _env_int("MAX_HOLD_DAYS")
+    if v is not None:
+        grid["MAX_HOLD_DAYS"] = [v]
+
+    v = _env_bool("EXIT_ON_REVERSE")
+    if v is not None:
+        grid["EXIT_ON_REVERSE"] = [v]
+    # --- end env override ---
     keys   = list(grid.keys())
     combos = list(itertools.product(*grid.values()))
 
