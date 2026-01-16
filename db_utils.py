@@ -25,7 +25,7 @@ def save_backtest_to_db(sb: Client, ticker: str, params: dict, result: dict, cur
     res = sb.table("backtests_runs").insert(run_row).execute()
     run_id = int(res.data[0]["id"])  # bigint
 
-    # --- backtests_trades に保存（DDL: run_id, ts, side, price, qty, reason）---
+    # --- backtests_trades に保存（DDL: run_id, ts, side, price, qty, reason,signal_ts）---
     rows = []
     for i, t in enumerate(trades):
         ts = t.get("ts") or t.get("date")
@@ -47,6 +47,17 @@ def save_backtest_to_db(sb: Client, ticker: str, params: dict, result: dict, cur
         qty = int(t.get("qty", 0))
         if qty <= 0:
             continue
+        # --- signal_ts を JSON で送れる形（ISO文字列）に変換 ---
+        signal_ts = t.get("signal_ts")
+        if signal_ts is not None:
+            if hasattr(signal_ts, "to_pydatetime"):
+                signal_ts = signal_ts.to_pydatetime()
+            # datetime なら ISO 文字列へ
+            if hasattr(signal_ts, "isoformat"):
+                signal_ts = signal_ts.isoformat()
+            else:
+                signal_ts = str(signal_ts)
+
         rows.append({
             "run_id": run_id,
             "ts": ts.isoformat(),
@@ -54,7 +65,7 @@ def save_backtest_to_db(sb: Client, ticker: str, params: dict, result: dict, cur
             "price": float(t.get("price", t.get("px", 0.0))),
             "qty": int(t.get("qty", 0)),
             "reason": t.get("reason"),
-            "signal_ts": t.get("signal_ts"),   # ★追加（BUYやSL/TPは None のままでOK）
+            "signal_ts": signal_ts,   # ★追加（BUYやSL/TPは None のままでOK）
         })
 
     if rows:
