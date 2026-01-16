@@ -54,6 +54,7 @@ def save_backtest_to_db(sb: Client, ticker: str, params: dict, result: dict, cur
             "price": float(t.get("price", t.get("px", 0.0))),
             "qty": int(t.get("qty", 0)),
             "reason": t.get("reason"),
+            "signal_ts": t.get("signal_ts"),   # ★追加（BUYやSL/TPは None のままでOK）
         })
 
     if rows:

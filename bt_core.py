@@ -297,7 +297,9 @@ def run_backtest(
     pending_buy_for: Optional[dt.date] = None
     # TIME / REV を「翌営業日寄り」で成行決済するためのペンディング
     pending_sell_for: Optional[dt.date] = None
-    pending_sell_reason: Optional[str] = None    
+    pending_sell_reason: Optional[str] = None   
+    # ★追加：REV/TIME を「検知した日」（当日引けで判定した日）
+    pending_sell_signal_ts: Optional[pd.Timestamp] = None 
     just_bought = False  # 当日エントリーしたら当日のexit判定を禁止する
 
     equity_curve = []
@@ -319,11 +321,13 @@ def run_backtest(
                 "side": "SELL",
                 "px": fill,
                 "qty": pos,
-                "reason": pending_sell_reason or "MKT"
+                "reason": pending_sell_reason or "MKT",
+                "signal_ts": pending_sell_signal_ts, # ★追加：検知日（前日の引け）
             })
             pos = 0; entry_px = math.nan; entry_date = None; stop_px = math.nan; take_px = math.nan; hold_days = 0
             pending_sell_for = None
             pending_sell_reason = None
+            pending_sell_signal_ts = None
         
         # 前日終値（ギャップ判定用）
         c_prev = float(ind["close"].shift(1).loc[date]) if date in ind.index else math.nan
@@ -415,6 +419,8 @@ def run_backtest(
                     if hold_days >= MAX_HOLD_DAYS:
                         pending_sell_for = next_trading_day(date.date())
                         pending_sell_reason = "TIME"
+                        pending_sell_signal_ts = date  # ★追加：検知日（この日の引けでTIME判定）
+                        sold = True  # 同日中の他のexitを抑止
                     # 逆シグナル（引けで判断 → 翌寄りで売る）
                     elif EXIT_ON_REVERSE:
                         if not long_signal_row(
@@ -426,6 +432,8 @@ def run_backtest(
                         ):
                             pending_sell_for = next_trading_day(date.date())
                             pending_sell_reason = "REV"
+                            pending_sell_signal_ts = date  # ★追加：検知日（この日の引けでTIME判定）
+                            sold = True  # 同日中の他のexitを抑止
             # end else(if just_bought)
 
         # 4) 評価額を記録
