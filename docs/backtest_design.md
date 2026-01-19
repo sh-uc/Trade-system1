@@ -10,7 +10,7 @@
 - bt_sweep_inproc.py
 - bt_core.py
 - db_utils.py
-- Supabase（backtests_runs / backtests_trades）
+- Supabase（backtests_runs / backtests_trades / best_params / indicators / tickers / prices）
 
 ---
 
@@ -112,4 +112,3 @@ add column signal_ts timestamptz;
 
 ## 次の作業
 - 通常パラメータ sweep
-- 個別仕様書作成

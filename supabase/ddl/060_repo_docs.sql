@@ -17,3 +17,4 @@ create table public.repo_docs (
 create index IF not exists idx_repo_docs_repo_branch on public.repo_docs using btree (repo, branch) TABLESPACE pg_default;
 
 create index IF not exists idx_repo_docs_filetype on public.repo_docs using btree (filetype) TABLESPACE pg_default;
+# --- root に　tabledef_docsRAG.sql としてRAG作成時のコメント記載あり
