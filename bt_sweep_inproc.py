@@ -51,11 +51,11 @@ if __name__ == "__main__":
         "LOT_SIZE":      [100],
 
         # ★ RISK_PCT は新レンジに変更
-        "RISK_PCT":       [0.003],
+        "RISK_PCT":       [0.006, 0.01],
 
         # ここから下は今まで通り（必要なら後でいじる）
-        "TAKE_PROFIT_RR": [1.5],
-        "MAX_HOLD_DAYS":  [3, 5],
+        "TAKE_PROFIT_RR": [2.0, 3.0, 4.0],
+        "MAX_HOLD_DAYS":  [5, 10, 20],
         "STOP_SLIPPAGE":  [0.0025],
         "EXIT_ON_REVERSE":[True],
         "VOL_SPIKE_M":    [1.0, 1.1, 1.2],
