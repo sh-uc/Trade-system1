@@ -120,6 +120,7 @@ if __name__ == "__main__":
             ind = per_ticker_ind[tkr]
             for combo in combos:
                 params = dict(zip(keys, combo))
+                params["START"] = start
                 fut = ex.submit(_worker_run, tkr, ind, params, enable_save)
                 fut2meta[fut] = (tkr, params)
 
