@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
     tickers_env = os.environ.get("SWEEP_TICKERS") or os.environ.get("SWEEP_TICKER") or "3778.T"
     tickers = [t.strip() for t in tickers_env.split(",") if t.strip()]
-    start   = os.environ.get("SWEEP_START", "2023-01-01")
+    start   = os.environ.get("SWEEP_START", "2024-01-01")
     max_workers = int(os.environ.get("SWEEP_WORKERS", "4"))
     enable_save = os.environ.get("SAVE_BT", "0") == "1"
 
@@ -55,13 +55,13 @@ if __name__ == "__main__":
 
         # ここから下は今まで通り（必要なら後でいじる）
         "TAKE_PROFIT_RR": [2.0, 3.0, 4.0],
-        "MAX_HOLD_DAYS":  [10],
+        "MAX_HOLD_DAYS":  [5, 10, 20],
         "STOP_SLIPPAGE":  [0.0025],
         "EXIT_ON_REVERSE":[True],
         "VOL_SPIKE_M":    [1.0, 1.1, 1.2],
-        "MACD_ATR_K":     [0.15],
-        "RSI_MIN":        [30],
-        "RSI_MAX":        [80],
+        "MACD_ATR_K":     [0.05, 0.1, 0.15],
+        "RSI_MIN":        [30, 35.0],
+        "RSI_MAX":        [75, 80],
         "GAP_ENTRY_MAX":  [0.08, 0.12],
     }
     # --- env override (single value) ---
