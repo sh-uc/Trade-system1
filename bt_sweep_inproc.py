@@ -64,42 +64,81 @@ if __name__ == "__main__":
         "RSI_MAX":        [75, 80],
         "GAP_ENTRY_MAX":  [0.08, 0.12],
     }
-    # --- env override (single value) ---
-    def _env_float(name: str):
+# --- env override (single OR list values) ---
+    def _split_env(name: str):
         v = os.getenv(name)
-        return None if v is None or v == "" else float(v)
-
-    def _env_int(name: str):
-        v = os.getenv(name)
-        return None if v is None or v == "" else int(v)
-
-    def _env_bool(name: str):
-        v = os.getenv(name)
-        if v is None or v == "":
+        if v is None:
             return None
-        s = v.strip().lower()
+        v = v.strip()
+        if v == "":
+            return None
+        # "0.1, 0.2 ,0.3" みたいなのを許容
+        parts = [p.strip() for p in v.split(",") if p.strip() != ""]
+        return parts if parts else None
+
+    def _env_floats(name: str):
+        parts = _split_env(name)
+        if parts is None:
+            return None
+        return [float(p) for p in parts]
+
+    def _env_ints(name: str):
+        parts = _split_env(name)
+        if parts is None:
+            return None
+        return [int(p) for p in parts]
+
+    def _parse_bool(s: str) -> bool:
+        s = s.strip().lower()
         if s in ("1", "true", "yes", "y", "on"):
             return True
         if s in ("0", "false", "no", "n", "off"):
             return False
-        raise ValueError(f"Invalid bool env {name}={v}")
+        raise ValueError(f"Invalid bool token: {s}")
 
-    v = _env_float("RISK_PCT")
-    if v is not None:
-        grid["RISK_PCT"] = [v]
+    def _env_bools(name: str):
+        parts = _split_env(name)
+        if parts is None:
+            return None
+        return [_parse_bool(p) for p in parts]
 
-    v = _env_float("TAKE_PROFIT_RR")
+    # ここで grid を上書き（env があれば grid 側を差し替える）
+    v = _env_floats("RISK_PCT")
     if v is not None:
-        grid["TAKE_PROFIT_RR"] = [v]
+        grid["RISK_PCT"] = v
 
-    v = _env_int("MAX_HOLD_DAYS")
+    v = _env_floats("TAKE_PROFIT_RR")
     if v is not None:
-        grid["MAX_HOLD_DAYS"] = [v]
+        grid["TAKE_PROFIT_RR"] = v
 
-    v = _env_bool("EXIT_ON_REVERSE")
+    v = _env_ints("MAX_HOLD_DAYS")
     if v is not None:
-        grid["EXIT_ON_REVERSE"] = [v]
-    # --- end env override ---
+        grid["MAX_HOLD_DAYS"] = v
+
+    v = _env_floats("VOL_SPIKE_M")
+    if v is not None:
+        grid["VOL_SPIKE_M"] = v
+
+    v = _env_floats("MACD_ATR_K")
+    if v is not None:
+        grid["MACD_ATR_K"] = v
+
+    v = _env_ints("RSI_MAX")
+    if v is not None:
+        grid["RSI_MAX"] = v
+
+    v = _env_floats("RSI_MIN")
+    if v is not None:
+        grid["RSI_MIN"] = v
+
+    v = _env_floats("GAP_ENTRY_MAX")
+    if v is not None:
+        grid["GAP_ENTRY_MAX"] = v
+
+    v = _env_bools("EXIT_ON_REVERSE")
+    if v is not None:
+        grid["EXIT_ON_REVERSE"] = v
+# --- end env override ---
     keys   = list(grid.keys())
     combos = list(itertools.product(*grid.values()))
 
