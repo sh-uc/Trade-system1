@@ -1,5 +1,1571 @@
 [
   {
+    "id": 16966,
+    "created_at": "2026-01-31T05:17:20.73185+00:00",
+    "started_at": "2026-01-31T05:17:20.73185+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3003355.99242,
+      "total_return": 0.0011186641400000585,
+      "max_drawdown": 0.004655392040277891,
+      "sharpe": 0.09761539518524504,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16965,
+    "created_at": "2026-01-31T05:17:20.653388+00:00",
+    "started_at": "2026-01-31T05:17:20.653388+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3003355.99242,
+      "total_return": 0.0011186641400000585,
+      "max_drawdown": 0.004655392040277891,
+      "sharpe": 0.09761539518524504,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16964,
+    "created_at": "2026-01-31T05:17:19.933513+00:00",
+    "started_at": "2026-01-31T05:17:19.933513+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3000836.74242,
+      "total_return": 0.00027891413999991954,
+      "max_drawdown": 0.007197478571020189,
+      "sharpe": 0.0251739368021526,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16963,
+    "created_at": "2026-01-31T05:17:19.813571+00:00",
+    "started_at": "2026-01-31T05:17:19.813571+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3000836.74242,
+      "total_return": 0.00027891413999991954,
+      "max_drawdown": 0.007197478571020189,
+      "sharpe": 0.0251739368021526,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16962,
+    "created_at": "2026-01-31T05:17:18.53036+00:00",
+    "started_at": "2026-01-31T05:17:18.53036+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3019164.5413800003,
+      "total_return": 0.006388180460000115,
+      "max_drawdown": 0.004026305310963805,
+      "sharpe": 0.5163105522204136,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16961,
+    "created_at": "2026-01-31T05:17:18.451647+00:00",
+    "started_at": "2026-01-31T05:17:18.451647+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3019164.5413800003,
+      "total_return": 0.006388180460000115,
+      "max_drawdown": 0.004026305310963805,
+      "sharpe": 0.5163105522204136,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16960,
+    "created_at": "2026-01-31T05:17:17.060063+00:00",
+    "started_at": "2026-01-31T05:17:17.060063+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3003355.99242,
+      "total_return": 0.0011186641400000585,
+      "max_drawdown": 0.004655392040277891,
+      "sharpe": 0.09761539518524504,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16959,
+    "created_at": "2026-01-31T05:17:16.97107+00:00",
+    "started_at": "2026-01-31T05:17:16.97107+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3003355.99242,
+      "total_return": 0.0011186641400000585,
+      "max_drawdown": 0.004655392040277891,
+      "sharpe": 0.09761539518524504,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16958,
+    "created_at": "2026-01-31T05:17:15.826824+00:00",
+    "started_at": "2026-01-31T05:17:15.826824+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3000836.74242,
+      "total_return": 0.00027891413999991954,
+      "max_drawdown": 0.007197478571020189,
+      "sharpe": 0.0251739368021526,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16957,
+    "created_at": "2026-01-31T05:17:15.62759+00:00",
+    "started_at": "2026-01-31T05:17:15.62759+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3000836.74242,
+      "total_return": 0.00027891413999991954,
+      "max_drawdown": 0.007197478571020189,
+      "sharpe": 0.0251739368021526,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16956,
+    "created_at": "2026-01-31T05:17:14.407122+00:00",
+    "started_at": "2026-01-31T05:17:14.407122+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3019164.5413800003,
+      "total_return": 0.006388180460000115,
+      "max_drawdown": 0.004026305310963805,
+      "sharpe": 0.5163105522204136,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16955,
+    "created_at": "2026-01-31T05:17:14.374912+00:00",
+    "started_at": "2026-01-31T05:17:14.374912+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3019164.5413800003,
+      "total_return": 0.006388180460000115,
+      "max_drawdown": 0.004026305310963805,
+      "sharpe": 0.5163105522204136,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16954,
+    "created_at": "2026-01-31T05:17:13.601744+00:00",
+    "started_at": "2026-01-31T05:17:13.601744+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3003355.99242,
+      "total_return": 0.0011186641400000585,
+      "max_drawdown": 0.004655392040277891,
+      "sharpe": 0.09761539518524504,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16953,
+    "created_at": "2026-01-31T05:17:13.249033+00:00",
+    "started_at": "2026-01-31T05:17:13.249033+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3003355.99242,
+      "total_return": 0.0011186641400000585,
+      "max_drawdown": 0.004655392040277891,
+      "sharpe": 0.09761539518524504,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16952,
+    "created_at": "2026-01-31T05:17:11.864535+00:00",
+    "started_at": "2026-01-31T05:17:11.864535+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3000836.74242,
+      "total_return": 0.00027891413999991954,
+      "max_drawdown": 0.007197478571020189,
+      "sharpe": 0.0251739368021526,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16951,
+    "created_at": "2026-01-31T05:17:11.847583+00:00",
+    "started_at": "2026-01-31T05:17:11.847583+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3000836.74242,
+      "total_return": 0.00027891413999991954,
+      "max_drawdown": 0.007197478571020189,
+      "sharpe": 0.0251739368021526,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16950,
+    "created_at": "2026-01-31T05:17:11.205828+00:00",
+    "started_at": "2026-01-31T05:17:11.205828+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3019164.5413800003,
+      "total_return": 0.006388180460000115,
+      "max_drawdown": 0.004026305310963805,
+      "sharpe": 0.5163105522204136,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16949,
+    "created_at": "2026-01-31T05:17:10.723028+00:00",
+    "started_at": "2026-01-31T05:17:10.723028+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.008,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3019164.5413800003,
+      "total_return": 0.006388180460000115,
+      "max_drawdown": 0.004026305310963805,
+      "sharpe": 0.5163105522204136,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16948,
+    "created_at": "2026-01-31T05:17:09.259912+00:00",
+    "started_at": "2026-01-31T05:17:09.259912+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3006059.5710337497,
+      "total_return": 0.002019857011249959,
+      "max_drawdown": 0.004069034527915767,
+      "sharpe": 0.175480350596909,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16947,
+    "created_at": "2026-01-31T05:17:09.230628+00:00",
+    "started_at": "2026-01-31T05:17:09.230628+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3006059.5710337497,
+      "total_return": 0.002019857011249959,
+      "max_drawdown": 0.004069034527915767,
+      "sharpe": 0.175480350596909,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16946,
+    "created_at": "2026-01-31T05:17:08.73192+00:00",
+    "started_at": "2026-01-31T05:17:08.73192+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3003540.3210337497,
+      "total_return": 0.0011801070112498202,
+      "max_drawdown": 0.006610330962712153,
+      "sharpe": 0.09739444972363274,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16945,
+    "created_at": "2026-01-31T05:17:08.331615+00:00",
+    "started_at": "2026-01-31T05:17:08.331615+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3003540.3210337497,
+      "total_return": 0.0011801070112498202,
+      "max_drawdown": 0.006610330962712153,
+      "sharpe": 0.09739444972363274,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16944,
+    "created_at": "2026-01-31T05:17:06.79305+00:00",
+    "started_at": "2026-01-31T05:17:06.79305+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3020961.9371287497,
+      "total_return": 0.006987312376249832,
+      "max_drawdown": 0.0037411994776413472,
+      "sharpe": 0.5622889872521046,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16943,
+    "created_at": "2026-01-31T05:17:06.777732+00:00",
+    "started_at": "2026-01-31T05:17:06.777732+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3020961.9371287497,
+      "total_return": 0.006987312376249832,
+      "max_drawdown": 0.0037411994776413472,
+      "sharpe": 0.5622889872521046,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16942,
+    "created_at": "2026-01-31T05:17:06.269928+00:00",
+    "started_at": "2026-01-31T05:17:06.269928+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3006059.5710337497,
+      "total_return": 0.002019857011249959,
+      "max_drawdown": 0.004069034527915767,
+      "sharpe": 0.175480350596909,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16941,
+    "created_at": "2026-01-31T05:17:05.890927+00:00",
+    "started_at": "2026-01-31T05:17:05.890927+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3006059.5710337497,
+      "total_return": 0.002019857011249959,
+      "max_drawdown": 0.004069034527915767,
+      "sharpe": 0.175480350596909,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16940,
+    "created_at": "2026-01-31T05:17:04.361864+00:00",
+    "started_at": "2026-01-31T05:17:04.361864+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3003540.3210337497,
+      "total_return": 0.0011801070112498202,
+      "max_drawdown": 0.006610330962712153,
+      "sharpe": 0.09739444972363274,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16939,
+    "created_at": "2026-01-31T05:17:04.31936+00:00",
+    "started_at": "2026-01-31T05:17:04.31936+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3003540.3210337497,
+      "total_return": 0.0011801070112498202,
+      "max_drawdown": 0.006610330962712153,
+      "sharpe": 0.09739444972363274,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16938,
+    "created_at": "2026-01-31T05:17:03.937108+00:00",
+    "started_at": "2026-01-31T05:17:03.937108+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3020961.9371287497,
+      "total_return": 0.006987312376249832,
+      "max_drawdown": 0.0037411994776413472,
+      "sharpe": 0.5622889872521046,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16937,
+    "created_at": "2026-01-31T05:17:03.55114+00:00",
+    "started_at": "2026-01-31T05:17:03.55114+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3020961.9371287497,
+      "total_return": 0.006987312376249832,
+      "max_drawdown": 0.0037411994776413472,
+      "sharpe": 0.5622889872521046,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16936,
+    "created_at": "2026-01-31T05:17:01.733772+00:00",
+    "started_at": "2026-01-31T05:17:01.733772+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3006059.5710337497,
+      "total_return": 0.002019857011249959,
+      "max_drawdown": 0.004069034527915767,
+      "sharpe": 0.175480350596909,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16935,
+    "created_at": "2026-01-31T05:17:01.731927+00:00",
+    "started_at": "2026-01-31T05:17:01.731927+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3006059.5710337497,
+      "total_return": 0.002019857011249959,
+      "max_drawdown": 0.004069034527915767,
+      "sharpe": 0.175480350596909,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16934,
+    "created_at": "2026-01-31T05:17:01.307364+00:00",
+    "started_at": "2026-01-31T05:17:01.307364+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3003540.3210337497,
+      "total_return": 0.0011801070112498202,
+      "max_drawdown": 0.006610330962712153,
+      "sharpe": 0.09739444972363274,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16933,
+    "created_at": "2026-01-31T05:17:00.880087+00:00",
+    "started_at": "2026-01-31T05:17:00.880087+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3003540.3210337497,
+      "total_return": 0.0011801070112498202,
+      "max_drawdown": 0.006610330962712153,
+      "sharpe": 0.09739444972363274,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16932,
+    "created_at": "2026-01-31T05:16:59.056641+00:00",
+    "started_at": "2026-01-31T05:16:59.056641+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3020961.9371287497,
+      "total_return": 0.006987312376249832,
+      "max_drawdown": 0.0037411994776413472,
+      "sharpe": 0.5622889872521046,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16931,
+    "created_at": "2026-01-31T05:16:59.054505+00:00",
+    "started_at": "2026-01-31T05:16:59.054505+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.006,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3020961.9371287497,
+      "total_return": 0.006987312376249832,
+      "max_drawdown": 0.0037411994776413472,
+      "sharpe": 0.5622889872521046,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16930,
+    "created_at": "2026-01-31T05:16:58.835755+00:00",
+    "started_at": "2026-01-31T05:16:58.835755+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3009519.01026,
+      "total_return": 0.0031730034199999313,
+      "max_drawdown": 0.0035783333333333335,
+      "sharpe": 0.27380216726110296,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16929,
+    "created_at": "2026-01-31T05:16:58.520215+00:00",
+    "started_at": "2026-01-31T05:16:58.520215+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3009519.01026,
+      "total_return": 0.0031730034199999313,
+      "max_drawdown": 0.0035783333333333335,
+      "sharpe": 0.27380216726110296,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16928,
+    "created_at": "2026-01-31T05:16:56.686997+00:00",
+    "started_at": "2026-01-31T05:16:56.686997+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3007304.8137149997,
+      "total_return": 0.0024349379049999342,
+      "max_drawdown": 0.006022040633116303,
+      "sharpe": 0.19713553755407057,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16927,
+    "created_at": "2026-01-31T05:16:56.668076+00:00",
+    "started_at": "2026-01-31T05:16:56.668076+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3007304.8137149997,
+      "total_return": 0.0024349379049999342,
+      "max_drawdown": 0.006022040633116303,
+      "sharpe": 0.19713553755407057,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16926,
+    "created_at": "2026-01-31T05:16:56.568025+00:00",
+    "started_at": "2026-01-31T05:16:56.568025+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3023820.2469450003,
+      "total_return": 0.007940082314999986,
+      "max_drawdown": 0.0035783333333333335,
+      "sharpe": 0.6299723327376858,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16925,
+    "created_at": "2026-01-31T05:16:56.226928+00:00",
+    "started_at": "2026-01-31T05:16:56.226928+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 4.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3023820.2469450003,
+      "total_return": 0.007940082314999986,
+      "max_drawdown": 0.0035783333333333335,
+      "sharpe": 0.6299723327376858,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16924,
+    "created_at": "2026-01-31T05:16:54.303502+00:00",
+    "started_at": "2026-01-31T05:16:54.303502+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3007304.8137149997,
+      "total_return": 0.0024349379049999342,
+      "max_drawdown": 0.006022040633116303,
+      "sharpe": 0.19713553755407057,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16923,
+    "created_at": "2026-01-31T05:16:54.296729+00:00",
+    "started_at": "2026-01-31T05:16:54.296729+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3009519.01026,
+      "total_return": 0.0031730034199999313,
+      "max_drawdown": 0.0035783333333333335,
+      "sharpe": 0.27380216726110296,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16922,
+    "created_at": "2026-01-31T05:16:54.262856+00:00",
+    "started_at": "2026-01-31T05:16:54.262856+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3009519.01026,
+      "total_return": 0.0031730034199999313,
+      "max_drawdown": 0.0035783333333333335,
+      "sharpe": 0.27380216726110296,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16921,
+    "created_at": "2026-01-31T05:16:54.065843+00:00",
+    "started_at": "2026-01-31T05:16:54.065843+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3007304.8137149997,
+      "total_return": 0.0024349379049999342,
+      "max_drawdown": 0.006022040633116303,
+      "sharpe": 0.19713553755407057,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16920,
+    "created_at": "2026-01-31T05:16:51.828232+00:00",
+    "started_at": "2026-01-31T05:16:51.828232+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3023820.2469450003,
+      "total_return": 0.007940082314999986,
+      "max_drawdown": 0.0035783333333333335,
+      "sharpe": 0.6299723327376858,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16919,
+    "created_at": "2026-01-31T05:16:51.810307+00:00",
+    "started_at": "2026-01-31T05:16:51.810307+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 3.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3023820.2469450003,
+      "total_return": 0.007940082314999986,
+      "max_drawdown": 0.0035783333333333335,
+      "sharpe": 0.6299723327376858,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16918,
+    "created_at": "2026-01-31T05:16:51.809236+00:00",
+    "started_at": "2026-01-31T05:16:51.809236+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3009519.01026,
+      "total_return": 0.0031730034199999313,
+      "max_drawdown": 0.0035783333333333335,
+      "sharpe": 0.27380216726110296,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16917,
+    "created_at": "2026-01-31T05:16:51.741886+00:00",
+    "started_at": "2026-01-31T05:16:51.741886+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.2,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3009519.01026,
+      "total_return": 0.0031730034199999313,
+      "max_drawdown": 0.0035783333333333335,
+      "sharpe": 0.27380216726110296,
+      "n_trades": 5
+    }
+  },
+  {
+    "id": 16916,
+    "created_at": "2026-01-31T05:16:49.164732+00:00",
+    "started_at": "2026-01-31T05:16:49.164732+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3007304.8137149997,
+      "total_return": 0.0024349379049999342,
+      "max_drawdown": 0.006022040633116303,
+      "sharpe": 0.19713553755407057,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16915,
+    "created_at": "2026-01-31T05:16:49.148198+00:00",
+    "started_at": "2026-01-31T05:16:49.148198+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.12,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3023820.2469450003,
+      "total_return": 0.007940082314999986,
+      "max_drawdown": 0.0035783333333333335,
+      "sharpe": 0.6299723327376858,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16914,
+    "created_at": "2026-01-31T05:16:49.127643+00:00",
+    "started_at": "2026-01-31T05:16:49.127643+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.1,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3007304.8137149997,
+      "total_return": 0.0024349379049999342,
+      "max_drawdown": 0.006022040633116303,
+      "sharpe": 0.19713553755407057,
+      "n_trades": 6
+    }
+  },
+  {
+    "id": 16913,
+    "created_at": "2026-01-31T05:16:49.115236+00:00",
+    "started_at": "2026-01-31T05:16:49.115236+00:00",
+    "ticker": "3778.T",
+    "params": {
+      "START": "2024-01-01",
+      "CAPITAL": 3000000.0,
+      "RSI_MAX": 80,
+      "RSI_MIN": 30.0,
+      "LOT_SIZE": 100,
+      "RISK_PCT": 0.004,
+      "PER_TRADE": 500000.0,
+      "MACD_ATR_K": 0.15,
+      "VOL_SPIKE_M": 1.0,
+      "GAP_ENTRY_MAX": 0.08,
+      "MAX_HOLD_DAYS": 5,
+      "STOP_SLIPPAGE": 0.0025,
+      "TAKE_PROFIT_RR": 2.0,
+      "EXIT_ON_REVERSE": false
+    },
+    "metrics": {
+      "final_equity": 3023820.2469450003,
+      "total_return": 0.007940082314999986,
+      "max_drawdown": 0.0035783333333333335,
+      "sharpe": 0.6299723327376858,
+      "n_trades": 6
+    }
+  },
+  {
     "id": 16912,
     "created_at": "2026-01-29T07:29:18.545727+00:00",
     "started_at": "2026-01-29T07:29:18.545727+00:00",
@@ -26485,1518 +28051,6 @@
       "max_drawdown": 0.0010295607706510721,
       "sharpe": 1.370067777543653,
       "n_trades": 5
-    }
-  },
-  {
-    "id": 15966,
-    "created_at": "2026-01-29T07:17:45.068712+00:00",
-    "started_at": "2026-01-29T07:17:45.068712+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3030220.95216095,
-      "total_return": 0.010073650720316518,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.554372645501755,
-      "n_trades": 4
-    }
-  },
-  {
-    "id": 15965,
-    "created_at": "2026-01-29T07:17:44.99455+00:00",
-    "started_at": "2026-01-29T07:17:44.99455+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3030220.95216095,
-      "total_return": 0.010073650720316518,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.554372645501755,
-      "n_trades": 4
-    }
-  },
-  {
-    "id": 15964,
-    "created_at": "2026-01-29T07:17:44.830565+00:00",
-    "started_at": "2026-01-29T07:17:44.830565+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3027101.1555422,
-      "total_return": 0.009033718514066758,
-      "max_drawdown": 0.0010295607706510721,
-      "sharpe": 1.370067777543653,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15963,
-    "created_at": "2026-01-29T07:17:43.105693+00:00",
-    "started_at": "2026-01-29T07:17:43.105693+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3027101.1555422,
-      "total_return": 0.009033718514066758,
-      "max_drawdown": 0.0010295607706510721,
-      "sharpe": 1.370067777543653,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15962,
-    "created_at": "2026-01-29T07:17:42.13685+00:00",
-    "started_at": "2026-01-29T07:17:42.13685+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3030220.95216095,
-      "total_return": 0.010073650720316518,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.554372645501755,
-      "n_trades": 4
-    }
-  },
-  {
-    "id": 15961,
-    "created_at": "2026-01-29T07:17:42.045405+00:00",
-    "started_at": "2026-01-29T07:17:42.045405+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3030220.95216095,
-      "total_return": 0.010073650720316518,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.554372645501755,
-      "n_trades": 4
-    }
-  },
-  {
-    "id": 15960,
-    "created_at": "2026-01-29T07:17:41.869719+00:00",
-    "started_at": "2026-01-29T07:17:41.869719+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3029257.2337925746,
-      "total_return": 0.009752411264191574,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 1.1622352846838655,
-      "n_trades": 8
-    }
-  },
-  {
-    "id": 15959,
-    "created_at": "2026-01-29T07:17:40.132484+00:00",
-    "started_at": "2026-01-29T07:17:40.132484+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3029257.2337925746,
-      "total_return": 0.009752411264191574,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 1.1622352846838655,
-      "n_trades": 8
-    }
-  },
-  {
-    "id": 15958,
-    "created_at": "2026-01-29T07:17:39.24933+00:00",
-    "started_at": "2026-01-29T07:17:39.24933+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3022922.3259215746,
-      "total_return": 0.0076407753071914275,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 0.9756241915638235,
-      "n_trades": 7
-    }
-  },
-  {
-    "id": 15957,
-    "created_at": "2026-01-29T07:17:39.119775+00:00",
-    "started_at": "2026-01-29T07:17:39.119775+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3022922.3259215746,
-      "total_return": 0.0076407753071914275,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 0.9756241915638235,
-      "n_trades": 7
-    }
-  },
-  {
-    "id": 15956,
-    "created_at": "2026-01-29T07:17:38.897306+00:00",
-    "started_at": "2026-01-29T07:17:38.897306+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3029257.2337925746,
-      "total_return": 0.009752411264191574,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 1.1622352846838655,
-      "n_trades": 8
-    }
-  },
-  {
-    "id": 15955,
-    "created_at": "2026-01-29T07:17:37.306514+00:00",
-    "started_at": "2026-01-29T07:17:37.306514+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3029257.2337925746,
-      "total_return": 0.009752411264191574,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 1.1622352846838655,
-      "n_trades": 8
-    }
-  },
-  {
-    "id": 15954,
-    "created_at": "2026-01-29T07:17:36.494591+00:00",
-    "started_at": "2026-01-29T07:17:36.494591+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3022922.3259215746,
-      "total_return": 0.0076407753071914275,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 0.9756241915638235,
-      "n_trades": 7
-    }
-  },
-  {
-    "id": 15953,
-    "created_at": "2026-01-29T07:17:36.365729+00:00",
-    "started_at": "2026-01-29T07:17:36.365729+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.2,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3022922.3259215746,
-      "total_return": 0.0076407753071914275,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 0.9756241915638235,
-      "n_trades": 7
-    }
-  },
-  {
-    "id": 15952,
-    "created_at": "2026-01-29T07:17:35.981876+00:00",
-    "started_at": "2026-01-29T07:17:35.981876+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3020350.8955834,
-      "total_return": 0.006783631861133399,
-      "max_drawdown": 0.0017133753412364768,
-      "sharpe": 1.15190178895894,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15951,
-    "created_at": "2026-01-29T07:17:34.405762+00:00",
-    "started_at": "2026-01-29T07:17:34.405762+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3020350.8955834,
-      "total_return": 0.006783631861133399,
-      "max_drawdown": 0.0017133753412364768,
-      "sharpe": 1.15190178895894,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15950,
-    "created_at": "2026-01-29T07:17:33.69772+00:00",
-    "started_at": "2026-01-29T07:17:33.69772+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3027183.5095484,
-      "total_return": 0.0090611698494667,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.6806476183129557,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15949,
-    "created_at": "2026-01-29T07:17:33.485916+00:00",
-    "started_at": "2026-01-29T07:17:33.485916+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3027183.5095484,
-      "total_return": 0.0090611698494667,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.6806476183129557,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15948,
-    "created_at": "2026-01-29T07:17:33.169822+00:00",
-    "started_at": "2026-01-29T07:17:33.169822+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3020350.8955834,
-      "total_return": 0.006783631861133399,
-      "max_drawdown": 0.0017133753412364768,
-      "sharpe": 1.15190178895894,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15947,
-    "created_at": "2026-01-29T07:17:31.589794+00:00",
-    "started_at": "2026-01-29T07:17:31.589794+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3020350.8955834,
-      "total_return": 0.006783631861133399,
-      "max_drawdown": 0.0017133753412364768,
-      "sharpe": 1.15190178895894,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15946,
-    "created_at": "2026-01-29T07:17:30.902227+00:00",
-    "started_at": "2026-01-29T07:17:30.902227+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3027183.5095484,
-      "total_return": 0.0090611698494667,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.6806476183129557,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15945,
-    "created_at": "2026-01-29T07:17:30.654478+00:00",
-    "started_at": "2026-01-29T07:17:30.654478+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3027183.5095484,
-      "total_return": 0.0090611698494667,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.6806476183129557,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15944,
-    "created_at": "2026-01-29T07:17:30.165666+00:00",
-    "started_at": "2026-01-29T07:17:30.165666+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3036589.1095483997,
-      "total_return": 0.012196369849466482,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.655706826104524,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15943,
-    "created_at": "2026-01-29T07:17:28.586397+00:00",
-    "started_at": "2026-01-29T07:17:28.586397+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3036589.1095483997,
-      "total_return": 0.012196369849466482,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.655706826104524,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15942,
-    "created_at": "2026-01-29T07:17:28.13123+00:00",
-    "started_at": "2026-01-29T07:17:28.13123+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3036589.1095483997,
-      "total_return": 0.012196369849466482,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.655706826104524,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15941,
-    "created_at": "2026-01-29T07:17:27.939359+00:00",
-    "started_at": "2026-01-29T07:17:27.939359+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3036589.1095483997,
-      "total_return": 0.012196369849466482,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.655706826104524,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15940,
-    "created_at": "2026-01-29T07:17:27.29318+00:00",
-    "started_at": "2026-01-29T07:17:27.29318+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3036589.1095483997,
-      "total_return": 0.012196369849466482,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.655706826104524,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15939,
-    "created_at": "2026-01-29T07:17:25.767586+00:00",
-    "started_at": "2026-01-29T07:17:25.767586+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3036589.1095483997,
-      "total_return": 0.012196369849466482,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.655706826104524,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15938,
-    "created_at": "2026-01-29T07:17:25.305774+00:00",
-    "started_at": "2026-01-29T07:17:25.305774+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3036589.1095483997,
-      "total_return": 0.012196369849466482,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.655706826104524,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15937,
-    "created_at": "2026-01-29T07:17:25.105838+00:00",
-    "started_at": "2026-01-29T07:17:25.105838+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3036589.1095483997,
-      "total_return": 0.012196369849466482,
-      "max_drawdown": 0.0003504790564487988,
-      "sharpe": 1.655706826104524,
-      "n_trades": 5
-    }
-  },
-  {
-    "id": 15936,
-    "created_at": "2026-01-29T07:17:24.386549+00:00",
-    "started_at": "2026-01-29T07:17:24.386549+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3029257.2337925746,
-      "total_return": 0.009752411264191574,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 1.1622352846838655,
-      "n_trades": 8
-    }
-  },
-  {
-    "id": 15935,
-    "created_at": "2026-01-29T07:17:22.87711+00:00",
-    "started_at": "2026-01-29T07:17:22.87711+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3029257.2337925746,
-      "total_return": 0.009752411264191574,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 1.1622352846838655,
-      "n_trades": 8
-    }
-  },
-  {
-    "id": 15934,
-    "created_at": "2026-01-29T07:17:22.510515+00:00",
-    "started_at": "2026-01-29T07:17:22.510515+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3029290.4833090245,
-      "total_return": 0.009763494436341391,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 1.137214535746189,
-      "n_trades": 8
-    }
-  },
-  {
-    "id": 15933,
-    "created_at": "2026-01-29T07:17:22.120124+00:00",
-    "started_at": "2026-01-29T07:17:22.120124+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3029290.4833090245,
-      "total_return": 0.009763494436341391,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 1.137214535746189,
-      "n_trades": 8
-    }
-  },
-  {
-    "id": 15932,
-    "created_at": "2026-01-29T07:17:21.199549+00:00",
-    "started_at": "2026-01-29T07:17:21.199549+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3029257.2337925746,
-      "total_return": 0.009752411264191574,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 1.1622352846838655,
-      "n_trades": 8
-    }
-  },
-  {
-    "id": 15931,
-    "created_at": "2026-01-29T07:17:19.275632+00:00",
-    "started_at": "2026-01-29T07:17:19.275632+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3029257.2337925746,
-      "total_return": 0.009752411264191574,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 1.1622352846838655,
-      "n_trades": 8
-    }
-  },
-  {
-    "id": 15930,
-    "created_at": "2026-01-29T07:17:19.115937+00:00",
-    "started_at": "2026-01-29T07:17:19.115937+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3029290.4833090245,
-      "total_return": 0.009763494436341391,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 1.137214535746189,
-      "n_trades": 8
-    }
-  },
-  {
-    "id": 15929,
-    "created_at": "2026-01-29T07:17:18.729518+00:00",
-    "started_at": "2026-01-29T07:17:18.729518+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.05,
-      "VOL_SPIKE_M": 1.1,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3029290.4833090245,
-      "total_return": 0.009763494436341391,
-      "max_drawdown": 0.003372523253234757,
-      "sharpe": 1.137214535746189,
-      "n_trades": 8
-    }
-  },
-  {
-    "id": 15928,
-    "created_at": "2026-01-29T07:17:17.663968+00:00",
-    "started_at": "2026-01-29T07:17:17.663968+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3019006.5328581496,
-      "total_return": 0.006335510952716561,
-      "max_drawdown": 0.00214018502668007,
-      "sharpe": 1.0138893308796182,
-      "n_trades": 7
-    }
-  },
-  {
-    "id": 15927,
-    "created_at": "2026-01-29T07:17:16.094468+00:00",
-    "started_at": "2026-01-29T07:17:16.094468+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3019006.5328581496,
-      "total_return": 0.006335510952716561,
-      "max_drawdown": 0.00214018502668007,
-      "sharpe": 1.0138893308796182,
-      "n_trades": 7
-    }
-  },
-  {
-    "id": 15926,
-    "created_at": "2026-01-29T07:17:15.990824+00:00",
-    "started_at": "2026-01-29T07:17:15.990824+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3028258.58093565,
-      "total_return": 0.009419526978549975,
-      "max_drawdown": 0.00042643539436926556,
-      "sharpe": 1.6489181121032968,
-      "n_trades": 6
-    }
-  },
-  {
-    "id": 15925,
-    "created_at": "2026-01-29T07:17:15.889761+00:00",
-    "started_at": "2026-01-29T07:17:15.889761+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3028258.58093565,
-      "total_return": 0.009419526978549975,
-      "max_drawdown": 0.00042643539436926556,
-      "sharpe": 1.6489181121032968,
-      "n_trades": 6
-    }
-  },
-  {
-    "id": 15924,
-    "created_at": "2026-01-29T07:17:14.603583+00:00",
-    "started_at": "2026-01-29T07:17:14.603583+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3019006.5328581496,
-      "total_return": 0.006335510952716561,
-      "max_drawdown": 0.00214018502668007,
-      "sharpe": 1.0138893308796182,
-      "n_trades": 7
-    }
-  },
-  {
-    "id": 15923,
-    "created_at": "2026-01-29T07:17:13.088361+00:00",
-    "started_at": "2026-01-29T07:17:13.088361+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3019006.5328581496,
-      "total_return": 0.006335510952716561,
-      "max_drawdown": 0.00214018502668007,
-      "sharpe": 1.0138893308796182,
-      "n_trades": 7
-    }
-  },
-  {
-    "id": 15922,
-    "created_at": "2026-01-29T07:17:12.968529+00:00",
-    "started_at": "2026-01-29T07:17:12.968529+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3028258.58093565,
-      "total_return": 0.009419526978549975,
-      "max_drawdown": 0.00042643539436926556,
-      "sharpe": 1.6489181121032968,
-      "n_trades": 6
-    }
-  },
-  {
-    "id": 15921,
-    "created_at": "2026-01-29T07:17:12.944678+00:00",
-    "started_at": "2026-01-29T07:17:12.944678+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.15,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3028258.58093565,
-      "total_return": 0.009419526978549975,
-      "max_drawdown": 0.00042643539436926556,
-      "sharpe": 1.6489181121032968,
-      "n_trades": 6
-    }
-  },
-  {
-    "id": 15920,
-    "created_at": "2026-01-29T07:17:11.62247+00:00",
-    "started_at": "2026-01-29T07:17:11.62247+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3042789.3365656505,
-      "total_return": 0.014263112188550142,
-      "max_drawdown": 0.0008041698221580223,
-      "sharpe": 1.7589317453142184,
-      "n_trades": 9
-    }
-  },
-  {
-    "id": 15919,
-    "created_at": "2026-01-29T07:17:10.08163+00:00",
-    "started_at": "2026-01-29T07:17:10.08163+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3042789.3365656505,
-      "total_return": 0.014263112188550142,
-      "max_drawdown": 0.0008041698221580223,
-      "sharpe": 1.7589317453142184,
-      "n_trades": 9
-    }
-  },
-  {
-    "id": 15918,
-    "created_at": "2026-01-29T07:17:09.970474+00:00",
-    "started_at": "2026-01-29T07:17:09.970474+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3039346.3559356504,
-      "total_return": 0.01311545197855013,
-      "max_drawdown": 0.0004261979354305838,
-      "sharpe": 1.698311240976911,
-      "n_trades": 7
-    }
-  },
-  {
-    "id": 15917,
-    "created_at": "2026-01-29T07:17:09.906777+00:00",
-    "started_at": "2026-01-29T07:17:09.906777+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 35.0,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3039346.3559356504,
-      "total_return": 0.01311545197855013,
-      "max_drawdown": 0.0004261979354305838,
-      "sharpe": 1.698311240976911,
-      "n_trades": 7
-    }
-  },
-  {
-    "id": 15916,
-    "created_at": "2026-01-29T07:17:08.588962+00:00",
-    "started_at": "2026-01-29T07:17:08.588962+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3042789.3365656505,
-      "total_return": 0.014263112188550142,
-      "max_drawdown": 0.0008041698221580223,
-      "sharpe": 1.7589317453142184,
-      "n_trades": 9
-    }
-  },
-  {
-    "id": 15915,
-    "created_at": "2026-01-29T07:17:06.965628+00:00",
-    "started_at": "2026-01-29T07:17:06.965628+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 80,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3042789.3365656505,
-      "total_return": 0.014263112188550142,
-      "max_drawdown": 0.0008041698221580223,
-      "sharpe": 1.7589317453142184,
-      "n_trades": 9
-    }
-  },
-  {
-    "id": 15914,
-    "created_at": "2026-01-29T07:17:06.944494+00:00",
-    "started_at": "2026-01-29T07:17:06.944494+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.12,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3039346.3559356504,
-      "total_return": 0.01311545197855013,
-      "max_drawdown": 0.0004261979354305838,
-      "sharpe": 1.698311240976911,
-      "n_trades": 7
-    }
-  },
-  {
-    "id": 15913,
-    "created_at": "2026-01-29T07:17:06.908823+00:00",
-    "started_at": "2026-01-29T07:17:06.908823+00:00",
-    "ticker": "7203.T",
-    "params": {
-      "CAPITAL": 3000000.0,
-      "RSI_MAX": 75,
-      "RSI_MIN": 30,
-      "LOT_SIZE": 100,
-      "RISK_PCT": 0.006,
-      "PER_TRADE": 500000.0,
-      "MACD_ATR_K": 0.1,
-      "VOL_SPIKE_M": 1.0,
-      "GAP_ENTRY_MAX": 0.08,
-      "MAX_HOLD_DAYS": 10,
-      "STOP_SLIPPAGE": 0.0025,
-      "TAKE_PROFIT_RR": 3.0,
-      "EXIT_ON_REVERSE": true
-    },
-    "metrics": {
-      "final_equity": 3039346.3559356504,
-      "total_return": 0.01311545197855013,
-      "max_drawdown": 0.0004261979354305838,
-      "sharpe": 1.698311240976911,
-      "n_trades": 7
     }
   }
 ]
