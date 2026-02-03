@@ -55,14 +55,14 @@ if __name__ == "__main__":
 
         # ここから下は今まで通り（必要なら後でいじる）
         "TAKE_PROFIT_RR": [2.0, 3.0, 4.0],
-        "MAX_HOLD_DAYS":  [5, 10, 20],
+        "MAX_HOLD_DAYS":  [5, 10, 20, 30],
         "STOP_SLIPPAGE":  [0.0025],
         "EXIT_ON_REVERSE":[True],
         "VOL_SPIKE_M":    [1.0, 1.1, 1.2],
         "MACD_ATR_K":     [0.05, 0.1, 0.15],
         "RSI_MIN":        [30, 35.0],
         "RSI_MAX":        [75, 80],
-        "GAP_ENTRY_MAX":  [0.08, 0.12],
+        "GAP_ENTRY_MAX":  [0.08],
     }
 # --- env override (single OR list values) ---
     def _split_env(name: str):
