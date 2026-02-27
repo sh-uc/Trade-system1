@@ -31,9 +31,10 @@ def _worker_run(ticker, ind, params, enable_save=False):
 
 
 if __name__ == "__main__":
-    # 価格キャッシュ（bt_core.fetch_prices がこの env を参照する想定）
-    os.environ.setdefault("PRICE_CACHE_DIR", ".cache/prices")
-    os.environ.setdefault("PRICE_CACHE_TTL_DAYS", "14")  # 例：14日以内ならキャッシュ優先
+    # 価格キャッシュ（bt_core.fetch_prices は BT_PRICE_CACHE* を参照）
+    # 旧 env (PRICE_CACHE_DIR) が渡された場合も後方互換で取り込む。
+    os.environ.setdefault("BT_PRICE_CACHE_DIR", os.environ.get("PRICE_CACHE_DIR", ".cache/prices"))
+    os.environ.setdefault("BT_PRICE_CACHE", os.environ.get("PRICE_CACHE", "1"))
 
     t0 = time.time()
 
