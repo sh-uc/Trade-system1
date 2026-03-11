@@ -254,10 +254,11 @@ def run_backtest(
     params : 以下キーを期待（存在しない場合はデフォルト）
         CAPITAL        : 初期資金 JPY
         PER_TRADE      : 1トレード上限 JPY
-        RISK_PCT       : 許容損失率（初期ストップ距離の目安）
+        RISK_PCT       : 許容損失率（建玉サイズ計算用）
         LOT_SIZE       : 売買単位　2025.11.23　追加
         SLIPPAGE       : 成行スリッページ
         FEE_PCT        : 片道手数料（必要なら）
+        STOP_PCT       : 初期ストップ距離（未指定時は RISK_PCT を使う）
         STOP_SLIPPAGE  : ストップ時追加滑り
         TAKE_PROFIT_RR : R倍で利確
         MAX_HOLD_DAYS  : 時間切れ日数
@@ -274,6 +275,7 @@ def run_backtest(
     CAPITAL = float(params.get("CAPITAL", 3_000_000)) # 1000000 => 3000000 2025.11.23
     PER_TRADE = float(params.get("PER_TRADE", 500_000)) # 200000 => 500000 2025.11.23
     RISK_PCT = float(params.get("RISK_PCT", 0.003)) # 0.005 => 0.003 2025.11.23
+    STOP_PCT = float(params.get("STOP_PCT", RISK_PCT))
     LOT_SIZE = int(params.get("LOT_SIZE", 100)) # added 2025.11.23
     SLIPPAGE = float(params.get("SLIPPAGE", 0.0005))
     FEE_PCT = float(params.get("FEE_PCT", 0.0))
@@ -291,9 +293,9 @@ def run_backtest(
     pos = 0
     entry_px = math.nan
     entry_date = None
+    entry_bar_index: Optional[int] = None
     stop_px = math.nan
     take_px = math.nan
-    hold_days = 0
     pending_buy_for: Optional[dt.date] = None
     # TIME / REV を「翌営業日寄り」で成行決済するためのペンディング
     pending_sell_for: Optional[dt.date] = None
@@ -324,7 +326,7 @@ def run_backtest(
                 "reason": pending_sell_reason or "MKT",
                 "signal_ts": pending_sell_signal_ts, # ★追加：検知日（前日の引け）
             })
-            pos = 0; entry_px = math.nan; entry_date = None; stop_px = math.nan; take_px = math.nan; hold_days = 0
+            pos = 0; entry_px = math.nan; entry_date = None; entry_bar_index = None; stop_px = math.nan; take_px = math.nan
             pending_sell_for = None
             pending_sell_reason = None
             pending_sell_signal_ts = None
@@ -348,12 +350,10 @@ def run_backtest(
                         pos = qty
                         entry_px = fill
                         entry_date = date
-                        hold_days = 0
+                        entry_bar_index = i
                         just_bought = True
-                        # stop/take は「リスク幅(RISK_PCT)」で決める
-                        # STOP_SLIPPAGE は約定滑り(実行)であり、ストップ距離(リスク幅)には混ぜない 2025.12.26
-                        # R = max(entry_px * RISK_PCT, entry_px * STOP_SLIPPAGE)
-                        R = entry_px * RISK_PCT
+                        # stop/take は STOP_PCT ベース、建玉サイズは RISK_PCT ベースで分離する。
+                        R = entry_px * STOP_PCT
                         stop_px = entry_px - R
                         take_px = entry_px + TAKE_PROFIT_RR * R
                         trades.append({"date": date, "side": "BUY", "px": fill, "qty": qty})
@@ -369,12 +369,10 @@ def run_backtest(
                     pos = qty
                     entry_px = fill
                     entry_date = date
-                    hold_days = 0
+                    entry_bar_index = i
                     just_bought = True
-                    # stop/take は「リスク幅(RISK_PCT)」で決める
-                    # STOP_SLIPPAGE は約定滑り(実行)であり、ストップ距離(リスク幅)には混ぜない 2025.12.26
-                    # R = max(entry_px * RISK_PCT, entry_px * STOP_SLIPPAGE)
-                    R = entry_px * RISK_PCT
+                    # stop/take は STOP_PCT ベース、建玉サイズは RISK_PCT ベースで分離する。
+                    R = entry_px * STOP_PCT
                     stop_px = entry_px - R
                     take_px = entry_px + TAKE_PROFIT_RR * R
                     trades.append({"date": date, "side": "BUY", "px": fill, "qty": qty})
@@ -399,45 +397,44 @@ def run_backtest(
                 sold = False  # ← これを入れるだけでも UnboundLocalError は防げる
             else:
                 sold = False
+                current_hold_days = (i - entry_bar_index) if entry_bar_index is not None else 0
+                expiry_day = current_hold_days >= MAX_HOLD_DAYS
                 # ストップ（割れたら寄り相当-滑り）
                 if l <= stop_px:
                     fill = max(o, stop_px) * (1 - STOP_SLIPPAGE)
                     cash += fill * pos * (1 - FEE_PCT)
                     trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "SL"})
-                    pos = 0; entry_px = math.nan; entry_date = None; take_px = math.nan; hold_days = 0
+                    pos = 0; entry_px = math.nan; entry_date = None; entry_bar_index = None; stop_px = math.nan; take_px = math.nan
                     sold = True
-                # 利確
+                # 期限到達日は TP を見ず、引けで TIME を予約する
+                if not sold and pending_sell_for is None and expiry_day:
+                    pending_sell_for = next_trading_day(date.date())
+                    pending_sell_reason = "TIME"
+                    pending_sell_signal_ts = date
+                    sold = True
+                # 期限前のみ利確を許可
                 if not sold and (not math.isnan(take_px)) and (h >= take_px):
                     fill = max(take_px, o) * (1 - SLIPPAGE)
                     cash += fill * pos * (1 - FEE_PCT)
                     trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "TP"})
-                    pos = 0; entry_px = math.nan; entry_date = None; take_px = math.nan; hold_days = 0
+                    pos = 0; entry_px = math.nan; entry_date = None; entry_bar_index = None; stop_px = math.nan; take_px = math.nan
                     sold = True
-                # 時間切れ / 逆シグナル は「当日引けで判定」→「翌営業日寄りで成行」に変更
-                if not sold and pending_sell_for is None:
-                    # 時間切れ（引けで判断 → 翌寄りで売る）
-                    if hold_days >= MAX_HOLD_DAYS:
+                # 逆シグナル（引けで判断 → 翌寄りで売る）
+                if not sold and pending_sell_for is None and EXIT_ON_REVERSE:
+                    if not long_signal_row(
+                        row,
+                        MACD_ATR_K=MACD_ATR_K,
+                        RSI_MIN=RSI_MIN,
+                        RSI_MAX=RSI_MAX,
+                        VOL_SPIKE_M=VOL_SPIKE_M,
+                    ):
                         pending_sell_for = next_trading_day(date.date())
-                        pending_sell_reason = "TIME"
-                        pending_sell_signal_ts = date  # ★追加：検知日（この日の引けでTIME判定）
+                        pending_sell_reason = "REV"
+                        pending_sell_signal_ts = date  # ★追加：検知日（この日の引けでREV判定）
                         sold = True  # 同日中の他のexitを抑止
-                    # 逆シグナル（引けで判断 → 翌寄りで売る）
-                    elif EXIT_ON_REVERSE:
-                        if not long_signal_row(
-                            row,
-                            MACD_ATR_K=MACD_ATR_K,
-                            RSI_MIN=RSI_MIN,
-                            RSI_MAX=RSI_MAX,
-                            VOL_SPIKE_M=VOL_SPIKE_M,
-                        ):
-                            pending_sell_for = next_trading_day(date.date())
-                            pending_sell_reason = "REV"
-                            pending_sell_signal_ts = date  # ★追加：検知日（この日の引けでTIME判定）
-                            sold = True  # 同日中の他のexitを抑止
             # end else(if just_bought)
 
         # 4) 評価額を記録
-        hold_days = (hold_days + 1) if (pos > 0 and entry_date is not None and date >= entry_date) else hold_days
         equity_curve_val = cash + (pos * c if pos > 0 else 0.0)
         equity_curve.append({"date": date, "equity": equity_curve_val})
 
@@ -489,3 +486,7 @@ def run_backtest(
 
     return result
 #
+
+
+
+
