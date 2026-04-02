@@ -43,4 +43,21 @@ jobs:
           LINE_CHANNEL_TOKEN: ${{ secrets.LINE_CHANNEL_TOKEN }}   # ← これを追加
         run: |
           python daily_task.py
+
+      - name: Run daily paper trader job
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          LINE_CHANNEL_TOKEN: ${{ secrets.LINE_CHANNEL_TOKEN }}
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+          TRADER_SIMULATION_NAME: paper_candidate9_daily
+          STRATEGY_NAME: swing_v1_candidate9
+          MAX_OPEN_POSITIONS: 5
+          MAX_NEW_POSITIONS_PER_DAY: 2
+          EARNINGS_BLOCK_DAYS: 2
+          EARNINGS_BLOCK_LABELS: FY
+          EX_DIVIDEND_BLOCK_DAYS: 1
+          REPORT_DIR: docs/daily_reports
+        run: |
+          python daily_paper_trader.py
 #
