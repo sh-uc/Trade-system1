@@ -22,6 +22,8 @@ def _worker_run(ticker, ind, params, enable_save=False):
     # 各プロセスで DataFrame を再送すると重いので、
     # ここでは “各プロセス起動時に一度だけ” 読み込ませる方法もあるが、
     # シンプルに picklable な DataFrame を渡しても十分速い規模ならOK。
+    params = dict(params)
+    params.setdefault("TICKER", ticker)
     if enable_save:
         cb = make_save_cb(ticker)
     else:
@@ -53,12 +55,19 @@ if __name__ == "__main__":
 
         # ★ RISK_PCT は新レンジに変更
         "RISK_PCT":       [0.006, 0.01],
+        "STOP_PCT":       [0.006, 0.01],
 
         # ここから下は今まで通り（必要なら後でいじる）
         "TAKE_PROFIT_RR": [2.0, 3.0, 4.0],
+        "BREAK_EVEN_R":   [0.0],
+        "TRAILING_START_R": [0.0],
+        "TRAILING_STOP_R": [0.0],
         "MAX_HOLD_DAYS":  [5, 10, 20, 30],
         "STOP_SLIPPAGE":  [0.0025],
         "EXIT_ON_REVERSE":[True],
+        "USE_INTRADAY_RESOLUTION": [False],
+        "INTRADAY_INTERVAL": ["60m"],
+        "INTRADAY_TIE_BREAK": ["SL_FIRST"],
         "VOL_SPIKE_M":    [1.0, 1.1, 1.2],
         "MACD_ATR_K":     [0.05, 0.1, 0.15],
         "RSI_MIN":        [30, 35.0],
@@ -108,9 +117,25 @@ if __name__ == "__main__":
     if v is not None:
         grid["RISK_PCT"] = v
 
+    v = _env_floats("STOP_PCT")
+    if v is not None:
+        grid["STOP_PCT"] = v
+
     v = _env_floats("TAKE_PROFIT_RR")
     if v is not None:
         grid["TAKE_PROFIT_RR"] = v
+
+    v = _env_floats("BREAK_EVEN_R")
+    if v is not None:
+        grid["BREAK_EVEN_R"] = v
+
+    v = _env_floats("TRAILING_START_R")
+    if v is not None:
+        grid["TRAILING_START_R"] = v
+
+    v = _env_floats("TRAILING_STOP_R")
+    if v is not None:
+        grid["TRAILING_STOP_R"] = v
 
     v = _env_ints("MAX_HOLD_DAYS")
     if v is not None:
@@ -139,6 +164,18 @@ if __name__ == "__main__":
     v = _env_bools("EXIT_ON_REVERSE")
     if v is not None:
         grid["EXIT_ON_REVERSE"] = v
+
+    v = _env_bools("USE_INTRADAY_RESOLUTION")
+    if v is not None:
+        grid["USE_INTRADAY_RESOLUTION"] = v
+
+    parts = _split_env("INTRADAY_INTERVAL")
+    if parts is not None:
+        grid["INTRADAY_INTERVAL"] = parts
+
+    parts = _split_env("INTRADAY_TIE_BREAK")
+    if parts is not None:
+        grid["INTRADAY_TIE_BREAK"] = parts
 # --- end env override ---
     keys   = list(grid.keys())
     combos = list(itertools.product(*grid.values()))

@@ -2,10 +2,11 @@
 import os, sys, time, json
 from datetime import timezone, timedelta
 import numpy as np
-import requests
+import re
 import pandas as pd
 import yfinance as yf
 from supabase import create_client
+from db_utils import resolve_company_name
 import datetime as dt
 import pytz
 import jpholiday
@@ -28,8 +29,6 @@ if not is_trading_day_jst(today_jst):
 
 # --- add: safe Supabase client creator ---
 import re
-from supabase import create_client
-
 def fmt_line(value):
     # 3桁区切り & Noneガード
     return f"{value:,.0f}" if isinstance(value, (int, float)) else "-"
@@ -90,37 +89,6 @@ def create_supabase_from_env():
         raise ValueError(f"SUPABASE_URL looks invalid: {raw_url}")
 
     return create_client(raw_url, raw_key)
-
-# Tickers code-->name変換
-def resolve_company_name(code: str, sb=None) -> str:
-    # 1) DBキャッシュ
-    if sb is not None:
-        r = sb.table("tickers").select("name").eq("code", code).limit(1).execute()
-        if r.data:
-            return r.data[0]["name"]
-
-    # 2) yfinance で取得（失敗時は code を返す）
-    try:
-        info = yf.Ticker(code).fast_info  # 軽量
-    except Exception:
-        info = None
-
-    name = None
-    if info and getattr(info, "shortName", None):
-        name = info.shortName
-    else:
-        # fallback: 詳細info（やや重い）
-        try:
-            name = yf.Ticker(code).info.get("shortName")
-        except Exception:
-            name = None
-
-    name = name or code
-
-    # 3) DBに保存（upsert）
-    if sb is not None:
-        sb.table("tickers").upsert({"code": code, "name": name}).execute()
-    return name
 
 
 # ---------- Utils ----------
@@ -410,6 +378,11 @@ if __name__ == "__main__":
         print(traceback.format_exc())
         sys.exit(1)
 #
+
+
+
+
+
 
 
 

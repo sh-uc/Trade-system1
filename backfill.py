@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 from supabase import create_client
+from db_utils import resolve_company_name
 
 JST = timezone(timedelta(hours=9))
 
@@ -34,24 +35,20 @@ def macd(close: pd.Series, fast=12, slow=26, sig=9):
     m = ema(close, fast) - ema(close, slow)
     return m, ema(m, sig), m - ema(m, sig)
 
-# ★ MultiIndex → 単一レベルに平坦化
 def flatten_columns(df: pd.DataFrame) -> pd.DataFrame:
     if isinstance(df.columns, pd.MultiIndex):
         new_cols = []
         for c in df.columns:
             if isinstance(c, tuple):
-                # 先頭レベルを優先。空文字は無視
                 parts = [str(x) for x in c if str(x) != ""]
                 new_cols.append(parts[0] if parts else "")
             else:
                 new_cols.append(c)
         df = df.copy()
         df.columns = new_cols
-    # 重複名を除去
     df = df.loc[:, ~pd.Index(df.columns).duplicated()].copy()
     return df
 
-# ★ TR計算をDataFrame/Series両対応に
 def true_range(df_ohlc: pd.DataFrame) -> pd.Series:
     H = df_ohlc["High"];  H = H.iloc[:,0] if isinstance(H, pd.DataFrame) else H
     L = df_ohlc["Low"];   L = L.iloc[:,0] if isinstance(L, pd.DataFrame) else L
@@ -62,7 +59,6 @@ def true_range(df_ohlc: pd.DataFrame) -> pd.Series:
     c = (L - pc).abs()
     return pd.concat([a, b, c], axis=1).max(axis=1)
 
-# -------- Yahoo取得（リトライ＋フォールバック）--------
 def fetch_yf(ticker: str, period="2y", interval="1d", tries=4, sleep_sec=3) -> pd.DataFrame:
     last_err = None
     for _ in range(tries):
@@ -82,7 +78,6 @@ def fetch_yf(ticker: str, period="2y", interval="1d", tries=4, sleep_sec=3) -> p
         time.sleep(sleep_sec)
     raise RuntimeError(f"Failed to download {ticker}. last_err={last_err!r}")
 
-# -------- メイン --------
 def main():
     TICKER  = os.environ.get("TICKER", "3778.T")
     PERIOD  = os.environ.get("PERIOD", "2y")
@@ -92,18 +87,16 @@ def main():
         print("ERROR: Set SUPABASE_URL and SUPABASE_KEY", file=sys.stderr); sys.exit(1)
 
     sb = create_client(SUPA_URL, SUPA_KEY)
+    company_name = resolve_company_name(TICKER, sb)
 
-    # ① 取得 → ★ 平坦化
     df = fetch_yf(TICKER, period=PERIOD, interval="1d")
     df = flatten_columns(df)
     if df.empty:
         print(f"No data for {TICKER}"); sys.exit(1)
 
-    # ② 整形
     raw = (df.rename(columns={"Open":"open","High":"high","Low":"low","Close":"close","Adj Close":"adj_close","Volume":"volume"})
              .dropna().copy())
 
-    # ③ 指標
     ind = raw.copy()
     ind["ma25"]    = ind["close"].rolling(25, min_periods=25).mean()
     ind["ma75"]    = ind["close"].rolling(75, min_periods=75).mean()
@@ -113,7 +106,6 @@ def main():
     ind["atr14"]   = true_range(df).rolling(14, min_periods=14).mean()
     ind["stdev20"] = ind["close"].rolling(20, min_periods=20).std()
 
-    # 出来高（必ず1次元へ）
     vol_series = pd.Series(np.ravel(np.asarray(ind["volume"])), index=ind.index)
     ind["vol_ma20"]  = vol_series.rolling(20, min_periods=20).mean()
     ind["vol_spike"] = (vol_series >= ind["vol_ma20"]).fillna(False).astype(bool)
@@ -123,8 +115,6 @@ def main():
 
     ind = ind.dropna()
 
-    # ④ Supabase upsert（バルク）
-    # prices（指標が出た日付に合わせる）
     prices_rows = []
     for ts, r in raw.loc[ind.index].iterrows():
         prices_rows.append({
@@ -135,7 +125,6 @@ def main():
     for c in chunks(prices_rows, 500):
         sb.table("prices").upsert(c, on_conflict="date,code").execute()
 
-    # indicators
     ind_rows = []
     for ts, r in ind.iterrows():
         ind_rows.append({
@@ -149,7 +138,7 @@ def main():
     for c in chunks(ind_rows, 500):
         sb.table("indicators").upsert(c, on_conflict="date,code").execute()
 
-    print(f"Backfilled {TICKER}: prices={len(prices_rows)}, indicators={len(ind_rows)}")
+    print(f"Backfilled {TICKER} ({company_name}): prices={len(prices_rows)}, indicators={len(ind_rows)}")
 
 if __name__ == "__main__":
     try:

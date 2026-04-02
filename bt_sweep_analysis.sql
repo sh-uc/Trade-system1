@@ -66,4 +66,94 @@ from backtests_runs
 group by ticker
 order by avg_trades desc;
 
+A) 8306.T の “ベスト1本” を DB から抜いて「どの条件が効いてるか」を確認
+select
+  id, ticker, total_return, final_equity, max_drawdown, sharpe, n_trades, params
+from backtests_runs
+where ticker='8306.T'
+order by final_equity desc
+limit 10;
+
+1) runごとの SELL reason 内訳（TIMEがあるか確認）
+SELECT
+  run_id,
+  reason,
+  COUNT(*) AS n
+FROM public.backtests_trades
+WHERE side = 'SELL' AND run_id >= 8741
+
+GROUP BY run_id, reason
+ORDER BY run_id, n DESC;
+
+2) runごとの SELL件数（= n_tradesの実態）
+SELECT
+  run_id,
+  COUNT(*) AS n_sells
+FROM public.backtests_trades
+WHERE side = 'SELL'
+GROUP BY run_id
+ORDER BY n_sells DESC;
+
+3) “同じトレード列か？”の判定（runごとの署名）
+SELECT
+  run_id,
+  md5(string_agg(
+        side || ':' || to_char(ts, 'YYYY-MM-DD"T"HH24:MI:SSOF') || ':' ||
+        COALESCE(reason,'') || ':' || price::text || ':' || qty::text,
+        '|' ORDER BY ts, side
+      )) AS trades_sig,
+  COUNT(*) AS n_rows
+FROM public.backtests_trades
+GROUP BY run_id
+ORDER BY n_rows DESC;
+
+当日売り（BUY日=SELL日）が残ってないか
+with b as (
+  select run_id, ts as buy_ts
+  from backtests_trades
+  where side='BUY' and run_id >= 8885
+),
+s as (
+  select run_id, ts as sell_ts
+  from backtests_trades
+  where side='SELL' and run_id >= 8885
+),
+pairs as (
+  select b.run_id, b.buy_ts, s.sell_ts
+  from b join s on s.run_id=b.run_id and s.sell_ts > b.buy_ts
+)
+select count(*) as same_day_exits
+from pairs
+where sell_ts::date = buy_ts::date;
+
+「REV/TIME が出た run」を探すSQL
+select run_id, reason, count(*) as n
+from backtests_trades
+where run_id >= 9029 and run_id <= 9172
+  and side = 'SELL'
+  and reason in ('REV','TIME')
+group by run_id, reason
+order by run_id, reason;
+
+run_id 9750〜 の範囲で、SELL reason を全部集計してみてください。
+select reason, count(*) as n
+from backtests_trades
+where run_id >= 9750
+  and side='SELL'
+group by reason
+order by n desc;
+
+「runごとに TIME/SL の比率がどう変わるか」を見ると、グリッドの効きが分かります。
+select run_id,
+       sum(case when reason='TIME' then 1 else 0 end) as n_time,
+       sum(case when reason='SL' then 1 else 0 end) as n_sl,
+       count(*) as n_sell
+from backtests_trades
+where run_id >= 9750
+  and side='SELL'
+group by run_id
+order by run_id;
+
+
+
 

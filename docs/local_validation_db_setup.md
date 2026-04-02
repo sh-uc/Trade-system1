@@ -31,6 +31,9 @@
 8. `supabase/ddl/051_match_repo_chunks.sql`
 9. `supabase/ddl/060_repo_docs.sql`
 10. `supabase/ddl/070_signals.sql`
+11. `supabase/ddl/080_strategy_param_sets.sql`
+12. `supabase/ddl/081_live_positions.sql`
+13. `supabase/ddl/082_live_trade_fills.sql`
 
 ※ `011_backtests_trades.sql` は `backtests_runs` への FK があるため、`010` より後に適用が必須です。
 
@@ -68,7 +71,10 @@ for f in \
   supabase/ddl/050_repo_chunks.sql \
   supabase/ddl/051_match_repo_chunks.sql \
   supabase/ddl/060_repo_docs.sql \
-  supabase/ddl/070_signals.sql; do
+  supabase/ddl/070_signals.sql \
+  supabase/ddl/080_strategy_param_sets.sql \
+  supabase/ddl/081_live_positions.sql \
+  supabase/ddl/082_live_trade_fills.sql; do
   echo "Applying: $f"
   psql "postgresql://postgres:postgres@localhost:55432/trade_verify" -v ON_ERROR_STOP=1 -f "$f"
 done
@@ -105,7 +111,10 @@ for f in \
   supabase/ddl/050_repo_chunks.sql \
   supabase/ddl/051_match_repo_chunks.sql \
   supabase/ddl/060_repo_docs.sql \
-  supabase/ddl/070_signals.sql; do
+  supabase/ddl/070_signals.sql \
+  supabase/ddl/080_strategy_param_sets.sql \
+  supabase/ddl/081_live_positions.sql \
+  supabase/ddl/082_live_trade_fills.sql; do
   psql -d trade_verify -v ON_ERROR_STOP=1 -f "$f"
 done
 ```
@@ -153,4 +162,3 @@ select * from backtests_trades order by ts desc limit 5;
 3. 「本番反映手順（ロールバック付き）を出して」
 
 これで `service_role` を共有せずに、DDL 品質を先に固められます。
-

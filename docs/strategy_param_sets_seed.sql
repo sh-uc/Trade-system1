@@ -1,0 +1,61 @@
+insert into public.strategy_param_sets (
+  strategy_name,
+  ticker,
+  param_set_name,
+  params,
+  source_run_id,
+  is_active,
+  effective_from,
+  notes
+) values
+(
+  'swing_v1',
+  '3103.T',
+  'best_2026-03-17',
+  '{"CAPITAL":3000000,"PER_TRADE":500000,"LOT_SIZE":100,"RISK_PCT":0.001,"STOP_PCT":0.001,"TAKE_PROFIT_RR":2.0,"BREAK_EVEN_R":0.5,"TRAILING_START_R":0.5,"TRAILING_STOP_R":0.25,"MAX_HOLD_DAYS":5,"STOP_SLIPPAGE":0.0025,"EXIT_ON_REVERSE":true,"USE_INTRADAY_RESOLUTION":true,"INTRADAY_INTERVAL":"60m","INTRADAY_TIE_BREAK":"SL_FIRST","VOL_SPIKE_M":1.0,"MACD_ATR_K":0.13,"RSI_MIN":30.0,"RSI_MAX":80.0,"GAP_ENTRY_MAX":0.08}'::jsonb,
+  17241,
+  true,
+  current_date,
+  'initial paper simulation seed'
+),
+(
+  'swing_v1',
+  '7013.T',
+  'best_2026-03-17',
+  '{"CAPITAL":3000000,"PER_TRADE":500000,"LOT_SIZE":100,"RISK_PCT":0.001,"STOP_PCT":0.001,"TAKE_PROFIT_RR":2.0,"BREAK_EVEN_R":0.5,"TRAILING_START_R":0.5,"TRAILING_STOP_R":0.25,"MAX_HOLD_DAYS":3,"STOP_SLIPPAGE":0.0025,"EXIT_ON_REVERSE":true,"USE_INTRADAY_RESOLUTION":true,"INTRADAY_INTERVAL":"60m","INTRADAY_TIE_BREAK":"SL_FIRST","VOL_SPIKE_M":1.0,"MACD_ATR_K":0.11,"RSI_MIN":30.0,"RSI_MAX":80.0,"GAP_ENTRY_MAX":0.08}'::jsonb,
+  17543,
+  true,
+  current_date,
+  'initial paper simulation seed'
+),
+(
+  'swing_v1',
+  '4506.T',
+  'best_2026-03-17',
+  '{"CAPITAL":3000000,"PER_TRADE":500000,"LOT_SIZE":100,"RISK_PCT":0.001,"STOP_PCT":0.001,"TAKE_PROFIT_RR":2.0,"BREAK_EVEN_R":0.5,"TRAILING_START_R":0.5,"TRAILING_STOP_R":0.25,"MAX_HOLD_DAYS":3,"STOP_SLIPPAGE":0.0025,"EXIT_ON_REVERSE":true,"USE_INTRADAY_RESOLUTION":true,"INTRADAY_INTERVAL":"60m","INTRADAY_TIE_BREAK":"SL_FIRST","VOL_SPIKE_M":1.0,"MACD_ATR_K":0.13,"RSI_MIN":30.0,"RSI_MAX":80.0,"GAP_ENTRY_MAX":0.08}'::jsonb,
+  17717,
+  true,
+  current_date,
+  'initial paper simulation seed'
+),
+(
+  'swing_v1',
+  '6235.T',
+  'best_2026-03-17',
+  '{"CAPITAL":3000000,"PER_TRADE":500000,"LOT_SIZE":100,"RISK_PCT":0.001,"STOP_PCT":0.001,"TAKE_PROFIT_RR":2.0,"BREAK_EVEN_R":0.5,"TRAILING_START_R":0.5,"TRAILING_STOP_R":0.25,"MAX_HOLD_DAYS":3,"STOP_SLIPPAGE":0.0025,"EXIT_ON_REVERSE":true,"USE_INTRADAY_RESOLUTION":true,"INTRADAY_INTERVAL":"60m","INTRADAY_TIE_BREAK":"SL_FIRST","VOL_SPIKE_M":1.0,"MACD_ATR_K":0.11,"RSI_MIN":30.0,"RSI_MAX":80.0,"GAP_ENTRY_MAX":0.08}'::jsonb,
+  17546,
+  true,
+  current_date,
+  'initial paper simulation seed'
+),
+(
+  'swing_v1',
+  '6330.T',
+  'best_2026-03-17',
+  '{"CAPITAL":3000000,"PER_TRADE":500000,"LOT_SIZE":100,"RISK_PCT":0.001,"STOP_PCT":0.001,"TAKE_PROFIT_RR":2.0,"BREAK_EVEN_R":0.5,"TRAILING_START_R":0.5,"TRAILING_STOP_R":0.25,"MAX_HOLD_DAYS":3,"STOP_SLIPPAGE":0.0025,"EXIT_ON_REVERSE":true,"USE_INTRADAY_RESOLUTION":true,"INTRADAY_INTERVAL":"60m","INTRADAY_TIE_BREAK":"SL_FIRST","VOL_SPIKE_M":1.0,"MACD_ATR_K":0.15,"RSI_MIN":30.0,"RSI_MAX":80.0,"GAP_ENTRY_MAX":0.08}'::jsonb,
+  17720,
+  true,
+  current_date,
+  'initial paper simulation seed'
+)
+on conflict do nothing;

@@ -136,6 +136,99 @@ def fetch_prices(ticker: str, start: str, end: Optional[str] = None) -> pd.DataF
 
     return o
 
+
+def fetch_intraday_prices(ticker: str, start: str, end: str, interval: str = "60m") -> pd.DataFrame:
+    """Yahoo から intraday 足を取得して整形する（JST index）。"""
+    cache_dir = os.environ.get("BT_INTRADAY_CACHE_DIR", ".cache/intraday")
+    cache_on = os.environ.get("BT_INTRADAY_CACHE", "1") == "1"
+    safe_ticker = re.sub(r"[^A-Za-z0-9_.-]+", "_", ticker)
+    safe_start = re.sub(r"[^0-9A-Za-z:-]+", "_", start)
+    safe_end = re.sub(r"[^0-9A-Za-z:-]+", "_", end)
+    safe_interval = re.sub(r"[^A-Za-z0-9]+", "_", interval)
+    cache_path = Path(cache_dir) / f"{safe_ticker}__{safe_start}__{safe_end}__{safe_interval}.parquet"
+
+    if cache_on and cache_path.exists():
+        o = pd.read_parquet(cache_path)
+        o.index = pd.to_datetime(o.index)
+        if o.index.tz is None:
+            o.index = o.index.tz_localize("UTC").tz_convert(JST)
+        else:
+            o.index = o.index.tz_convert(JST)
+        for c in ["open", "high", "low", "close", "volume"]:
+            if c in o:
+                o[c] = pd.to_numeric(o[c], errors="coerce")
+        return o
+
+    df = yf.download(
+        ticker,
+        start=start,
+        end=end,
+        interval=interval,
+        progress=False,
+        auto_adjust=False,
+        group_by="column",
+    )
+    if df is None or df.empty:
+        return pd.DataFrame(columns=["open", "high", "low", "close", "volume"])
+
+    out = df.copy()
+    if isinstance(out.columns, pd.MultiIndex):
+        PRICE_KEYS = {"Open", "High", "Low", "Close", "Adj Close", "Volume"}
+        def pick(col_tuple):
+            for part in col_tuple:
+                if part in PRICE_KEYS:
+                    return part
+            return col_tuple[0]
+        out.columns = [pick(c) if isinstance(c, tuple) else c for c in out.columns]
+
+    cols_lower = {c.lower(): c for c in out.columns}
+    o = pd.DataFrame(index=out.index)
+    for k in ["open", "high", "low", "close", "volume"]:
+        src = cols_lower.get(k, k.capitalize())
+        if src in out.columns:
+            o[k] = pd.to_numeric(out[src], errors="coerce")
+        else:
+            o[k] = np.nan
+
+    if o.index.tz is None:
+        o.index = pd.to_datetime(o.index).tz_localize("UTC").tz_convert(JST)
+    else:
+        o.index = o.index.tz_convert(JST)
+
+    if cache_on:
+        Path(cache_dir).mkdir(parents=True, exist_ok=True)
+        try:
+            o.to_parquet(cache_path)
+        except Exception as e:
+            print(f"[WARN] intraday parquet cache save failed: {cache_path}  err={e}")
+    return o
+
+def resolve_intraday_ambiguous_exit(
+    ticker: str,
+    day: pd.Timestamp,
+    stop_px: float,
+    take_px: float,
+    interval: str = "60m",
+    tie_break: str = "SL_FIRST",
+) -> Optional[str]:
+    start = day.date().isoformat()
+    end = (day.date() + dt.timedelta(days=1)).isoformat()
+    intra = fetch_intraday_prices(ticker, start, end, interval=interval)
+    if intra is None or intra.empty:
+        return None
+    tie_break = (tie_break or "SL_FIRST").strip().upper()
+    for _, bar in intra.iterrows():
+        h = float(bar.get("high", math.nan))
+        l = float(bar.get("low", math.nan))
+        hit_sl = (not math.isnan(l)) and (l <= stop_px)
+        hit_tp = (not math.isnan(h)) and (h >= take_px)
+        if hit_sl and hit_tp:
+            return "TP" if tie_break == "TP_FIRST" else "SL"
+        if hit_sl:
+            return "SL"
+        if hit_tp:
+            return "TP"
+    return None
 # =========================
 # 指標計算（backtest_v2相当）
 # =========================
@@ -261,6 +354,9 @@ def run_backtest(
         STOP_PCT       : 初期ストップ距離（未指定時は RISK_PCT を使う）
         STOP_SLIPPAGE  : ストップ時追加滑り
         TAKE_PROFIT_RR : R倍で利確
+        BREAK_EVEN_R  : 高値が何R到達したら翌日以降の stop を建値へ引き上げるか
+        TRAILING_START_R: 何R到達後に trailing stop を有効化するか
+        TRAILING_STOP_R : 高値更新後の trailing stop 幅（初期 R 単位、0 で無効）
         MAX_HOLD_DAYS  : 時間切れ日数
         EXIT_ON_REVERSE: 逆シグナルで手仕舞い（bool）
         VOL_SPIKE_M    : 出来高スパイク倍率（compute側と合わせる）
@@ -281,6 +377,9 @@ def run_backtest(
     FEE_PCT = float(params.get("FEE_PCT", 0.0))
     STOP_SLIPPAGE = float(params.get("STOP_SLIPPAGE", 0.0015))
     TAKE_PROFIT_RR = float(params.get("TAKE_PROFIT_RR", 2.0))
+    BREAK_EVEN_R = float(params.get("BREAK_EVEN_R", 0.0))
+    TRAILING_START_R = float(params.get("TRAILING_START_R", 0.0))
+    TRAILING_STOP_R = float(params.get("TRAILING_STOP_R", 0.0))
     MAX_HOLD_DAYS = int(params.get("MAX_HOLD_DAYS", 10))
     EXIT_ON_REVERSE = _as_bool(params.get("EXIT_ON_REVERSE", True))
     VOL_SPIKE_M = float(params.get("VOL_SPIKE_M", 1.4))
@@ -289,6 +388,10 @@ def run_backtest(
     RSI_MAX = float(params.get("RSI_MAX", 70.0))
     GAP_ENTRY_MAX = float(params.get("GAP_ENTRY_MAX", 0.05))
 
+    TICKER = str(params.get("TICKER", "")).strip()
+    USE_INTRADAY_RESOLUTION = _as_bool(params.get("USE_INTRADAY_RESOLUTION", False), default=False)
+    INTRADAY_INTERVAL = str(params.get("INTRADAY_INTERVAL", "60m"))
+    INTRADAY_TIE_BREAK = str(params.get("INTRADAY_TIE_BREAK", "SL_FIRST")).strip().upper()
     cash = CAPITAL
     pos = 0
     entry_px = math.nan
@@ -303,9 +406,12 @@ def run_backtest(
     # ★追加：REV/TIME を「検知した日」（当日引けで判定した日）
     pending_sell_signal_ts: Optional[pd.Timestamp] = None 
     just_bought = False  # 当日エントリーしたら当日のexit判定を禁止する
+    break_even_armed = False; trailing_armed = False; highest_high_since_entry = math.nan
 
     equity_curve = []
     trades = []
+    intraday_resolved_days = 0
+    ambiguous_days = 0
 
     dates = list(ind.index)
 
@@ -326,7 +432,7 @@ def run_backtest(
                 "reason": pending_sell_reason or "MKT",
                 "signal_ts": pending_sell_signal_ts, # ★追加：検知日（前日の引け）
             })
-            pos = 0; entry_px = math.nan; entry_date = None; entry_bar_index = None; stop_px = math.nan; take_px = math.nan
+            pos = 0; entry_px = math.nan; entry_date = None; entry_bar_index = None; stop_px = math.nan; take_px = math.nan; break_even_armed = False; trailing_armed = False; highest_high_since_entry = math.nan
             pending_sell_for = None
             pending_sell_reason = None
             pending_sell_signal_ts = None
@@ -352,6 +458,9 @@ def run_backtest(
                         entry_date = date
                         entry_bar_index = i
                         just_bought = True
+                        break_even_armed = False
+                        trailing_armed = False
+                        highest_high_since_entry = h
                         # stop/take は STOP_PCT ベース、建玉サイズは RISK_PCT ベースで分離する。
                         R = entry_px * STOP_PCT
                         stop_px = entry_px - R
@@ -371,6 +480,9 @@ def run_backtest(
                     entry_date = date
                     entry_bar_index = i
                     just_bought = True
+                    break_even_armed = False; trailing_armed = False; highest_high_since_entry = math.nan
+                    trailing_armed = False
+                    highest_high_since_entry = h
                     # stop/take は STOP_PCT ベース、建玉サイズは RISK_PCT ベースで分離する。
                     R = entry_px * STOP_PCT
                     stop_px = entry_px - R
@@ -399,12 +511,33 @@ def run_backtest(
                 sold = False
                 current_hold_days = (i - entry_bar_index) if entry_bar_index is not None else 0
                 expiry_day = current_hold_days >= MAX_HOLD_DAYS
+                ambiguous_sl_tp_day = (not expiry_day) and (not math.isnan(take_px)) and (l <= stop_px) and (h >= take_px)
+                if ambiguous_sl_tp_day:
+                    ambiguous_days += 1
+                ambiguous_exit_reason = None
+                if ambiguous_sl_tp_day and USE_INTRADAY_RESOLUTION and TICKER:
+                    ambiguous_exit_reason = resolve_intraday_ambiguous_exit(
+                        TICKER,
+                        date,
+                        stop_px,
+                        take_px,
+                        interval=INTRADAY_INTERVAL,
+                        tie_break=INTRADAY_TIE_BREAK,
+                    )
+                    if ambiguous_exit_reason is not None:
+                        intraday_resolved_days += 1
                 # ストップ（割れたら寄り相当-滑り）
-                if l <= stop_px:
+                if ambiguous_exit_reason == "SL":
                     fill = max(o, stop_px) * (1 - STOP_SLIPPAGE)
                     cash += fill * pos * (1 - FEE_PCT)
                     trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "SL"})
-                    pos = 0; entry_px = math.nan; entry_date = None; entry_bar_index = None; stop_px = math.nan; take_px = math.nan
+                    pos = 0; entry_px = math.nan; entry_date = None; entry_bar_index = None; stop_px = math.nan; take_px = math.nan; break_even_armed = False; trailing_armed = False; highest_high_since_entry = math.nan
+                    sold = True
+                elif l <= stop_px:
+                    fill = max(o, stop_px) * (1 - STOP_SLIPPAGE)
+                    cash += fill * pos * (1 - FEE_PCT)
+                    trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "SL"})
+                    pos = 0; entry_px = math.nan; entry_date = None; entry_bar_index = None; stop_px = math.nan; take_px = math.nan; break_even_armed = False; trailing_armed = False; highest_high_since_entry = math.nan
                     sold = True
                 # 期限到達日は TP を見ず、引けで TIME を予約する
                 if not sold and pending_sell_for is None and expiry_day:
@@ -413,11 +546,17 @@ def run_backtest(
                     pending_sell_signal_ts = date
                     sold = True
                 # 期限前のみ利確を許可
+                if not sold and ambiguous_exit_reason == "TP":
+                    fill = max(take_px, o) * (1 - SLIPPAGE)
+                    cash += fill * pos * (1 - FEE_PCT)
+                    trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "TP"})
+                    pos = 0; entry_px = math.nan; entry_date = None; entry_bar_index = None; stop_px = math.nan; take_px = math.nan; break_even_armed = False; trailing_armed = False; highest_high_since_entry = math.nan
+                    sold = True
                 if not sold and (not math.isnan(take_px)) and (h >= take_px):
                     fill = max(take_px, o) * (1 - SLIPPAGE)
                     cash += fill * pos * (1 - FEE_PCT)
                     trades.append({"date": date, "side": "SELL", "px": fill, "qty": pos, "reason": "TP"})
-                    pos = 0; entry_px = math.nan; entry_date = None; entry_bar_index = None; stop_px = math.nan; take_px = math.nan
+                    pos = 0; entry_px = math.nan; entry_date = None; entry_bar_index = None; stop_px = math.nan; take_px = math.nan; break_even_armed = False; trailing_armed = False; highest_high_since_entry = math.nan
                     sold = True
                 # 逆シグナル（引けで判断 → 翌寄りで売る）
                 if not sold and pending_sell_for is None and EXIT_ON_REVERSE:
@@ -433,6 +572,32 @@ def run_backtest(
                         pending_sell_signal_ts = date  # ★追加：検知日（この日の引けでREV判定）
                         sold = True  # 同日中の他のexitを抑止
             # end else(if just_bought)
+
+        # 3.5) 当日の高値を見て、翌日以降に有効な stop を更新
+        if pos > 0 and entry_date is not None:
+            initial_r = entry_px * STOP_PCT if not math.isnan(entry_px) else math.nan
+            if not math.isnan(highest_high_since_entry):
+                highest_high_since_entry = max(highest_high_since_entry, h)
+            else:
+                highest_high_since_entry = h
+            break_even_trigger_px = entry_px + (BREAK_EVEN_R * initial_r) if (BREAK_EVEN_R > 0 and not math.isnan(initial_r)) else math.nan
+            if (
+                not break_even_armed
+                and BREAK_EVEN_R > 0
+                and not math.isnan(break_even_trigger_px)
+                and h >= break_even_trigger_px
+            ):
+                stop_px = max(stop_px, entry_px)
+                break_even_armed = True
+            if (
+                TRAILING_STOP_R > 0
+                and not math.isnan(initial_r)
+                and not math.isnan(highest_high_since_entry)
+                and highest_high_since_entry >= (entry_px + (TRAILING_START_R * initial_r))
+            ):
+                trailing_stop_px = highest_high_since_entry - (TRAILING_STOP_R * initial_r)
+                stop_px = max(stop_px, trailing_stop_px)
+                trailing_armed = True
 
         # 4) 評価額を記録
         equity_curve_val = cash + (pos * c if pos > 0 else 0.0)
@@ -473,6 +638,8 @@ def run_backtest(
         "win_rate": win_rate,
         "n_points": int(len(curve)),
         "n_trades": int(sum(1 for t in trades if t["side"] == "SELL")),
+        "ambiguous_days": int(ambiguous_days),
+        "intraday_resolved_days": int(intraday_resolved_days),
         # 任意で返す詳細
         # "curve": curve, "trades": trades
     }

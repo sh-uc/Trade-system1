@@ -22,49 +22,8 @@ import pandas as pd
 import yfinance as yf
 import plotly.graph_objects as go
 import streamlit as st
+from db_utils import resolve_company_name
 
-# --- 会社名解決（DBキャッシュ + yfinance） ---
-from typing import Optional
-
-def resolve_company_name(code: str, sb=None) -> str:
-    """
-    会社名を返す。優先順位:
-      1) Supabaseの tickers テーブル（あれば）
-      2) yfinance の shortName
-      3) fallback: ティッカー自体
-    取得できたら tickers に upsert してキャッシュ
-    """
-    name: Optional[str] = None
-
-    # 1) DBキャッシュ
-    try:
-        if sb is not None:
-            r = sb.table("tickers").select("name").eq("code", code).limit(1).execute()
-            if r.data:
-                return r.data[0]["name"]
-    except Exception:
-        pass
-
-    # 2) yfinance
-    try:
-        tkr = yf.Ticker(code)
-        # できるだけ軽い取得を優先、ダメなら info にフォールバック
-        name = getattr(getattr(tkr, "fast_info", None), "shortName", None)
-        if not name:
-            name = tkr.info.get("shortName")
-    except Exception:
-        name = None
-
-    name = name or code
-
-    # 3) DB保存（upsert）
-    try:
-        if sb is not None:
-            sb.table("tickers").upsert({"code": code, "name": name}).execute()
-    except Exception:
-        pass
-
-    return name
 
 def flatten_columns(df: pd.DataFrame) -> pd.DataFrame:
     if isinstance(df.columns, pd.MultiIndex):
@@ -510,4 +469,6 @@ with col_c:
         st.line_chart(plot_df['atr14'])
     else:
         st.caption("ATR14 が見つかりませんでした")
+
+
 

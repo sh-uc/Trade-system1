@@ -18,6 +18,7 @@ create table if not exists backtests_trades (
   price numeric not null,
   qty int not null,
   reason text,
+  signal_ts timestamp with time zone null,
   primary key (run_id, ts, side)
 );
 -- #
