@@ -5,6 +5,7 @@ import numpy as np
 import re
 import pandas as pd
 import yfinance as yf
+import requests
 from supabase import create_client
 from db_utils import resolve_company_name
 import datetime as dt
